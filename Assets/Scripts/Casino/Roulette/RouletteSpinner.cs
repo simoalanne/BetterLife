@@ -16,6 +16,10 @@ namespace Casino.Roulette
         [SerializeField] private float deceleration = 5f; // The rate at which the ball slows down.
         [SerializeField] private float slotRadius = 1.85f; // The radius of the "slots" on the wheel where the ball can stop.
         [SerializeField] private GameObject _wheel; // The roulette wheel object.
+        [SerializeField] private GameObject _bettingTable; // The betting table object.
+        [SerializeField] private float _targetRotation = -90f; // The target rotation of the betting table.
+        [SerializeField] private float _bettingTableRotationSpeed = 60f; // The speed at which the betting table rotates.
+        private float _initialCameraSize; // The initial size of the camera.
         readonly string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
         {
         "0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"
@@ -28,6 +32,7 @@ namespace Casino.Roulette
 
         void Awake()
         {
+            _initialCameraSize = Camera.main.orthographicSize; // Get the initial size of the camera.
             _betHandler = FindObjectOfType<RouletteBetHandler>();
             _speed = Random.Range(270, 360); // Random speed for the ball to spin at. Needs to tested later on to see if the ball can actually stop on all numbers.
             for (int i = 0; i < _rouletteNumberSlots.Length; i++) // calculate the position of the slots on the wheel
@@ -41,6 +46,12 @@ namespace Casino.Roulette
                 GameObject slot = new(_rouletteNumbers[i]); // Create a new GameObject for the slot
                 slot.transform.position = _rouletteNumberSlots[i]; // Set the position of the slot
                 slot.transform.SetParent(_wheel.transform); // Set the parent of the slot to the wheel
+
+                // If the slot number is "0", set the ball's parent to this slot
+                if (_rouletteNumbers[i] == "0")
+                {
+                    transform.SetParent(slot.transform);
+                }
             }
         }
 
@@ -98,12 +109,38 @@ namespace Casino.Roulette
             }
         }
 
-        void ResetTheBall()
+        IEnumerator SpinTheWheel()
         {
+            _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = false; // Disable the betting table
+            Quaternion targetRotation = Quaternion.Euler(_targetRotation, 0, 0); // The target rotation of the betting table
+            RectTransform rectTransform = _bettingTable.GetComponent<RectTransform>();
+
+            while (Quaternion.Angle(rectTransform.rotation, targetRotation) > 1f)
+            {
+                rectTransform.rotation = Quaternion.RotateTowards(rectTransform.rotation, targetRotation, _bettingTableRotationSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            rectTransform.rotation = targetRotation;
+
+            Debug.Log("Betting table rotated!"); // Log a message to the console
+            Camera mainCamera = Camera.main; // Get the main camera
+            float initialSize = mainCamera.orthographicSize; // Get the initial size of the camera
+            float targetSize = initialSize / 2.5f; // The target size of the camera. zoom in 2.5 times
+            float zoomSpeed = 5f; // The speed at which the camera zooms in
+            while (mainCamera.orthographicSize > targetSize) // While the camera is not zoomed in completely
+            {
+                mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetSize, zoomSpeed * Time.deltaTime); // Zoom in the camera
+                yield return null; // Wait for the next frame
+            }
+
+            Debug.Log("Spinning the wheel..."); // Log a message to the console
+
             radius = 2.33f; // Reset the radius of the ball
             _speed = Random.Range(270, 360); // Reset the speed of the ball
             currentAngle = 90f; // Reset the angle of the ball
             transform.SetParent(null); // Remove the parent of the ball to make it spin around the wheel
+            StartCoroutine(DecelerateBall()); // Start the coroutine that decelerates the ball
         }
 
         void RotateWheel()
@@ -119,10 +156,40 @@ namespace Casino.Roulette
         {
             if (!_isSpinning) // If the wheel is not spinning
             {
-                ResetTheBall(); // Reset the ball
-                StartCoroutine(DecelerateBall()); // Start the coroutine that decelerates the ball
+                StartCoroutine(SpinTheWheel()); // Start the coroutine that resets the ball
                 _isSpinning = true; // Set the spinning flag to true
             }
+        }
+
+        public void EnableBettingTable()
+        {
+            StartCoroutine(ReverseSpinTheWheel());
+        }
+
+        IEnumerator ReverseSpinTheWheel()
+        {
+            Camera mainCamera = Camera.main; // Get the main camera
+            float targetSize = _initialCameraSize; // The target size of the camera
+            float zoomSpeed = 5f; // The speed at which the camera zooms out
+            while (mainCamera.orthographicSize < targetSize) // While the camera is not zoomed out completely
+            {
+                mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetSize, zoomSpeed * Time.deltaTime); // Zoom out the camera
+                yield return null; // Wait for the next frame
+            }
+
+            Debug.Log("Reversing the wheel..."); // Log a message to the console
+
+            Quaternion targetRotation = Quaternion.Euler(0, 0, 0); // The target rotation of the betting table
+            RectTransform rectTransform = _bettingTable.GetComponent<RectTransform>();
+
+            while (Quaternion.Angle(rectTransform.rotation, targetRotation) > 1f)
+            {
+                rectTransform.rotation = Quaternion.RotateTowards(rectTransform.rotation, targetRotation, _bettingTableRotationSpeed * Time.deltaTime);
+                yield return null;
+            }
+
+            rectTransform.rotation = targetRotation;
+            _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
         }
     }
 }

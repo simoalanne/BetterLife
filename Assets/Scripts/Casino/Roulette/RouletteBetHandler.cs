@@ -12,14 +12,17 @@ namespace Casino.Roulette
     /// <summary>
     public class RouletteBetHandler : MonoBehaviour
     {
-        [SerializeField] private int _initialBalance = 100; // The initial balance of the player. Managed in this script for now.
-        [SerializeField] private List<(string, int)> _activeBets = new(); // Tuple to store the bet type and amount.
+        [SerializeField] private float _initialBalance = 1000; // The initial balance of the player. Managed in this script for now.
+        [SerializeField] private List<(string, float)> _activeBets = new(); // Tuple to store the bet type and amount.
         [SerializeField] private TMP_Text _balanceText; // Text to display the balance.
         [SerializeField] private TMP_Text _totalWinAmountText; // Text to display the total win amount.
         [SerializeField] private TMP_Text _winningNumberDetails; // Text to display the winning number details such as color, odd/even, etc.
         [SerializeField] private float _textOnScreenTime = 5; // Time to display the winning number details and total win amount in the screen after bet settlement.
+        [SerializeField] private RouletteSpinner _rouletteSpinner; // Reference to the RouletteSpinner script.
+
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
+
         {
             { "Red", (winningNumber) => new int[] { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 }.Contains(winningNumber) },
             { "Black", (winningNumber) => new int[] { 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 }.Contains(winningNumber) },
@@ -63,7 +66,7 @@ namespace Casino.Roulette
 
         }
 
-        public void PlaceBet(string betType, int amount)
+        public void PlaceBet(string betType, float amount)
         {
             if (amount > _initialBalance)
             {
@@ -77,7 +80,7 @@ namespace Casino.Roulette
 
         public void CheckWin(int winningNumber)
         {
-            int totalWinAmount = 0; // Variable to store the total win amount.
+            float totalWinAmount = 0; // Variable to store the total win amount.
             string _winningsText = "Winning number is " + winningNumber + ", "; // Text to display the winning number details.
 
             foreach (var bet in _activeBets) // Iterate through the active bets.
@@ -112,6 +115,7 @@ namespace Casino.Roulette
             yield return new WaitForSeconds(_textOnScreenTime); // Wait for the specified time before resetting the texts, needs animation later on.
             _totalWinAmountText.text = "";
             _winningNumberDetails.text = "";
+            _rouletteSpinner.EnableBettingTable(); // Enable the betting table after the texts are reset.
         }
     }
 }

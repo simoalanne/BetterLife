@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class MenuSwitcher : MonoBehaviour
 {
-    [SerializeField] private GameObject closeThisMenu;
-    [SerializeField] private GameObject switchToThisMenu;
+    [SerializeField] private GameObject menu;
 
-    public void SwitchMenu()
+    public void CloseMenu()
     {
-        switchToThisMenu.SetActive(true);
-        closeThisMenu.SetActive(false);
+        menu.SetActive(false);
+    }
+
+    public void OpenMenu()
+    {
+        menu.SetActive(true);
     }
 }

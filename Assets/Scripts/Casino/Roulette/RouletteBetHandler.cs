@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 namespace Casino.Roulette
 {
@@ -19,7 +20,10 @@ namespace Casino.Roulette
         [SerializeField] private TMP_Text _winningNumberDetails; // Text to display the winning number details such as color, odd/even, etc.
         [SerializeField] private float _textOnScreenTime = 5; // Time to display the winning number details and total win amount in the screen after bet settlement.
         [SerializeField] private RouletteSpinner _rouletteSpinner; // Reference to the RouletteSpinner script.
-
+        [SerializeField] private TMP_Text _noBalanceText;
+        [SerializeField] private float _noBalanceTextScreenTime = 2f;
+        [SerializeField] private Button _resetBetsButton;
+        private float _balancePlacedInActiveBets; // Variable to store the balance placed in active bets.
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
 
@@ -56,6 +60,7 @@ namespace Casino.Roulette
 
         void Awake()
         {
+            _resetBetsButton.interactable = false; // Disable the reset bets button at the start.
             _balanceText.text = "Balance: " + _initialBalance + " euros"; // Set the text to display the initial balance.
             for (int i = 0; i <= 36; i++)
             {
@@ -66,16 +71,30 @@ namespace Casino.Roulette
 
         }
 
-        public void PlaceBet(string betType, float amount)
+        public bool PlaceBet(string betType, float amount)
         {
             if (amount > _initialBalance)
             {
-                return; // Do not place the bet if the amount is greater than the balance, this can be handled in the UI later on.
+                StartCoroutine(ShowNoBalanceText()); // Show a text to inform the player that they don't have enough balance.
+                return false; // Return false if the bet amount is greater than the balance.
             }
 
+            if (_resetBetsButton.interactable == false) // Enable the reset bets button when the first bet is placed.
+            {
+                _resetBetsButton.interactable = true;
+            }
             _activeBets.Add((betType, amount)); // Add the bet to the Tuple list.
             _initialBalance -= amount; // Deduct the bet amount from the balance.
             _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
+            _balancePlacedInActiveBets += amount; // Add the bet amount to the balance placed in active bets.
+            return true; // Return true if the bet is placed successfully.
+        }
+
+        IEnumerator ShowNoBalanceText()
+        {
+            _noBalanceText.gameObject.SetActive(true); // Set the no balance text to active.
+            yield return new WaitForSeconds(_textOnScreenTime); // Wait for the specified time before resetting the text.
+            _noBalanceText.gameObject.SetActive(false); // Set the no balance text to inactive.
         }
 
         public void CheckWin(int winningNumber)
@@ -108,6 +127,29 @@ namespace Casino.Roulette
             _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
             _totalWinAmountText.text = "You won " + totalWinAmount + " euros"; // Display the total win amount.
             StartCoroutine(ResetTexts()); // Reset the texts after a certain time.
+            DeleteChips(); // Delete the chips after the bets are settled.
+        }
+
+        void DeleteChips()
+        {
+            foreach (var bet in FindObjectsOfType<RouletteBet>()) // Not optimal, but scene is small so it'll do.
+            {
+                if (bet.BetPlaced)
+                {
+                    bet.DestroyChips();
+                }
+            }
+
+            _resetBetsButton.interactable = false; // Disable the reset bets button.
+        }
+
+        public void ResetBets()
+        {
+            _initialBalance += _balancePlacedInActiveBets; // Add the balance placed in active bets back to the balance.
+            _balancePlacedInActiveBets = 0; // Reset the balance placed in active bets.
+            _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
+            _activeBets.Clear(); // Clear the active bets list.
+            DeleteChips(); // Delete the chips.
         }
 
         IEnumerator ResetTexts()

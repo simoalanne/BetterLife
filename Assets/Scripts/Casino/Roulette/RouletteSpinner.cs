@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 namespace Casino.Roulette
 {
@@ -19,6 +20,13 @@ namespace Casino.Roulette
         [SerializeField] private GameObject _bettingTable; // The betting table object.
         [SerializeField] private float _targetRotation = -90f; // The target rotation of the betting table.
         [SerializeField] private float _bettingTableRotationSpeed = 60f; // The speed at which the betting table rotates.
+        [SerializeField] private Button _resetBetsButton; // The button to reset the bets.
+        [SerializeField] private Button _spinButton; // The button to spin the wheel.
+        [SerializeField] private Button _exitTableButton; // The button to exit the table.
+        [SerializeField] private float _ballRadiusDecrement = 0.0425f; // The rate at which the ball moves towards the center of the wheel. Is used to make the ball movement feel more realistic.
+        [SerializeField] private float _ballDistanceFromSlotBeforeStop = 0.17f; // The distance from the slot at which the ball stops.
+        [SerializeField] private float _ballMinimumInitialSpeed = 250f; // The minimum initial speed of the ball.
+        [SerializeField] private float _ballMaximumInitialSpeed = 500f; // The maximum initial speed of the ball.
         private float _initialCameraSize; // The initial size of the camera.
         readonly string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
         {
@@ -27,14 +35,15 @@ namespace Casino.Roulette
 
         private float currentAngle = 90f; // The current angle of the ball.
         private readonly Vector2[] _rouletteNumberSlots = new Vector2[37]; // The positions of the slots on the wheel.
-        private bool _isSpinning = false; // Flag to check if the wheel is spinning.
-        private RouletteBetHandler _betHandler; // Reference to the RouletteBetHandler script.
+        private RouletteBetHandler _rouletteBetHandler; // Reference to the RouletteBetHandler script.
 
         void Awake()
         {
+            _resetBetsButton.interactable = false; // Disable the reset bets button at the start.
+            _spinButton.interactable = false; // Disable the spin button at the start.
             _initialCameraSize = Camera.main.orthographicSize; // Get the initial size of the camera.
-            _betHandler = FindObjectOfType<RouletteBetHandler>();
-            _speed = Random.Range(270, 360); // Random speed for the ball to spin at. Needs to tested later on to see if the ball can actually stop on all numbers.
+            _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
+            _speed = Random.Range(_ballMinimumInitialSpeed, _ballMaximumInitialSpeed); // Random speed for the ball to spin at. Needs to tested later on to see if the ball can actually stop on all numbers.
             for (int i = 0; i < _rouletteNumberSlots.Length; i++) // calculate the position of the slots on the wheel
             {
                 float angle = (90 - (i * 360.0f / _rouletteNumberSlots.Length)) * Mathf.Deg2Rad; // Calculate the angle of the slot
@@ -73,16 +82,16 @@ namespace Casino.Roulette
                 transform.position = new Vector3(x, y, 0) + rouletteCenter.position; // Set the position of the ball
             }
         }
-
+        /// <summary>
+        /// Decelerates the ball and moves it towards the center of the wheel before stopping it on a slot.
+        /// </summary>
         IEnumerator DecelerateBall()
         {
-            /* Contains some magic numbers that need to be adjusted later on
-            to make the ball stop on the numbers more accurately. */
-            while (radius > slotRadius + 0.18f && _speed > minSpeed)
+            while (radius > slotRadius + _ballDistanceFromSlotBeforeStop && _speed > minSpeed)
             {
                 _speed -= deceleration * Time.deltaTime; // Slow down the ball
-                if (radius < slotRadius + 0.18f) yield return null; // If the ball is close to the slot, break out of the loop
-                radius -= 0.045f * Time.deltaTime; // Move the ball towards the center of the wheel
+                if (radius < slotRadius + _ballDistanceFromSlotBeforeStop) yield return null; // If the ball is close to the slot, break out of the loop
+                radius -= _ballRadiusDecrement * Time.deltaTime; // Move the ball towards the center of the wheel
                 yield return null; // Wait for the next frame
             }
             radius = slotRadius; // Set the radius to the slot radius to make sure the ball stops on the slot
@@ -103,9 +112,8 @@ namespace Casino.Roulette
             if (nearestSlot != null) // If the nearest slot is not null
             {
                 transform.SetParent(nearestSlot); // Set the parent of the ball to the nearest slot
-                _betHandler.CheckWin(int.Parse(nearestSlot.name)); // Check if the player has won
+                _rouletteBetHandler.CheckWin(int.Parse(nearestSlot.name)); // Check if the player has won
                 StopCoroutine(DecelerateBall()); // Stop the coroutine that decelerates the ball
-                _isSpinning = false; // Set the spinning flag to false
             }
         }
 
@@ -123,7 +131,6 @@ namespace Casino.Roulette
 
             rectTransform.rotation = targetRotation;
 
-            Debug.Log("Betting table rotated!"); // Log a message to the console
             Camera mainCamera = Camera.main; // Get the main camera
             float initialSize = mainCamera.orthographicSize; // Get the initial size of the camera
             float targetSize = initialSize / 2.5f; // The target size of the camera. zoom in 2.5 times
@@ -133,8 +140,6 @@ namespace Casino.Roulette
                 mainCamera.orthographicSize = Mathf.MoveTowards(mainCamera.orthographicSize, targetSize, zoomSpeed * Time.deltaTime); // Zoom in the camera
                 yield return null; // Wait for the next frame
             }
-
-            Debug.Log("Spinning the wheel..."); // Log a message to the console
 
             radius = 2.33f; // Reset the radius of the ball
             _speed = Random.Range(270, 360); // Reset the speed of the ball
@@ -154,11 +159,10 @@ namespace Casino.Roulette
         /// </summary>
         public void StartSpin()
         {
-            if (!_isSpinning) // If the wheel is not spinning
-            {
-                StartCoroutine(SpinTheWheel()); // Start the coroutine that resets the ball
-                _isSpinning = true; // Set the spinning flag to true
-            }
+            _resetBetsButton.interactable = false; // Disable the reset bets button
+            _spinButton.interactable = false; // Disable the spin button
+            _exitTableButton.interactable = false; // Disable the exit table button, so the player can't leave the table while the wheel is spinning. Otherwise they would lose their balance even if they won.
+            StartCoroutine(SpinTheWheel()); // Start the coroutine that resets the ball
         }
 
         public void EnableBettingTable()
@@ -177,8 +181,6 @@ namespace Casino.Roulette
                 yield return null; // Wait for the next frame
             }
 
-            Debug.Log("Reversing the wheel..."); // Log a message to the console
-
             Quaternion targetRotation = Quaternion.Euler(0, 0, 0); // The target rotation of the betting table
             RectTransform rectTransform = _bettingTable.GetComponent<RectTransform>();
 
@@ -190,6 +192,12 @@ namespace Casino.Roulette
 
             rectTransform.rotation = targetRotation;
             _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = true;
+            /*spin and reset button reactivation is managed elsewhere. They will only be reactivated when user has placed at least one bet, due to the way the game is designed.*/
+            if (_rouletteBetHandler.CheckIfOutOfBalance())
+            {
+                _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = false;
+                // TODO: open a menu or something.
+            }
         }
     }
 }

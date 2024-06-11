@@ -5,7 +5,7 @@ namespace Casino
 {
     public class BetSizeManager : MonoBehaviour
     {
-        [SerializeField] private float[] _betSizes = { 1, 5, 10, 20, 25, 50, 100, 225, 500, 1000, 2500, 5000 };
+        [SerializeField] private float[] _betSizes = { 1, 5, 10, 20, 25, 50, 100, 250, 500, 1000, 2500, 5000 };
         [SerializeField] private Sprite[] _chipSprites; // Array to store the chip sprites. Stored in the order of increasing value.
         [SerializeField] private Image _activeChipImage; // Image to display the active chip.
         private int _currentChipIndex;

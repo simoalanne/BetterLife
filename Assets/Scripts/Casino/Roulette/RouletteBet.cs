@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,14 +20,22 @@ namespace Casino.Roulette
 
         public void OnClick()
         {
-            _betPlaced = true; // Set the bet placed to true when the chip is placed
-            /* TODO: Add chips to the bet type. Also an ability to be able split the chips in between the bet types when clicking between them 
-            and also a option to remove the chips from the bet type. */
-            if (_rouletteBetHandler.PlaceBet(transform.parent.name, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
+            /* This is checked because the multibets directly contain the bet name, while the single bets are children of the bet name.
+            This is a thing because of hierarchy organization. */
+            string betName = transform.parent.name == "BettingTable" ? transform.name : transform.parent.name;
+
+            if (_rouletteBetHandler.PlaceBet(betName, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
             {
-                Instantiate(_chipPrefab, transform.position, Quaternion.identity, transform).
-                GetComponent<Image>().sprite = _betSizeManager.ChipSprites[_betSizeManager.CurrentChipIndex]; // Instantiate the chip and set the sprite to the active chip sprite
+                TryPlaceChip();
             }
+        }
+
+        private void TryPlaceChip()
+        {
+            var chip = Instantiate(_chipPrefab, transform.position, Quaternion.identity, transform);
+            chip.GetComponent<Image>().sprite = _betSizeManager.ChipSprites[_betSizeManager.CurrentChipIndex]; // Instantiate the chip and set the sprite to the active chip sprite
+            chip.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0); // Set the anchored position of the chip to the center of the parent
+            _betPlaced = true; // Set the bet placed to true when the chip is placed
         }
 
         public void DestroyChips()

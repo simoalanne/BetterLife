@@ -31,12 +31,12 @@ public class Row : MonoBehaviour
 
         for (int i = 0; i < 30; i++)
         {
-            if (transform.position.y <= -3.25f) // -3.25f on korkeimman symbolin transformi positio
+            if (transform.position.y <= -9.25f) // -9.25f on korkeimman symbolin transformi positio
             {
-                transform.position = new Vector2(transform.position.x, 1.65f); // 1.65 on matalimaan symbolin transform positio
+                transform.position = new Vector2(transform.position.x, 5.95f); // 5.95 on matalimaan symbolin transform positio
             }
 
-            transform.position = new Vector2(transform.position.x, transform.position.y - 0.7f); // uusi symboli on 0.7 y-arvon välein
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f); // uusi symboli on 1.9 y-arvon välein
             yield return new WaitForSeconds(timeInterval);
         }
 
@@ -57,12 +57,12 @@ public class Row : MonoBehaviour
 
         for(int i = 0; i < randomValue; i++)
         {
-            if (transform.position.y <= -3.25f)
+            if (transform.position.y <= -9.25f)
             {
-                transform.position = new Vector2(transform.position.x, 1.65f);
+                transform.position = new Vector2(transform.position.x, 5.95f);
             }
 
-            transform.position = new Vector2(transform.position.x, transform.position.y - 0.7f);
+            transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f);
 
             if (i > Mathf.RoundToInt(randomValue * 0.25f))
             {
@@ -84,32 +84,72 @@ public class Row : MonoBehaviour
             yield return new WaitForSeconds(timeInterval);
         }
 
-        switch (transform.position.y) // Tässä annetaan rivin stoppedSlotille arvo y-position mukaan.
+        /*switch (transform.position.y) // Tässä annetaan rivin stoppedSlotille arvo y-position mukaan.
         {
-            case -3.25f:
-                stoppedSlot = "Diamond";
+            case -9.25f:
+                stoppedSlot = "Strawberry";
                 break;
-            case -2.55f:
-                stoppedSlot = "Crown";
+            case -7.35f:
+                stoppedSlot = "Plum";
                 break;
-            case -1.85f:
-                stoppedSlot = "Melon";
+            case -5.45f:
+                stoppedSlot = "Pineapple";
                 break;
-            case -1.15f:
-                stoppedSlot = "Bar";
-                break;
-            case -0.45f:
-                stoppedSlot = "Seven";
-                break;
-            case 0.25f:
+            case -3.55f:
                 stoppedSlot = "Cherry";
                 break;
-            case 0.95f:
+            case -1.65f:
+                stoppedSlot = "Orange";
+                break;
+            case 0.25f:
+                stoppedSlot = "Melon";
+                break;
+            case 2.15f:
                 stoppedSlot = "Lemon";
                 break;
-            case 1.65f:
-                stoppedSlot = "Diamond";
+            case 4.05f:
+                stoppedSlot = "Grapes";
                 break;
+            case 5.95f:
+                stoppedSlot = "Seven";
+                break;
+        } */
+
+        if (Mathf.Approximately(transform.position.y, -9.25f))
+        {
+            stoppedSlot = "Strawberry";
+        }
+        else if (Mathf.Approximately(transform.position.y, -7.35f))
+        {
+            stoppedSlot = "Plum";
+        }
+        else if (Mathf.Approximately(transform.position.y, -5.45f))
+        {
+            stoppedSlot = "Pineapple";
+        }
+        else if (Mathf.Approximately(transform.position.y, -3.55f))
+        {
+            stoppedSlot = "Cherry";
+        }
+        else if (Mathf.Approximately(transform.position.y, -1.65f))
+        {
+            stoppedSlot = "Orange";
+        }
+        else if (Mathf.Approximately(transform.position.y, 0.25f))
+        {
+            stoppedSlot = "Melon";
+        }
+        else if (Mathf.Approximately(transform.position.y, 2.15f))
+        {
+            stoppedSlot = "Lemon";
+        }
+        else if (Mathf.Approximately(transform.position.y, 4.05f))
+        {
+            stoppedSlot = "Grapes";
+        }
+        else if (Mathf.Approximately(transform.position.y, 5.95f))
+        {
+            stoppedSlot = "Seven";
         }
 
         rowStopped = true;

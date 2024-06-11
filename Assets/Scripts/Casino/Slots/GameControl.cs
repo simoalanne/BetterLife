@@ -37,7 +37,7 @@ public class GameControl : MonoBehaviour
         {
             CheckResults();
             prizeText.enabled = true;
-            prizeText.text = "Prize: " + prizeValue;
+            prizeText.text = "You won: " + prizeValue;
         }
     }
 
@@ -73,57 +73,69 @@ public class GameControl : MonoBehaviour
         {
             switch(rows[0].stoppedSlot)
             {
-                case "Diamond":
+                case "Strawberry":
                     prizeValue = 200;
                     break;
-                case "Crown":
+                case "Plum":
                     prizeValue = 400;
                     break;
-                case "Melon":
+                case "Pineapple":
                     prizeValue = 600;
                     break;
-                case "Bar":
+                case "Cherry":
                     prizeValue = 800;
                     break;
-                case "Seven":
+                case "Orange":
                     prizeValue = 1500;
                     break;
-                case "Cherry":
+                case "Melon":
                     prizeValue = 3000;
                     break;
                 case "Lemon":
                     prizeValue = 5000;
+                    break;
+                case "Grapes":
+                    prizeValue = 6000;
+                    break;
+                case "Seven":
+                    prizeValue = 7000;
                     break;
                 default:
                     prizeValue = 0;
                     break;
             }
         }
-        // Kaksi ekaa symbolia samat
+        // Kaksi symbolia samat
         else if (rows[0].stoppedSlot == rows[1].stoppedSlot && rows[1].stoppedSlot != rows[2].stoppedSlot)
         {
             switch(rows[0].stoppedSlot)
             {
-                case "Diamond":
+                case "Strawberry":
                     prizeValue = 100;
                     break;
-                case "Crown":
+                case "Plum":
                     prizeValue = 300;
                     break;
-                case "Melon":
+                case "Pineapple":
                     prizeValue = 500;
                     break;
-                case "Bar":
+                case "Cherry":
                     prizeValue = 700;
                     break;
-                case "Seven":
+                case "Orange":
                     prizeValue = 1000;
                     break;
-                case "Cherry":
+                case "Melon":
                     prizeValue = 2000;
                     break;
                 case "Lemon":
                     prizeValue = 4000;
+                    break;
+                case "Grapes":
+                    prizeValue = 5000;
+                    break;
+                case "Seven":
+                    prizeValue = 6000;
                     break;
                 default:
                     prizeValue = 0;

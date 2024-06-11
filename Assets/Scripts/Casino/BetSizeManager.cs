@@ -5,6 +5,7 @@ namespace Casino
 {
     public class BetSizeManager : MonoBehaviour
     {
+        [SerializeField] private float[] _betSizes = { 1, 5, 10, 20, 25, 50, 100, 225, 500, 1000, 2500, 5000 };
         [SerializeField] private Sprite[] _chipSprites; // Array to store the chip sprites. Stored in the order of increasing value.
         [SerializeField] private Image _activeChipImage; // Image to display the active chip.
         private int _currentChipIndex;
@@ -13,53 +14,51 @@ namespace Casino
         [SerializeField] private Button _decreaseBetSizeButton; // Button to decrease the bet size.
         private float _currentBetSize;
         public float CurrentBetSize => _currentBetSize;
-        private readonly float[] _betSizes = { 10, 25, 50, 100 };
+        public Sprite[] ChipSprites => _chipSprites;
+        public int CurrentChipIndex => _currentChipIndex;
+        public float[] BetSizes => _betSizes;
 
 
         void Awake()
         {
             _currentChipIndex = 0;
+            _decreaseBetSizeButton.interactable = false; // Disable the decrease bet size button when the bet size is at the minimum.
             _maxIndex = _chipSprites.Length - 1;
             _currentBetSize = _betSizes[_currentChipIndex];
+            _activeChipImage.sprite = _chipSprites[_currentChipIndex];
         }
-
         public void IncreaseBetSize()
         {
-            if (_currentChipIndex < _maxIndex)
+            if (_currentChipIndex < _maxIndex) // disable the increase bet size button when the bet size will be at the maximum
             {
                 _currentChipIndex++;
                 _activeChipImage.sprite = _chipSprites[_currentChipIndex];
                 _currentBetSize = _betSizes[_currentChipIndex];
-            }
-            else
-            {
-                _increaseBetSizeButton.interactable = false; // Disable the increase bet size button when increasing from max bet size.
+
+                if (_currentChipIndex == _maxIndex)
+                {
+                    _increaseBetSizeButton.interactable = false;
+                }
             }
 
-            if (_decreaseBetSizeButton.interactable == false)
-            {
-                _decreaseBetSizeButton.interactable = true; // Enable the decrease bet size button when increasing from min bet size.
-            }
-       
+            _decreaseBetSizeButton.interactable = true;
         }
 
         public void DecreaseBetSize()
         {
-            if (_currentChipIndex > 0)
+            if (_currentChipIndex > 0) // disable the decrease bet size button when the bet size will be at the minimum.
             {
                 _currentChipIndex--;
                 _activeChipImage.sprite = _chipSprites[_currentChipIndex];
                 _currentBetSize = _betSizes[_currentChipIndex];
-            }
-            else
-            {
-                _decreaseBetSizeButton.interactable = false; // Disable the decrease bet size button when decreasing from min bet size.
+
+                if (_currentChipIndex == 0)
+                {
+                    _decreaseBetSizeButton.interactable = false;
+                }
             }
 
-            if (_increaseBetSizeButton.interactable == false)
-            {
-                _increaseBetSizeButton.interactable = true; // Enable the increase bet size button when decreasing from max bet size.
-            }
+            _increaseBetSizeButton.interactable = true;
         }
     }
 }

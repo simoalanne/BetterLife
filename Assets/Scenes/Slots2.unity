@@ -407,6 +407,7 @@ MonoBehaviour:
   - {fileID: 635726020}
   - {fileID: 948984823}
   handle: {fileID: 679022612}
+  handleAnimation: {fileID: 679022613}
 --- !u!4 &174666179
 Transform:
   m_ObjectHideFlags: 0
@@ -901,6 +902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 679022612}
   - component: {fileID: 679022611}
+  - component: {fileID: 679022613}
   m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
@@ -975,6 +977,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &679022613
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679022609}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 19bb4d107a08cee43a2d0472d755781b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &764810461
 GameObject:
   m_ObjectHideFlags: 0

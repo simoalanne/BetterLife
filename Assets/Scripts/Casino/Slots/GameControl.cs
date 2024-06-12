@@ -20,6 +20,9 @@ public class GameControl : MonoBehaviour
     [SerializeField] 
     private Transform handle; // Koneen kahvan transform
 
+    [SerializeField]
+    private Animator handleAnimation;
+
     private int prizeValue; // Palkintoarvo
 
     private bool resultsChecked = false; // voiton tarkistus
@@ -51,19 +54,22 @@ public class GameControl : MonoBehaviour
 
     private IEnumerator PullHandle() // Kahvan liikuttaminen ja eventti
     {
-        for (int i = 0; i < 15; i += 5)
+        /* for (int i = 0; i < 15; i += 5)
         {
             handle.Rotate(0f, 0f, i);
             yield return new WaitForSeconds(0.1f);
-        }
+        } */
 
+        handleAnimation.SetBool("playSpin", true);
+        yield return new WaitForSeconds(0.3f);
+        handleAnimation.SetBool("playSpin", false);
         HandlePulled();
 
-        for (int i = 0; i < 15; i += 5)
+        /* for (int i = 0; i < 15; i += 5)
         {
             handle.Rotate(0f, 0f, -i);
             yield return new WaitForSeconds(0.1f);
-        }
+        } */
     }
 
     private void CheckResults()

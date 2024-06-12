@@ -135,7 +135,7 @@ public class Row : MonoBehaviour
         {
             stoppedSlot = "Orange";
         }
-        else if (Mathf.Approximately(transform.position.y, 0.25f))
+        else if (Mathf.Approximately(transform.position.y, 0.2499996f))
         {
             stoppedSlot = "Melon";
         }

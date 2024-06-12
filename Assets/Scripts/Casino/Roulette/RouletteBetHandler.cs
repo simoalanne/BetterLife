@@ -145,7 +145,6 @@ namespace Casino.Roulette
 
             foreach (var bet in _activeMultibleNumberBets) // Iterate through the multiple number bets.
             {
-
                 if (bet.Key.Contains(winningNumber)) // Check if the key array contains the winning number.
                 {
                     /* Use the length of the key array to determine the bet type. After splitting the bet type,
@@ -169,7 +168,6 @@ namespace Casino.Roulette
                         case 6:
                             _initialBalance += bet.Value * betPayouts["Six Line"];
                             totalWinAmount += bet.Value * betPayouts["Six Line"];
-
                             break;
                     }
                 }
@@ -178,6 +176,7 @@ namespace Casino.Roulette
             _winningsText += "number"; // Add the word "number" to the end of the text.
 
             _activeBets.Clear(); // Clear the active bets list after checking the wins.
+            _activeMultibleNumberBets.Clear(); // Clear the active multiple number bets list after checking the wins.
             _winningNumberDetails.text = _winningsText; // Display the winning number details.
             _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
             _totalWinAmountText.text = "You won " + totalWinAmount + " euros"; // Display the total win amount.
@@ -206,6 +205,7 @@ namespace Casino.Roulette
             _balancePlacedInActiveBets = 0; // Reset the balance placed in active bets.
             _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
             _activeBets.Clear(); // Clear the active bets list.
+            _activeMultibleNumberBets.Clear(); // Clear the active multiple number bets list.
             DeleteChips(); // Delete the chips.
         }
 

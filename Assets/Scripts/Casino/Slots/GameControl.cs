@@ -29,14 +29,14 @@ public class GameControl : MonoBehaviour
 
     void Update()
     {
-        if (!rows[0].rowStopped || !rows[1].rowStopped || !rows[2].rowStopped) // Kone pyörii
+        if (!rows[0].rowStopped || !rows[1].rowStopped || !rows[2].rowStopped) // Kone pyï¿½rii
         {
             prizeValue = 0;
             prizeText.enabled = false;
             resultsChecked = false;
         }
 
-        if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped && !resultsChecked) // Kone lopettanut pyörimisen
+        if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped && !resultsChecked) // Kone lopettanut pyï¿½rimisen
         {
             CheckResults();
             prizeText.enabled = true;

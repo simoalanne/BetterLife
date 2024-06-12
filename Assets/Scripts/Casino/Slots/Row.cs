@@ -1,48 +1,71 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Row : MonoBehaviour
 {
     private int randomValue;
     private float timeInterval;
+    private const float stepValue = 1f / 9f; // this value is the amount of uvrect between each symbol
 
     public bool rowStopped;
     public string stoppedSlot;
+    [SerializeField] private float _firstRowStopDelay = 3f; // how long the the rows will spin before stopping.
 
     // Start is called before the first frame update
     void Start()
     {
+        if (gameObject.name == "Row1")
+        {
+        }
+
         rowStopped = true;
-        GameControl.HandlePulled += StartRotating; // Vetää kahvasta niin startrotating kutsutaan
+        GameControl.HandlePulled += StartRotating; // Vetï¿½ï¿½ kahvasta niin startrotating kutsutaan
+        var rawImage = GetComponent<RawImage>();
+        var uvRect = rawImage.uvRect;
+        uvRect.y = stepValue * Random.Range(0, 9);
+        rawImage.uvRect = uvRect;
     }
 
     private void StartRotating()
     {
         stoppedSlot = "";
-        StartCoroutine("Rotate");
+        StartCoroutine(Rotate());
 
     }
 
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        timeInterval = 0.025f;
+        float timeToMove = 0.5f; // Time to move from 0 to 1
 
-        for (int i = 0; i < 30; i++)
+        // Get the initial uvRect.y value
+        RawImage rawImageInitial = GetComponent<RawImage>();
+        float initialY = rawImageInitial.uvRect.y;
+
+        while (true)
         {
-            if (transform.position.y <= -9.25f) // -9.25f on korkeimman symbolin transformi positio
+            float elapsedTime = 0f; // Time elapsed since the start of the rotation
+
+            while (elapsedTime < timeToMove)
             {
-                transform.position = new Vector2(transform.position.x, 5.95f); // 5.95 on matalimaan symbolin transform positio
+                elapsedTime += Time.deltaTime; // Update the elapsed time
+                float newY = Mathf.Lerp(initialY, 1 + initialY, elapsedTime / timeToMove); // Calculate the new y value
+
+                // Update the uvRect
+                RawImage rawImage = GetComponent<RawImage>();
+                rawImage.uvRect = new Rect(rawImage.uvRect.x, newY % 1, rawImage.uvRect.width, rawImage.uvRect.height);
+
+                yield return null;
             }
 
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f); // uusi symboli on 1.9 y-arvon välein
-            yield return new WaitForSeconds(timeInterval);
+            // Reset the uvRect.y to the initial value
+            RawImage rawImageReset = GetComponent<RawImage>();
+            rawImageReset.uvRect = new Rect(rawImageReset.uvRect.x, initialY, rawImageReset.uvRect.width, rawImageReset.uvRect.height);
         }
 
-        randomValue = Random.Range(60, 120);
 
-        switch (randomValue % 3) // Modulo operaattori, googleta lol
+        /*switch (randomValue % 3) // Modulo operaattori, googleta lol
         {
             case 1:
                 randomValue += 2;
@@ -51,18 +74,20 @@ public class Row : MonoBehaviour
                 randomValue += 1;
                 break;
             default:
-                randomValue = 0; 
+                randomValue = 0;
                 break;
         }
 
-        for(int i = 0; i < randomValue; i++)
+        for (int i = 0; i < randomValue; i++)
         {
             if (transform.position.y <= -9.25f)
             {
                 transform.position = new Vector2(transform.position.x, 5.95f);
             }
-
-            transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f);
+            else
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f);
+            }
 
             if (i > Mathf.RoundToInt(randomValue * 0.25f))
             {
@@ -80,11 +105,11 @@ public class Row : MonoBehaviour
             {
                 timeInterval = 0.2f;
             }
-            
+
             yield return new WaitForSeconds(timeInterval);
         }
 
-        /*switch (transform.position.y) // Tässä annetaan rivin stoppedSlotille arvo y-position mukaan.
+        /*switch (transform.position.y) // Tï¿½ssï¿½ annetaan rivin stoppedSlotille arvo y-position mukaan.
         {
             case -9.25f:
                 stoppedSlot = "Strawberry";
@@ -113,50 +138,54 @@ public class Row : MonoBehaviour
             case 5.95f:
                 stoppedSlot = "Seven";
                 break;
-        } */
+        } 
 
         if (Mathf.Approximately(transform.position.y, -9.25f))
         {
             stoppedSlot = "Strawberry";
         }
         else if (Mathf.Approximately(transform.position.y, -7.35f))
-        {
-            stoppedSlot = "Plum";
-        }
-        else if (Mathf.Approximately(transform.position.y, -5.45f))
-        {
-            stoppedSlot = "Pineapple";
-        }
-        else if (Mathf.Approximately(transform.position.y, -3.55f))
-        {
-            stoppedSlot = "Cherry";
-        }
-        else if (Mathf.Approximately(transform.position.y, -1.65f))
-        {
-            stoppedSlot = "Orange";
-        }
-        else if (Mathf.Approximately(transform.position.y, 0.2499996f))
-        {
-            stoppedSlot = "Melon";
-        }
-        else if (Mathf.Approximately(transform.position.y, 2.15f))
-        {
-            stoppedSlot = "Lemon";
-        }
-        else if (Mathf.Approximately(transform.position.y, 4.05f))
-        {
-            stoppedSlot = "Grapes";
-        }
-        else if (Mathf.Approximately(transform.position.y, 5.95f))
-        {
-            stoppedSlot = "Seven";
-        }
+    {
+    stoppedSlot = "Plum";
+    }
+    else if (Mathf.Approximately(transform.position.y, -5.45f))
+    {
+    stoppedSlot = "Pineapple";
+    }
+    else if (Mathf.Approximately(transform.position.y, -3.55f))
+    {
+    stoppedSlot = "Cherry";
+    }
+    else if (Mathf.Approximately(transform.position.y, -1.65f))
+    {
+    stoppedSlot = "Orange";
+    }
+    else if (Mathf.Approximately(transform.position.y, 0.2499996f))
+    {
+    stoppedSlot = "Melon";
+    }
+    else if (Mathf.Approximately(transform.position.y, 2.15f))
+    {
+    stoppedSlot = "Lemon";
+    }
+    else if (Mathf.Approximately(transform.position.y, 4.05f))
+    {
+    stoppedSlot = "Grapes";
+    }
+    else if (Mathf.Approximately(transform.position.y, 5.95f))
+    {
+    stoppedSlot = "Seven";
+    }
 
-        rowStopped = true;
+    rowStopped = true;
     }
 
     private void OnDestroy()
     {
-        GameControl.HandlePulled -= StartRotating;
+    GameControl.HandlePulled -= StartRotating;
+    }
+    }
+    */
     }
 }
+

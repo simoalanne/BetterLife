@@ -40,7 +40,7 @@ public class Row : MonoBehaviour
             yield return new WaitForSeconds(timeInterval);
         }
 
-        randomValue = Random.Range(60, 100);
+        randomValue = Random.Range(60, 120);
 
         switch (randomValue % 3) // Modulo operaattori, googleta lol
         {

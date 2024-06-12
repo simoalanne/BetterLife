@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Casino.Roulette
 {
@@ -25,8 +26,10 @@ namespace Casino.Roulette
         [SerializeField] private Button _exitTableButton; // The button to exit the table.
         [SerializeField] private float _ballRadiusDecrement = 0.0425f; // The rate at which the ball moves towards the center of the wheel. Is used to make the ball movement feel more realistic.
         [SerializeField] private float _ballDistanceFromSlotBeforeStop = 0.17f; // The distance from the slot at which the ball stops.
-        [SerializeField] private float _ballMinimumInitialSpeed = 250f; // The minimum initial speed of the ball.
-        [SerializeField] private float _ballMaximumInitialSpeed = 500f; // The maximum initial speed of the ball.
+        [SerializeField] private float _ballMinimumInitialSpeed = 180f; // The minimum initial speed of the ball.
+        [SerializeField] private float _ballMaximumInitialSpeed = 360f; // The maximum initial speed of the ball.
+        [SerializeField] private Button _turboSpeedButton; // The button to increase the speed of the ball.
+        [SerializeField] private float _turboSpeedTimeScale = 1.66f; // The time scale when the turbo speed is active.
         private float _initialCameraSize; // The initial size of the camera.
         readonly string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
         {
@@ -197,6 +200,20 @@ namespace Casino.Roulette
             {
                 _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = false;
                 // TODO: open a menu or something.
+            }
+        }
+
+        public void TurboSpeed()
+        { 
+            if (Time.timeScale == _turboSpeedTimeScale)
+            {
+                Time.timeScale = 1f;
+                _turboSpeedButton.GetComponentInChildren<TMP_Text>().text = "turbo speed";
+            }
+            else
+            {
+                Time.timeScale = _turboSpeedTimeScale;
+                _turboSpeedButton.GetComponentInChildren<TMP_Text>().text = "normal speed";
             }
         }
     }

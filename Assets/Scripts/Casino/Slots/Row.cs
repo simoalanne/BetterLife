@@ -1,35 +1,41 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Row : MonoBehaviour
 {
-    private int randomValue;
-    private float timeInterval;
     private const float stepValue = 1f / 9f; // this value is the amount of uvrect between each symbol
 
     public bool rowStopped;
-    public string stoppedSlot;
-    [SerializeField] private float _firstRowStopDelay = 3f; // how long the the rows will spin before stopping.
+    public string _stoppedSlot;
+    public string StoppedSlot => _stoppedSlot;
+    private bool _stop = true;
+    private readonly Dictionary<float, string> _symbols = new()
+    {
+        {Mathf.Round(0 * stepValue * 1000) / 1000, "Strawberry"},
+        {Mathf.Round(1 * stepValue * 1000) / 1000, "Seven"},
+        {Mathf.Round(2 * stepValue * 1000) / 1000, "Grapes"},
+        {Mathf.Round(3 * stepValue * 1000) / 1000, "Lemon"},
+        {Mathf.Round(4 * stepValue * 1000) / 1000, "Melon"},
+        {Mathf.Round(5 * stepValue * 1000) / 1000, "Orange"},
+        {Mathf.Round(6 * stepValue * 1000) / 1000, "Cherry"},
+        {Mathf.Round(7 * stepValue * 1000) / 1000, "Pineapple"},
+        {Mathf.Round(8 * stepValue * 1000) / 1000, "Plum"}
+    };
 
-    // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.name == "Row1")
-        {
-        }
-
         rowStopped = true;
-        GameControl.HandlePulled += StartRotating; // Vet�� kahvasta niin startrotating kutsutaan
         var rawImage = GetComponent<RawImage>();
         var uvRect = rawImage.uvRect;
         uvRect.y = stepValue * Random.Range(0, 9);
         rawImage.uvRect = uvRect;
     }
 
-    private void StartRotating()
+    public void StartRotating()
     {
-        stoppedSlot = "";
+        _stoppedSlot = "";
         StartCoroutine(Rotate());
 
     }
@@ -37,13 +43,13 @@ public class Row : MonoBehaviour
     private IEnumerator Rotate()
     {
         rowStopped = false;
-        float timeToMove = 0.5f; // Time to move from 0 to 1
+        float timeToMove = 0.75f; // Time to move from 0 to 1
 
         // Get the initial uvRect.y value
         RawImage rawImageInitial = GetComponent<RawImage>();
         float initialY = rawImageInitial.uvRect.y;
 
-        while (true)
+        while (_stop)
         {
             float elapsedTime = 0f; // Time elapsed since the start of the rotation
 
@@ -63,129 +69,69 @@ public class Row : MonoBehaviour
             RawImage rawImageReset = GetComponent<RawImage>();
             rawImageReset.uvRect = new Rect(rawImageReset.uvRect.x, initialY, rawImageReset.uvRect.width, rawImageReset.uvRect.height);
         }
+    }
 
 
-        /*switch (randomValue % 3) // Modulo operaattori, googleta lol
+    public void Stop()
+    {
+        _stop = false;
+        StartCoroutine(StopRotating());
+    }
+
+    private IEnumerator StopRotating()
+    {
+        float timeToStop = 2.25f; // Time to stop from current speed to 0
+        float elapsedTime = 0f; // Time elapsed since the start of the stopping
+
+        // Get the initial uvRect.y value
+        RawImage rawImageInitial = GetComponent<RawImage>();
+        float initialY = rawImageInitial.uvRect.y;
+
+        // Calculate the final y value after one half rotation plus a random step
+        float finalY = initialY + stepValue * 4 + stepValue * Random.Range(0, 9);
+
+        // Calculate the offset to the closest step
+        float offset = finalY % stepValue;
+        if (offset > stepValue / 2)
         {
-            case 1:
-                randomValue += 2;
-                break;
-            case 2:
-                randomValue += 1;
-                break;
-            default:
-                randomValue = 0;
-                break;
+            finalY += stepValue - offset; // Add the remaining distance to the next step
+        }
+        else
+        {
+            finalY -= offset; // Subtract the distance to the previous step
         }
 
-        for (int i = 0; i < randomValue; i++)
+        while (elapsedTime < timeToStop)
         {
-            if (transform.position.y <= -9.25f)
-            {
-                transform.position = new Vector2(transform.position.x, 5.95f);
-            }
-            else
-            {
-                transform.position = new Vector2(transform.position.x, transform.position.y - 1.9f);
-            }
+            elapsedTime += Time.deltaTime; // Update the elapsed time
+            float newY = Mathf.Lerp(initialY, finalY, elapsedTime / timeToStop); // Calculate the new y value
 
-            if (i > Mathf.RoundToInt(randomValue * 0.25f))
-            {
-                timeInterval = 0.05f;
-            }
-            if (i > Mathf.RoundToInt(randomValue * 0.5f))
-            {
-                timeInterval = 0.1f;
-            }
-            if (i > Mathf.RoundToInt(randomValue * 0.75f))
-            {
-                timeInterval = 0.15f;
-            }
-            if (i > Mathf.RoundToInt(randomValue * 0.95f))
-            {
-                timeInterval = 0.2f;
-            }
+            // Update the uvRect
+            RawImage rawImage = GetComponent<RawImage>();
+            rawImage.uvRect = new Rect(rawImage.uvRect.x, newY % 1, rawImage.uvRect.width, rawImage.uvRect.height);
 
-            yield return new WaitForSeconds(timeInterval);
+            yield return null;
         }
 
-        /*switch (transform.position.y) // T�ss� annetaan rivin stoppedSlotille arvo y-position mukaan.
-        {
-            case -9.25f:
-                stoppedSlot = "Strawberry";
-                break;
-            case -7.35f:
-                stoppedSlot = "Plum";
-                break;
-            case -5.45f:
-                stoppedSlot = "Pineapple";
-                break;
-            case -3.55f:
-                stoppedSlot = "Cherry";
-                break;
-            case -1.65f:
-                stoppedSlot = "Orange";
-                break;
-            case 0.25f:
-                stoppedSlot = "Melon";
-                break;
-            case 2.15f:
-                stoppedSlot = "Lemon";
-                break;
-            case 4.05f:
-                stoppedSlot = "Grapes";
-                break;
-            case 5.95f:
-                stoppedSlot = "Seven";
-                break;
-        } 
+        // Set the uvRect.y to the final value
+        RawImage rawImageFinal = GetComponent<RawImage>();
+        rawImageFinal.uvRect = new Rect(rawImageFinal.uvRect.x, finalY % 1, rawImageFinal.uvRect.width, rawImageFinal.uvRect.height);
 
-        if (Mathf.Approximately(transform.position.y, -9.25f))
+        rowStopped = true;
+
+        float finalStepValue = Mathf.Round(finalY % 1 * 1000) / 1000; // Round to 3 decimal places
+
+        // Define a tolerance for the approximation
+        float tolerance = 0.001f;
+
+        foreach (var symbol in _symbols)
         {
-            stoppedSlot = "Strawberry";
+            if (Mathf.Abs(symbol.Key - finalStepValue) < tolerance)
+            {
+                _stoppedSlot = symbol.Value;
+                break;
+            }
         }
-        else if (Mathf.Approximately(transform.position.y, -7.35f))
-    {
-    stoppedSlot = "Plum";
-    }
-    else if (Mathf.Approximately(transform.position.y, -5.45f))
-    {
-    stoppedSlot = "Pineapple";
-    }
-    else if (Mathf.Approximately(transform.position.y, -3.55f))
-    {
-    stoppedSlot = "Cherry";
-    }
-    else if (Mathf.Approximately(transform.position.y, -1.65f))
-    {
-    stoppedSlot = "Orange";
-    }
-    else if (Mathf.Approximately(transform.position.y, 0.2499996f))
-    {
-    stoppedSlot = "Melon";
-    }
-    else if (Mathf.Approximately(transform.position.y, 2.15f))
-    {
-    stoppedSlot = "Lemon";
-    }
-    else if (Mathf.Approximately(transform.position.y, 4.05f))
-    {
-    stoppedSlot = "Grapes";
-    }
-    else if (Mathf.Approximately(transform.position.y, 5.95f))
-    {
-    stoppedSlot = "Seven";
-    }
-
-    rowStopped = true;
-    }
-
-    private void OnDestroy()
-    {
-    GameControl.HandlePulled -= StartRotating;
-    }
-    }
-    */
+        _stop = true;
     }
 }
-

@@ -1,27 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using System;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 
 public class GameControl : MonoBehaviour
 {
-    // HandlePulled eventti
-    public static event Action HandlePulled = delegate { };
-
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI prizeText; // palkintoteksti
 
-    [SerializeField] 
-    private Row[] rows; // Rivit
+    [SerializeField]
+    private Row[] rows; // Rivit. Järjestä vasemmalta oikealle
 
-    [SerializeField] 
+    [SerializeField]
     private Transform handle; // Koneen kahvan transform
 
     [SerializeField]
     private Animator handleAnimation;
+
+    [SerializeField] private Animator _slotMachineAnimation;
+
+    [SerializeField] private float _howLongToSpin = 3f; // Kuinka kauan kaikkien rivien pyöriminen kestää
 
     private int prizeValue; // Palkintoarvo
 
@@ -48,106 +45,77 @@ public class GameControl : MonoBehaviour
     {
         if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped)
         {
-            StartCoroutine("PullHandle");
+            StartCoroutine(PullHandle());
         }
     }
 
-    private IEnumerator PullHandle() // Kahvan liikuttaminen ja eventti
+    private IEnumerator PullHandle() // Handle pulling and event
     {
-        /* for (int i = 0; i < 15; i += 5)
+        if (_slotMachineAnimation.enabled)
         {
-            handle.Rotate(0f, 0f, i);
-            yield return new WaitForSeconds(0.1f);
-        } */
+            _slotMachineAnimation.enabled = false; // Disable the win animation on new spin
+        }
 
         handleAnimation.SetBool("playSpin", true);
         yield return new WaitForSeconds(0.3f);
         handleAnimation.SetBool("playSpin", false);
-        HandlePulled();
 
-        /* for (int i = 0; i < 15; i += 5)
+        // Start all rows rotating
+        foreach (var row in rows)
         {
-            handle.Rotate(0f, 0f, -i);
-            yield return new WaitForSeconds(0.1f);
-        } */
+            row.StartRotating();
+        }
+
+        yield return new WaitForSeconds(_howLongToSpin); // Wait for the rows to spin for a while
+
+        foreach (var row in rows) // Stop rows one by one, waiting for each to stop before proceeding
+        {
+            row.Stop(); // Stop the row
+            yield return new WaitUntil(() => row.rowStopped); // Wait until the row has stopped rotating
+        }
     }
 
     private void CheckResults()
     {
         // Jos kaikki symbolit samoja niin voittoo hullusti
-        if (rows[0].stoppedSlot == rows[1].stoppedSlot && rows[1].stoppedSlot == rows[2].stoppedSlot)
+        if (rows[0].StoppedSlot == rows[1].StoppedSlot && rows[1].StoppedSlot == rows[2].StoppedSlot)
         {
-            switch(rows[0].stoppedSlot)
+            prizeValue = rows[0].StoppedSlot switch // newer switch syntax 
             {
-                case "Strawberry":
-                    prizeValue = 200;
-                    break;
-                case "Plum":
-                    prizeValue = 400;
-                    break;
-                case "Pineapple":
-                    prizeValue = 600;
-                    break;
-                case "Cherry":
-                    prizeValue = 800;
-                    break;
-                case "Orange":
-                    prizeValue = 1500;
-                    break;
-                case "Melon":
-                    prizeValue = 3000;
-                    break;
-                case "Lemon":
-                    prizeValue = 5000;
-                    break;
-                case "Grapes":
-                    prizeValue = 6000;
-                    break;
-                case "Seven":
-                    prizeValue = 7000;
-                    break;
-                default:
-                    prizeValue = 0;
-                    break;
-            }
+                "Strawberry" => 200,
+                "Plum" => 400,
+                "Pineapple" => 600,
+                "Cherry" => 800,
+                "Orange" => 1500,
+                "Melon" => 3000,
+                "Lemon" => 5000,
+                "Grapes" => 6000,
+                "Seven" => 7000,
+                _ => 0
+            };
         }
-        // Kaksi symbolia samat
-        else if (rows[0].stoppedSlot == rows[1].stoppedSlot && rows[1].stoppedSlot != rows[2].stoppedSlot)
+        // Jos kaksi samaa symbolia niin voittoa
+        else if (rows[0].StoppedSlot == rows[1].StoppedSlot || rows[0].StoppedSlot == rows[2].StoppedSlot || rows[1].StoppedSlot == rows[2].StoppedSlot)
         {
-            switch(rows[0].stoppedSlot)
+            prizeValue = rows[0].StoppedSlot switch
             {
-                case "Strawberry":
-                    prizeValue = 100;
-                    break;
-                case "Plum":
-                    prizeValue = 300;
-                    break;
-                case "Pineapple":
-                    prizeValue = 500;
-                    break;
-                case "Cherry":
-                    prizeValue = 700;
-                    break;
-                case "Orange":
-                    prizeValue = 1000;
-                    break;
-                case "Melon":
-                    prizeValue = 2000;
-                    break;
-                case "Lemon":
-                    prizeValue = 4000;
-                    break;
-                case "Grapes":
-                    prizeValue = 5000;
-                    break;
-                case "Seven":
-                    prizeValue = 6000;
-                    break;
-                default:
-                    prizeValue = 0;
-                    break;
-            }
+                "Strawberry" => 100,
+                "Plum" => 300,
+                "Pineapple" => 500,
+                "Cherry" => 700,
+                "Orange" => 1000,
+                "Melon" => 2000,
+                "Lemon" => 4000,
+                "Grapes" => 5000,
+                "Seven" => 6000,
+                _ => 0
+            };
         }
+
         resultsChecked = true;
+        if (prizeValue > 0)
+        {
+            _slotMachineAnimation.enabled = true;
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,7 +7,7 @@ namespace Casino
 {
     public class BetSizeManager : MonoBehaviour
     {
-        [SerializeField] private float[] _betSizes = { 1, 5, 10, 20, 25, 50, 100, 250, 500, 1000, 2500, 5000 };
+        [SerializeField] private List<float> _betSizes = new() { 1, 5, 10, 20, 25, 50, 100, 250, 500, 1000, 2500, 5000 };
         [SerializeField] private Sprite[] _chipSprites; // Array to store the chip sprites. Stored in the order of increasing value.
         [SerializeField] private Image _activeChipImage; // Image to display the active chip.
         private int _currentChipIndex;
@@ -16,14 +18,15 @@ namespace Casino
         public float CurrentBetSize => _currentBetSize;
         public Sprite[] ChipSprites => _chipSprites;
         public int CurrentChipIndex => _currentChipIndex;
-        public float[] BetSizes => _betSizes;
+        public List<float> BetSizes => _betSizes;
 
 
         void Awake()
         {
+            _betSizes.Sort(); // Sort the bet sizes in ascending order if they are not already sorted.
             _currentChipIndex = 0;
             _decreaseBetSizeButton.interactable = false; // Disable the decrease bet size button when the bet size is at the minimum.
-            _maxIndex = _chipSprites.Length - 1;
+            _maxIndex = _chipSprites.Length - 1; 
             _currentBetSize = _betSizes[_currentChipIndex];
             _activeChipImage.sprite = _chipSprites[_currentChipIndex];
         }

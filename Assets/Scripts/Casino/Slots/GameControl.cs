@@ -22,39 +22,23 @@ public class GameControl : MonoBehaviour
 
     private int prizeValue; // Palkintoarvo
 
-    private bool resultsChecked = false; // voiton tarkistus
-
-    void Update()
-    {
-        if (!rows[0].rowStopped || !rows[1].rowStopped || !rows[2].rowStopped) // Kone py�rii
-        {
-            prizeValue = 0;
-            prizeText.enabled = false;
-            resultsChecked = false;
-        }
-
-        if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped && !resultsChecked) // Kone lopettanut py�rimisen
-        {
-            CheckResults();
-            prizeText.enabled = true;
-            prizeText.text = "You won: " + prizeValue;
-        }
-    }
+    private bool _handlePulled; // Onko kahvaa vedetty
 
     private void OnMouseDown() // Klikkaa kahvaa
     {
-        if (rows[0].rowStopped && rows[1].rowStopped && rows[2].rowStopped)
+        if (_handlePulled == false)
         {
+            _handlePulled = true;
             StartCoroutine(PullHandle());
         }
     }
 
     private IEnumerator PullHandle() // Handle pulling and event
     {
-        if (_slotMachineAnimation.enabled)
-        {
-            _slotMachineAnimation.enabled = false; // Disable the win animation on new spin
-        }
+        // Reset values on each spin
+        _slotMachineAnimation.enabled = false;
+        prizeValue = 0;
+        prizeText.text = "";
 
         handleAnimation.SetBool("playSpin", true);
         yield return new WaitForSeconds(0.3f);
@@ -70,9 +54,11 @@ public class GameControl : MonoBehaviour
 
         foreach (var row in rows) // Stop rows one by one, waiting for each to stop before proceeding
         {
-            row.Stop(); // Stop the row
-            yield return new WaitUntil(() => row.rowStopped); // Wait until the row has stopped rotating
+            row.Spin = false;
+            yield return new WaitUntil(() => row.rowStopped);
         }
+
+        CheckResults();
     }
 
     private void CheckResults()
@@ -94,8 +80,8 @@ public class GameControl : MonoBehaviour
                 _ => 0
             };
         }
-        // Jos kaksi samaa symbolia niin voittoa
-        else if (rows[0].StoppedSlot == rows[1].StoppedSlot || rows[0].StoppedSlot == rows[2].StoppedSlot || rows[1].StoppedSlot == rows[2].StoppedSlot)
+        // Jos kaksi ekaa samaa
+        else if (rows[0].StoppedSlot == rows[1].StoppedSlot)
         {
             prizeValue = rows[0].StoppedSlot switch
             {
@@ -112,10 +98,15 @@ public class GameControl : MonoBehaviour
             };
         }
 
-        resultsChecked = true;
         if (prizeValue > 0)
         {
             _slotMachineAnimation.enabled = true;
+            prizeText.text = "you won " + prizeValue + " coins!";
         }
+        else
+        {
+            prizeText.text = "No win this time";
+        }
+        _handlePulled = false;
     }
 }

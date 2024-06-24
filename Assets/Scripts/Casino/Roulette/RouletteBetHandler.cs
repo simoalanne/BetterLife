@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UI;
 
 namespace Casino.Roulette
 {
@@ -13,21 +10,16 @@ namespace Casino.Roulette
     /// <summary>
     public class RouletteBetHandler : MonoBehaviour
     {
-        [SerializeField] private float _initialBalance = 1000; // The initial balance of the player. Managed in this script for now.
-        [SerializeField] private TMP_Text _balanceText; // Text to display the balance.
-        [SerializeField] private TMP_Text _totalWinAmountText; // Text to display the total win amount.
-        [SerializeField] private TMP_Text _winningNumberDetails; // Text to display the winning number details such as color, odd/even, etc.
-        [SerializeField] private TMP_Text _outOfBalanceText; // Text to display when player runs out of balance completely.
-        [SerializeField] private float _textOnScreenTime = 5; // Time to display the winning number details and total win amount in the screen after bet settlement.
-        [SerializeField] private RouletteSpinner _rouletteSpinner; // Reference to the RouletteSpinner script.
-        [SerializeField] private TMP_Text _noBalanceText;
-        [SerializeField] private float _noBalanceTextScreenTime = 0.75f;
-        [SerializeField] private Button _resetBetsButton;
-        [SerializeField] private Button _spinButton;
-        [SerializeField] private Button _exitTableButton;
+        [Header("Scripts")]
+        [SerializeField] private RouletteUIManager _rouletteUIManager;
+
+        private RouletteBet[] _rouletteBets; // Array to store all instances of the RouletteBet scripts.
         private readonly List<(string, float)> _activeBets = new(); // Tuple to store the bet type and amount.
-        private readonly List<KeyValuePair<int[], float>> _activeMultibleNumberBets = new(); // List to store the multiple number bets such as street, corner, etc.
+        private readonly List<KeyValuePair<int[], float>> _activeMultiBets = new(); // List to store the multibets and amount.
         private float _balancePlacedInActiveBets; // Variable to store the balance placed in active bets.
+        private float _playerBalance; // Variable to store the initial balance.
+        private bool _buttonActivationDone = false;
+        public float PlayerBalance => _playerBalance; // Property to get the initial balance.
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
         {
@@ -67,8 +59,10 @@ namespace Casino.Roulette
 
         void Awake()
         {
-            _outOfBalanceText.gameObject.SetActive(false); // Set the out of balance text to inactive.
-            _balanceText.text = "Balance: " + _initialBalance + " euros"; // Set the text to display the initial balance.
+            _rouletteBets = FindObjectsOfType<RouletteBet>(); // Store references to all instances of the RouletteBet script.
+
+            _playerBalance = Player.PlayerManager.Instance.MoneyInBankAccount; // Get the initial balance from the player manager.
+            _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, 0); // Set the balance and total bet text.
             for (int i = 0; i <= 36; i++)
             {
                 int capturedNumber = i; // Capture the loop variable
@@ -80,45 +74,37 @@ namespace Casino.Roulette
 
         public bool PlaceBet(string betType, float amount)
         {
-            if (amount > _initialBalance)
+            if (amount > _playerBalance)
             {
-                StartCoroutine(ShowNoBalanceText()); // Show a text to inform the player that they don't have enough balance.
+                StartCoroutine(_rouletteUIManager.ShowNoBalanceText());
                 return false; // Return false if the bet amount is greater than the balance.
             }
 
-            if (_resetBetsButton.interactable == false) // Enable the reset bets button when the first bet is placed.
+            if (_buttonActivationDone == false) // Check if the button activation is done.
             {
-                _resetBetsButton.interactable = true;
+                _rouletteUIManager.BetPlaced();
+                _buttonActivationDone = true;
             }
 
-            if (_spinButton.interactable == false) // Enable the spin button when the first bet is placed.
             {
-                _spinButton.interactable = true;
-            }
 
+            }
             if (betType.Contains(" and ")) // Check if the bet type contains the word " and ", which means it's a multiple number bet.
             {
 
                 string[] betNumbersString = betType.Split(" and ");
                 int[] betNumbers = Array.ConvertAll(betNumbersString, int.Parse);
-                _activeMultibleNumberBets.Add(new KeyValuePair<int[], float>(betNumbers, amount));
+                _activeMultiBets.Add(new KeyValuePair<int[], float>(betNumbers, amount));
             }
             else
             {
                 _activeBets.Add((betType, amount)); // Add the bet to the Tuple list.
             }
 
-            _initialBalance -= amount; // Deduct the bet amount from the balance.
-            _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
+            _playerBalance -= amount; // Deduct the bet amount from the balance.
             _balancePlacedInActiveBets += amount; // Add the bet amount to the balance placed in active bets.
+            _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, _balancePlacedInActiveBets); // Set the balance and total bet text.
             return true; // Return true if the bet is placed successfully.
-        }
-
-        IEnumerator ShowNoBalanceText()
-        {
-            _noBalanceText.gameObject.SetActive(true); // Set the no balance text to active.
-            yield return new WaitForSeconds(_noBalanceTextScreenTime); // Wait for the specified time before resetting the text.
-            _noBalanceText.gameObject.SetActive(false); // Set the no balance text to inactive.
         }
 
         public void CheckWin(int winningNumber)
@@ -130,7 +116,7 @@ namespace Casino.Roulette
             {
                 if (betConditions.ContainsKey(bet.Item1) && betConditions[bet.Item1](winningNumber)) // Check if the bet type exists and the condition for a win is met
                 {
-                    _initialBalance += bet.Item2 * betPayouts[bet.Item1]; // Add the win amount to the balance.
+                    _playerBalance += bet.Item2 * betPayouts[bet.Item1]; // Add the win amount to the balance.
                     totalWinAmount += bet.Item2 * betPayouts[bet.Item1]; // Add the win amount to the total win amount.
                 }
             }
@@ -143,7 +129,7 @@ namespace Casino.Roulette
                 }
             }
 
-            foreach (var bet in _activeMultibleNumberBets) // Iterate through the multiple number bets.
+            foreach (var bet in _activeMultiBets) // Iterate through the multiple number bets.
             {
                 if (bet.Key.Contains(winningNumber)) // Check if the key array contains the winning number.
                 {
@@ -154,77 +140,50 @@ namespace Casino.Roulette
                     switch (bet.Key.Length)
                     {
                         case 2:
-                            _initialBalance += bet.Value * betPayouts["Split"];
+                            _playerBalance += bet.Value * betPayouts["Split"];
                             totalWinAmount += bet.Value * betPayouts["Split"];
                             break;
                         case 3:
-                            _initialBalance += bet.Value * betPayouts["Street"];
+                            _playerBalance += bet.Value * betPayouts["Street"];
                             totalWinAmount += bet.Value * betPayouts["Street"];
                             break;
                         case 4:
-                            _initialBalance += bet.Value * betPayouts["Corner"];
+                            _playerBalance += bet.Value * betPayouts["Corner"];
                             totalWinAmount += bet.Value * betPayouts["Corner"];
                             break;
                         case 6:
-                            _initialBalance += bet.Value * betPayouts["Six Line"];
+                            _playerBalance += bet.Value * betPayouts["Six Line"];
                             totalWinAmount += bet.Value * betPayouts["Six Line"];
                             break;
                     }
                 }
             }
-            _winningsText = _winningsText.TrimEnd(','); // Remove trailing comma.
-            _winningsText += "number"; // Add the word "number" to the end of the text.
 
-            _activeBets.Clear(); // Clear the active bets list after checking the wins.
-            _activeMultibleNumberBets.Clear(); // Clear the active multiple number bets list after checking the wins.
-            _winningNumberDetails.text = _winningsText; // Display the winning number details.
-            _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
-            _totalWinAmountText.text = "You won " + totalWinAmount + " euros"; // Display the total win amount.
-            _exitTableButton.interactable = true; // Enable the exit table button after the bets are settled.
-            StartCoroutine(ResetTexts()); // Reset the texts after a certain time.
-            DeleteChips(); // Delete the chips after the bets are settled.
+            StartCoroutine(_rouletteUIManager.DisplayRoundEndTexts(winningNumber, totalWinAmount)); // Display the winning number and winnings.
+            ClearBets();
         }
 
-        void DeleteChips()
+        void ClearBets()
         {
-            foreach (var bet in FindObjectsOfType<RouletteBet>()) // Not optimal, but scene is small so it'll do.
+            _activeBets.Clear(); // Clear the active bets list.
+            _activeMultiBets.Clear(); // Clear the active multiple number bets list.
+            _balancePlacedInActiveBets = 0; // Reset the balance placed in active bets
+            _rouletteUIManager.NoBetsPlaced();
+            foreach (var bet in _rouletteBets) // Iterate through the RouletteBet scripts.
             {
                 if (bet.BetPlaced)
                 {
                     bet.DestroyChips();
                 }
             }
-
-            _resetBetsButton.interactable = false; // Disable the reset bets button.
-            _spinButton.interactable = false; // Disable the spin button since there are no bets.
+            _buttonActivationDone = false; // Reset the button activation.
+            _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, _balancePlacedInActiveBets);
         }
 
         public void ResetBets()
         {
-            _initialBalance += _balancePlacedInActiveBets; // Add the balance placed in active bets back to the balance.
-            _balancePlacedInActiveBets = 0; // Reset the balance placed in active bets.
-            _balanceText.text = "Balance: " + _initialBalance + " euros"; // Update the balance text.
-            _activeBets.Clear(); // Clear the active bets list.
-            _activeMultibleNumberBets.Clear(); // Clear the active multiple number bets list.
-            DeleteChips(); // Delete the chips.
-        }
-
-        IEnumerator ResetTexts()
-        {
-            yield return new WaitForSeconds(_textOnScreenTime); // Wait for the specified time before resetting the texts, needs animation later on.
-            _totalWinAmountText.text = "";
-            _winningNumberDetails.text = "";
-            _rouletteSpinner.EnableBettingTable(); // Enable the betting table after the texts are reset.
-        }
-
-        public bool CheckIfOutOfBalance()
-        {
-            if (_initialBalance <= 0) // Check if the balance is less than or equal to 0.
-            {
-                _outOfBalanceText.gameObject.SetActive(true); // Set the out of balance text to active.
-                return true; // Return true if the player is out of balance.
-            }
-            return false; // Return false if the player is not out of balance.
+            _playerBalance += _balancePlacedInActiveBets; // Add the balance placed in active bets back to the balance.
+            ClearBets(); // Delete the chips.
         }
     }
 }

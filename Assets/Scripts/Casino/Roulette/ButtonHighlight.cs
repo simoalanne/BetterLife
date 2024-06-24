@@ -1,11 +1,24 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Casino.Roulette
 {
-    public class MultibetEvent : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ButtonHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
+        private const float _colorAdjustment = 0.4f; // Makes the color whiteish when highlighted
+        private Dictionary<string, GameObject> _betObjects = new();
+
+        private void Awake()
+        {
+            // Assuming all bet objects are children of a parent object "Bets"
+            foreach (Transform child in GameObject.Find("BettingTable").transform)
+            {
+                _betObjects.Add(child.name, child.gameObject);
+            }
+        }
+
         public void OnPointerEnter(PointerEventData eventData)
         {
             ProcessBetNames(true);
@@ -26,13 +39,22 @@ namespace Casino.Roulette
                     ChangeBetColor(betName, isSelecting);
                 }
             }
+            else
+            {
+                ChangeBetColor(gameObject.transform.parent.name, isSelecting);
+            }
         }
 
         void ChangeBetColor(string betName, bool isSelecting)
         {
-            GameObject bet = GameObject.Find(betName);
+            if (!_betObjects.TryGetValue(betName, out GameObject bet))
+            {
+                Debug.LogError($"Bet object with name {betName} not found");
+                return;
+            }
+
             var image = bet.GetComponentInChildren<Button>().GetComponent<Image>();
-            float adjustment = isSelecting ? -42.5f / 255f : 42.5f / 255f;
+            float adjustment = isSelecting ? _colorAdjustment : -_colorAdjustment;
             if (image.color.r == image.color.g && image.color.g == image.color.b)
             {
                 adjustment *= 0.625f; // If the color is grayscale, adjust the color less since the impact is more noticeable

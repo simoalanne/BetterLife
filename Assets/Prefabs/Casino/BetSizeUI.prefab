@@ -493,9 +493,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _betSizes:
   - 1
+  - 2
   - 5
   - 10
-  - 20
   - 25
   - 50
   - 100
@@ -507,8 +507,8 @@ MonoBehaviour:
   _chipSprites:
   - {fileID: 21300000, guid: 7dfec9d746ba43d41b75a7b0c9daa986, type: 3}
   - {fileID: 21300000, guid: 4343aeba71e3d83408346ec4d5a17377, type: 3}
+  - {fileID: 21300000, guid: e4c78784725d6c94cb9b30bfed4fe422, type: 3}
   - {fileID: 21300000, guid: 86ea766febd5c3b49afa6d245f9659fb, type: 3}
-  - {fileID: 21300000, guid: 81b1c5926cc4a3643b67633a7f857976, type: 3}
   - {fileID: 21300000, guid: 2de5d5df28787fc4286839656f141833, type: 3}
   - {fileID: 21300000, guid: 8eec5c038a8360645b68cc9a44237f87, type: 3}
   - {fileID: 21300000, guid: 1a311a16fa7ef57489191c3be73e8481, type: 3}

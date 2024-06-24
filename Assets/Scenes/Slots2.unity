@@ -406,10 +406,10 @@ MonoBehaviour:
   - {fileID: 1814729242}
   - {fileID: 1077706295}
   - {fileID: 2095231655}
-  handle: {fileID: 679022612}
+  handle: {fileID: 0}
   handleAnimation: {fileID: 679022613}
   _slotMachineAnimation: {fileID: 1874680856}
-  _howLongToSpin: 3
+  _howLongToSpin: 1
 --- !u!4 &174666179
 Transform:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You won: '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -917,7 +917,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 339996878}
-  m_PlaneDistance: 40.6
+  m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0

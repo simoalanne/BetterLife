@@ -34,4 +34,26 @@ public class DeckScript : MonoBehaviour
         }
         currentIndex = 1;
     }
+
+    public void Shuffle()
+    {
+        // Standard array data swapping technique
+        for (int i = cardSprites.Length - 1; i > 0; i--)
+        {
+            int j = Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * cardSprites.Length - 1) + 1;
+            Sprite face = cardSprites[i];
+            cardSprites[i] = cardSprites[j];
+            cardSprites[j] = face;
+
+            int value = cardValues[i];
+            cardValues[i] = cardValues[j];
+            cardValues[j] = value;
+        }
+    }
+
+    public int DealCard()
+    {
+        // cardScript.SetSprite
+        return 0;
+    }
 }

@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +8,9 @@ namespace Casino.Roulette
         private RouletteBetHandler _rouletteBetHandler;
         private BetSizeManager _betSizeManager;
         [SerializeField] private GameObject _chipPrefab;
+        [SerializeField] private Vector2 _chipTransformOffsetToPrevious = new(0, 2f); // This is used to simulate the effect of stacking chips on top of each other
+        [SerializeField] private float _horizontalOffsetRandomness = 2f; // This is used to simulate the effect of stacking chips on top of each other
+
         private bool _betPlaced = false;
         public bool BetPlaced => _betPlaced; // Informs the RouletteBetHandler if the bet is placed.
 
@@ -30,11 +32,26 @@ namespace Casino.Roulette
             }
         }
 
+
         private void TryPlaceChip()
         {
+            int chipCount = 0;
+            foreach (Transform child in transform)
+            {
+                if (child.gameObject.name == "Chip")
+                {
+                    Debug.Log("Chip found");
+                    chipCount++;
+                }
+            }
+
+            _chipTransformOffsetToPrevious =
+            new Vector2(Random.Range(-_horizontalOffsetRandomness, _horizontalOffsetRandomness), 2f * chipCount);
+
             var chip = Instantiate(_chipPrefab, transform.position, Quaternion.identity, transform);
             chip.GetComponent<Image>().sprite = _betSizeManager.ChipSprites[_betSizeManager.CurrentChipIndex]; // Instantiate the chip and set the sprite to the active chip sprite
-            chip.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0); // Set the anchored position of the chip to the center of the parent
+            chip.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0) + _chipTransformOffsetToPrevious; // Set the position of the chip to the position of the bet + the offset
+            chip.name = "Chip"; // Set the name of the chip to "Chip" for easier identification
             _betPlaced = true; // Set the bet placed to true when the chip is placed
         }
 

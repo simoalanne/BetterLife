@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     public Button standButton;
     public Button betButton;
 
+    // Access the player and dealers script
+    public PlayerScript playerScript;
+    public PlayerScript dealerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +24,9 @@ public class GameManager : MonoBehaviour
     }
     private void DealClicked()
     {
-        throw new NotImplementedException();
+        GameObject.Find("Deck").GetComponent<DeckScript>().Shuffle();
+        playerScript.StartHand();
+        dealerScript.StartHand();
     }
 
     private void HitClicked()

@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class CardScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // Value of card
+    public int value = 0;
+
+    public int GetValueOfCard()
     {
-        
+        return value;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetValue(int newValue)
     {
-        
+        value = newValue;
+    }
+
+    public void SetSprite(Sprite newSprite)
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+    }
+
+    public string GetSpriteName()
+    {
+        return GetComponent<SpriteRenderer>().sprite.name;
+    }
+
+    public void ResetCard()
+    {
+        Sprite back = GameObject.Find("DeckController").GetComponent<DeckScript>().GetCardBack();
+        gameObject.GetComponent<SpriteRenderer>().sprite = back;
+        value = 0;
     }
 }

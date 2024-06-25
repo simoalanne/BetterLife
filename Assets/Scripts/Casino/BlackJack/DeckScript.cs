@@ -8,10 +8,9 @@ public class DeckScript : MonoBehaviour
     private int[] cardValues = new int[53];
     private int currentIndex;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        GetCardValues();
     }
 
     // Update is called once per frame
@@ -40,7 +39,7 @@ public class DeckScript : MonoBehaviour
         // Standard array data swapping technique
         for (int i = cardSprites.Length - 1; i > 0; i--)
         {
-            int j = Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * cardSprites.Length - 1) + 1;
+            int j = Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * (cardSprites.Length - 1)) + 1;
             Sprite face = cardSprites[i];
             cardSprites[i] = cardSprites[j];
             cardSprites[j] = face;
@@ -51,9 +50,15 @@ public class DeckScript : MonoBehaviour
         }
     }
 
-    public int DealCard()
+    public int DealCard(CardScript cardScript)
     {
-        // cardScript.SetSprite
-        return 0;
+        cardScript.SetSprite(cardSprites[currentIndex]);
+        cardScript.SetValue(cardValues[currentIndex++]);
+        return cardScript.GetValueOfCard();
+    }
+
+    public Sprite GetCardBack()
+    {
+        return cardSprites[0];
     }
 }

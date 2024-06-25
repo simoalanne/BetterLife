@@ -32,7 +32,6 @@ namespace Casino.Roulette
             }
         }
 
-
         private void TryPlaceChip()
         {
             int chipCount = 0;
@@ -40,7 +39,6 @@ namespace Casino.Roulette
             {
                 if (child.gameObject.name == "Chip")
                 {
-                    Debug.Log("Chip found");
                     chipCount++;
                 }
             }

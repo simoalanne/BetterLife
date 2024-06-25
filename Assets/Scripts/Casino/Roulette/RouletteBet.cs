@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,9 @@ namespace Casino.Roulette
 
         private bool _betPlaced = false;
         public bool BetPlaced => _betPlaced; // Informs the RouletteBetHandler if the bet is placed.
+
+        private static List<GameObject> _allPlacedChips = new(); // This is used to keep track of the latest chip placed on the table
+        public static List<GameObject> AllPlacedChips => _allPlacedChips; // Informs the RouletteBetHandler of all the placed chips on the table
 
         void Awake()
         {
@@ -51,6 +55,7 @@ namespace Casino.Roulette
             chip.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0) + _chipTransformOffsetToPrevious; // Set the position of the chip to the position of the bet + the offset
             chip.name = "Chip"; // Set the name of the chip to "Chip" for easier identification
             _betPlaced = true; // Set the bet placed to true when the chip is placed
+            _allPlacedChips.Add(chip); // Add the chip to the list of all placed chips
         }
 
         public void DestroyChips()

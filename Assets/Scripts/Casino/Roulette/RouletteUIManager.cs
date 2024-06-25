@@ -14,7 +14,7 @@ namespace Casino.Roulette
 
         [Header("Buttons")]
         [SerializeField] private Button _spinButton;
-        [SerializeField] private Button _turboSpeedButton;
+        [SerializeField] private Button _undoBetButton;
         [SerializeField] private Button _resetBetsButton;
         [SerializeField] private Button _exitTableButton;
 
@@ -22,25 +22,20 @@ namespace Casino.Roulette
         [SerializeField] private TMP_Text _balanceText;
         [SerializeField] private TMP_Text _totalBetText;
         [SerializeField] private TMP_Text _noBalanceText;
-        [SerializeField] private TMP_Text _turboSpeedText;
         [SerializeField] private TMP_Text _winningNumberText;
         [SerializeField] private TMP_Text _winningsText;
 
         [Header("Variables")]
-        [SerializeField] private float _turboSpeedTimeScale = 2f;
         [SerializeField] private float _noBalanceTextScreenTime = 0.75f;
         [SerializeField] private float _roundEndTextsOnScreenTime = 4f;
-
-        private bool _isTurboSpeed = false;
 
         void Awake()
         {
             _spinButton.interactable = false;
-            _turboSpeedButton.interactable = true;
             _resetBetsButton.interactable = false;
+            _undoBetButton.interactable = false;
             _exitTableButton.interactable = true;
             _totalBetText.text = "Total Bet: 0";
-            _turboSpeedText.text = "turbo speed";
             _winningNumberText.text = "";
             _winningsText.text = "";
         }
@@ -49,6 +44,7 @@ namespace Casino.Roulette
         {
             _spinButton.interactable = false;
             _resetBetsButton.interactable = false;
+            _undoBetButton.interactable = false;
             _exitTableButton.interactable = false;
             _rouletteSpinner.SpinTheWheel();
         }
@@ -57,37 +53,28 @@ namespace Casino.Roulette
         {
             _spinButton.interactable = true;
             _resetBetsButton.interactable = true;
+            _undoBetButton.interactable = true;
             _exitTableButton.interactable = false;
         }
 
         public void NoBetsPlaced()
         {
+            _undoBetButton.interactable = false;
             _spinButton.interactable = false;
             _resetBetsButton.interactable = false;
             _exitTableButton.interactable = true;
         }
 
-        public void TurboSpeed()
+        public void UndoBet()
         {
-            if (_isTurboSpeed)
-            {
-                _isTurboSpeed = false;
-                Time.timeScale = 1f;
-                _turboSpeedText.text = "turbo speed";
-            }
-            else
-            {
-                _isTurboSpeed = true;
-                Time.timeScale = _turboSpeedTimeScale;
-                _turboSpeedText.text = "normal speed";
-            }
+            _rouletteBetHandler.UndoLatestBet();
         }
 
-        public void ResetBets()
+        public void ClearAllBets()
         {
             _resetBetsButton.interactable = false;
             _spinButton.interactable = false;
-            _rouletteBetHandler.ResetBets();
+            _rouletteBetHandler.ResetAllBets();
         }
 
         public void ExitTable()
@@ -100,7 +87,7 @@ namespace Casino.Roulette
             if (_resetBetsButton.interactable)
             {
                 _resetBetsButton.interactable = false;
-                _rouletteBetHandler.ResetBets();
+                _rouletteBetHandler.ResetAllBets();
             }
 
             PlayerManager.Instance.MoneyInBankAccount = _rouletteBetHandler.PlayerBalance;

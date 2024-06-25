@@ -401,16 +401,14 @@ MonoBehaviour:
   _rouletteSpinner: {fileID: 1636197267}
   _rouletteBetHandler: {fileID: 176912112}
   _spinButton: {fileID: 1621729790}
-  _turboSpeedButton: {fileID: 0}
+  _undoBetButton: {fileID: 1524786336}
   _resetBetsButton: {fileID: 1595025397}
   _exitTableButton: {fileID: 894721598}
   _balanceText: {fileID: 3123197}
   _totalBetText: {fileID: 1722758029}
   _noBalanceText: {fileID: 2091001714}
-  _turboSpeedText: {fileID: 0}
   _winningNumberText: {fileID: 435850177}
   _winningsText: {fileID: 1188438526}
-  _turboSpeedTimeScale: 2
   _noBalanceTextScreenTime: 0.75
   _roundEndTextsOnScreenTime: 4
 --- !u!1 &435850175
@@ -1315,7 +1313,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 176912114}
         m_TargetAssemblyTypeName: Casino.Roulette.RouletteUIManager, Assembly-CSharp
-        m_MethodName: Spin
+        m_MethodName: UndoBet
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1520,7 +1518,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 176912114}
         m_TargetAssemblyTypeName: Casino.Roulette.RouletteUIManager, Assembly-CSharp
-        m_MethodName: ResetBets
+        m_MethodName: ClearAllBets
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

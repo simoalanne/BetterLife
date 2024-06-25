@@ -20,6 +20,7 @@ namespace Casino.Roulette
         private float _playerBalance; // Variable to store the initial balance.
         private bool _buttonActivationDone = false;
         public float PlayerBalance => _playerBalance; // Property to get the initial balance.
+        private readonly List<(string, int)> _betsInOrder = new(); // List to store the bets in order.
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
         {
@@ -37,7 +38,9 @@ namespace Casino.Roulette
             { "3 row", (winningNumber) => new int[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }.Contains(winningNumber) },
         };
 
-        readonly Dictionary<string, int> betPayouts = new() // Dictionary to store the payouts for each bet type.
+        /* Dictionary to store the payouts for each bet type.
+        Includes the stake which is why the value is one more than the real payout. */
+        readonly Dictionary<string, int> betPayouts = new()
         {
             { "1st 12", 3 },
             { "2nd 12", 3 },
@@ -51,10 +54,10 @@ namespace Casino.Roulette
             { "1 row", 3 },
             { "2 row", 3 },
             { "3 row", 3 },
-            { "Corner", 8 },
-            { "Street", 11 },
-            { "Split", 17 },
-            { "Six Line", 5 }
+            { "Corner", 9 },
+            { "Street", 12 },
+            { "Split", 18 },
+            { "Six Line", 6 }
         };
 
         void Awake()
@@ -67,7 +70,7 @@ namespace Casino.Roulette
             {
                 int capturedNumber = i; // Capture the loop variable
                 betConditions[capturedNumber.ToString()] = (winningNumber) => winningNumber == capturedNumber; // Add a condition for each number bet.
-                betPayouts[capturedNumber.ToString()] = 36; // The payout for a winning number bet is 36:1.
+                betPayouts[capturedNumber.ToString()] = 36;
             }
 
         }
@@ -95,10 +98,12 @@ namespace Casino.Roulette
                 string[] betNumbersString = betType.Split(" and ");
                 int[] betNumbers = Array.ConvertAll(betNumbersString, int.Parse);
                 _activeMultiBets.Add(new KeyValuePair<int[], float>(betNumbers, amount));
+                _betsInOrder.Add(("multi", _activeMultiBets.Count - 1)); // Add the bet type and index to the bets in order list.
             }
             else
             {
                 _activeBets.Add((betType, amount)); // Add the bet to the Tuple list.
+                _betsInOrder.Add(("single", _activeBets.Count - 1)); // Add the bet type and index to the bets in order list.
             }
 
             _playerBalance -= amount; // Deduct the bet amount from the balance.
@@ -163,6 +168,34 @@ namespace Casino.Roulette
             ClearBets();
         }
 
+        public void UndoLatestBet()
+        {
+            if (_betsInOrder.Last().Item1 == "single") // Check if the last bet was a single bet.
+            {
+                _playerBalance += _activeBets[_betsInOrder.Last().Item2].Item2; // Add the bet amount back to the balance.
+                _balancePlacedInActiveBets -= _activeBets[_betsInOrder.Last().Item2].Item2; // Remove the bet amount from the balance placed in active bets.
+                _activeBets.RemoveAt(_betsInOrder.Last().Item2); // Remove the bet from the active bets list.
+            }
+            else
+            {
+                _playerBalance += _activeMultiBets[_betsInOrder.Last().Item2].Value; // Add the bet amount back to the balance.
+                _balancePlacedInActiveBets -= _activeMultiBets[_betsInOrder.Last().Item2].Value; // Remove the bet amount from the balance placed in active bets.
+                _activeMultiBets.RemoveAt(_betsInOrder.Last().Item2); // Remove the bet from the active multiple number bets list.
+            }
+
+            GameObject lastChip = RouletteBet.AllPlacedChips.Last(); // Get the last chip
+            RouletteBet.AllPlacedChips.Remove(lastChip); // Remove the last chip from the list of all placed chips.
+            Destroy(lastChip); // Destroy the last chip GameObject
+            _betsInOrder.RemoveAt(_betsInOrder.Count - 1); // Remove the bet from the bets in order list.
+            _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, _balancePlacedInActiveBets); // Set the balance and total bet text.
+
+            if (_betsInOrder.Count == 0) // Disable the buttons since there are no bets to undo anymore.
+            {
+                _buttonActivationDone = false;
+                _rouletteUIManager.NoBetsPlaced();
+            }
+        }
+
         void ClearBets()
         {
             _activeBets.Clear(); // Clear the active bets list.
@@ -177,10 +210,12 @@ namespace Casino.Roulette
                 }
             }
             _buttonActivationDone = false; // Reset the button activation.
+            _betsInOrder.Clear(); // Clear the bets in order list.
+            RouletteBet.AllPlacedChips.Clear(); // Clear the list of all placed chips.
             _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, _balancePlacedInActiveBets);
         }
 
-        public void ResetBets()
+        public void ResetAllBets()
         {
             _playerBalance += _balancePlacedInActiveBets; // Add the balance placed in active bets back to the balance.
             ClearBets(); // Delete the chips.

@@ -28,6 +28,7 @@ namespace Player
             {
                 _movement = Vector2.zero;
                 _rigidbody2D.velocity = Vector2.zero;
+                _animator.enabled = false;
                 return;
             }
 
@@ -39,6 +40,7 @@ namespace Player
 
             if (_movement != Vector2.zero)
             {
+                _animator.enabled = true;
                 _lastMovement = _movement; // Store the last movement direction to determine which idle animation to play when the player stops moving
 
                 if (_movement.x != 0)
@@ -52,6 +54,7 @@ namespace Player
             }
             else
             {
+                _animator.enabled = false;
                 // Play idle animation matching the direction the player was facing when they stopped moving
                 if (_lastMovement.x != 0)
                 {

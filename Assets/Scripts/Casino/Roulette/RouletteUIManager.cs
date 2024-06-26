@@ -15,7 +15,7 @@ namespace Casino.Roulette
         [Header("Buttons")]
         [SerializeField] private Button _spinButton;
         [SerializeField] private Button _undoBetButton;
-        [SerializeField] private Button _resetBetsButton;
+        //[SerializeField] private Button _resetBetsButton;
         [SerializeField] private Button _exitTableButton;
 
         [Header("Text")]
@@ -32,7 +32,7 @@ namespace Casino.Roulette
         void Awake()
         {
             _spinButton.interactable = false;
-            _resetBetsButton.interactable = false;
+            //_resetBetsButton.interactable = false;
             _undoBetButton.interactable = false;
             _exitTableButton.interactable = true;
             _totalBetText.text = "Total Bet: 0";
@@ -43,7 +43,7 @@ namespace Casino.Roulette
         public void Spin()
         {
             _spinButton.interactable = false;
-            _resetBetsButton.interactable = false;
+            //_resetBetsButton.interactable = false;
             _undoBetButton.interactable = false;
             _exitTableButton.interactable = false;
             _rouletteSpinner.SpinTheWheel();
@@ -52,7 +52,7 @@ namespace Casino.Roulette
         public void BetPlaced()
         {
             _spinButton.interactable = true;
-            _resetBetsButton.interactable = true;
+            //_resetBetsButton.interactable = true;
             _undoBetButton.interactable = true;
             _exitTableButton.interactable = false;
         }
@@ -61,7 +61,7 @@ namespace Casino.Roulette
         {
             _undoBetButton.interactable = false;
             _spinButton.interactable = false;
-            _resetBetsButton.interactable = false;
+            //_resetBetsButton.interactable = false;
             _exitTableButton.interactable = true;
         }
 
@@ -70,12 +70,12 @@ namespace Casino.Roulette
             _rouletteBetHandler.UndoLatestBet();
         }
 
-        public void ClearAllBets()
+        /*public void ClearAllBets()
         {
             _resetBetsButton.interactable = false;
             _spinButton.interactable = false;
             _rouletteBetHandler.ResetAllBets();
-        }
+        } */
 
         public void ExitTable()
         {
@@ -84,14 +84,14 @@ namespace Casino.Roulette
                 Time.timeScale = 1f;
             }
 
-            if (_resetBetsButton.interactable)
+            if (_undoBetButton.interactable)
             {
-                _resetBetsButton.interactable = false;
+                _undoBetButton.interactable = false;
                 _rouletteBetHandler.ResetAllBets();
             }
 
             PlayerManager.Instance.MoneyInBankAccount = _rouletteBetHandler.PlayerBalance;
-            SceneLoader.Instance.LoadScene("Casino", true);
+            SceneLoader.Instance.LoadScene("Casino", SceneLoader.PlayerVisibility.Visible, SceneLoader.TransitionType.None);
         }
 
         public void SetBalanceAndTotalBetText(float balance, float totalBet)

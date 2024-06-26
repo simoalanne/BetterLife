@@ -9,7 +9,8 @@ public class LoadSceneOnInteract : MonoBehaviour, IInteractable
 {
     [Header("Scene options")]
     [SerializeField] private string _sceneToLoad;
-    [SerializeField] private bool _playerVisibleInNewScene = true;
+    [SerializeField] private SceneLoader.PlayerVisibility _playerVisibilityInNewScene;
+    [SerializeField] private SceneLoader.TransitionType _transitionType;
 
     [Header("Interact options")]
     [SerializeField] private Vector2 _interactMinDistance = new(0.5f, 0.5f);
@@ -26,6 +27,6 @@ public class LoadSceneOnInteract : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibleInNewScene);
+        SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType);
     }
 }

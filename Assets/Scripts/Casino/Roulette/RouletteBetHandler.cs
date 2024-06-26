@@ -21,21 +21,22 @@ namespace Casino.Roulette
         private bool _buttonActivationDone = false;
         public float PlayerBalance => _playerBalance; // Property to get the initial balance.
         private readonly List<(string, int)> _betsInOrder = new(); // List to store the bets in order.
+        public Dictionary<string, Func<int, bool>> BetConditions => betConditions; // Property to get the bet conditions.
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
         {
             { "Red", (winningNumber) => new int[] { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 }.Contains(winningNumber) },
             { "Black", (winningNumber) => new int[] { 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 }.Contains(winningNumber) },
-            { "1-18", (winningNumber) => winningNumber <= 18 },
-            { "19-36", (winningNumber) => winningNumber > 18 },
+            { "1 to 18", (winningNumber) => winningNumber <= 18 },
+            { "19 to 36", (winningNumber) => winningNumber > 18 },
             { "Even", (winningNumber) => winningNumber % 2 == 0 },
             { "Odd", (winningNumber) => winningNumber % 2 != 0 },
             { "1st 12", (winningNumber) => winningNumber <= 12 },
             { "2nd 12", (winningNumber) => winningNumber > 12 && winningNumber <= 24 },
             { "3rd 12", (winningNumber) => winningNumber > 24 },
-            { "1 row", (winningNumber) => new int[] { 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 }.Contains(winningNumber) },
-            { "2 row", (winningNumber) => new int[] { 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 }.Contains(winningNumber) },
-            { "3 row", (winningNumber) => new int[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }.Contains(winningNumber) },
+            { "3rd column", (winningNumber) => new int[] { 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 }.Contains(winningNumber) },
+            { "2nd column", (winningNumber) => new int[] { 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 }.Contains(winningNumber) },
+            { "1st column", (winningNumber) => new int[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }.Contains(winningNumber) },
         };
 
         /* Dictionary to store the payouts for each bet type.
@@ -45,15 +46,15 @@ namespace Casino.Roulette
             { "1st 12", 3 },
             { "2nd 12", 3 },
             { "3rd 12", 3 },
-            { "1-18", 2 },
+            { "1 to 18", 2 },
             { "Even", 2 },
             { "Odd", 2 },
-            { "19-36", 2 },
+            { "19 to 36", 2 },
             { "Red", 2 },
             { "Black", 2 },
-            { "1 row", 3 },
-            { "2 row", 3 },
-            { "3 row", 3 },
+            { "3rd column ", 3 },
+            { "2nd column", 3 },
+            { "1st column", 3 },
             { "Corner", 9 },
             { "Street", 12 },
             { "Split", 18 },

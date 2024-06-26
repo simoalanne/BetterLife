@@ -147,6 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &20260185607144465
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2935384429123835390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -737,6 +741,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5519360766801048610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,6 +1036,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &164527139012605636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1185,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &168890829685149292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1324,6 +1334,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &174498800840775343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,6 +1633,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &241903305456574355
 GameObject:
   m_ObjectHideFlags: 0
@@ -1843,6 +1857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1962175154742905339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2286,6 +2302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1511503417671029159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2445,6 +2463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6234713498034649324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2904,6 +2924,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8497203169376112196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,6 +3085,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7776326553339745314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3447,6 +3471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &493473888282704980
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,6 +3845,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8701714337148220715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3978,6 +4006,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &553856011841485790
 GameObject:
   m_ObjectHideFlags: 0
@@ -4393,6 +4423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1705759050655638673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4627,6 +4659,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4661241111776018946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4985,6 +5019,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2948308319003058022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5294,6 +5330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8379202971188370348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6602,6 +6640,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3627084157011281150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6885,6 +6925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &1299909870517224181
 GameObject:
   m_ObjectHideFlags: 0
@@ -7032,6 +7074,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &847873370910279582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7266,6 +7310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &9022424951338800543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7425,6 +7471,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7623534255064135785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7708,6 +7756,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &1419138016539422777
 GameObject:
   m_ObjectHideFlags: 0
@@ -7855,6 +7905,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5414433782325408199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8014,6 +8066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3935911435729415469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8248,6 +8302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8790122414301637076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8407,6 +8463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8134392540751813552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8566,6 +8624,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7777773374168265221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8725,6 +8785,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8252731070044817832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8933,6 +8995,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &1510896616947054399
 GameObject:
   m_ObjectHideFlags: 0
@@ -9080,6 +9144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3924247352797984755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9239,6 +9305,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &1570282276290726899
 GameObject:
   m_ObjectHideFlags: 0
@@ -9386,6 +9454,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3491276588864551358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9904,6 +9974,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1776332706196486012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10771,6 +10843,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4832721452504515425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10930,6 +11004,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7935617782622715199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11138,6 +11214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &2025504658171989075
 GameObject:
   m_ObjectHideFlags: 0
@@ -11285,6 +11363,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4528222151306382572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11594,6 +11674,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1558972108444115533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11903,6 +11985,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &2132220574995867815
 GameObject:
   m_ObjectHideFlags: 0
@@ -12050,6 +12134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8646775490754452687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12284,6 +12370,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1833199248749880873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12443,6 +12531,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6072952160139618307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12677,6 +12767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1277456518150606148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12836,6 +12928,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &2194276501896209492
 GameObject:
   m_ObjectHideFlags: 0
@@ -13058,6 +13152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &2217495575137087574
 GameObject:
   m_ObjectHideFlags: 0
@@ -13339,6 +13435,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &814246286346648296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13697,6 +13795,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1222322821922663091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13931,6 +14031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5879279181701815601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14165,6 +14267,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8116667236210125923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14931,6 +15035,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &2497488222323702352
 GameObject:
   m_ObjectHideFlags: 0
@@ -15421,6 +15527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6185735787714111912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15730,6 +15838,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &124379886818928039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17116,6 +17226,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &692711466524704886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17324,6 +17436,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3057969256242166506
 GameObject:
   m_ObjectHideFlags: 0
@@ -17595,6 +17709,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3104499246789414990
 GameObject:
   m_ObjectHideFlags: 0
@@ -17817,6 +17933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7569063965077765182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17976,6 +18094,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3159680320304882417
 GameObject:
   m_ObjectHideFlags: 0
@@ -18782,6 +18902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3319460063765204271
 GameObject:
   m_ObjectHideFlags: 0
@@ -19004,6 +19126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3336307002356738391
 GameObject:
   m_ObjectHideFlags: 0
@@ -19151,6 +19275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3337578535206254170
 GameObject:
   m_ObjectHideFlags: 0
@@ -19298,6 +19424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3393608906799907647
 GameObject:
   m_ObjectHideFlags: 0
@@ -19654,6 +19782,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8290887965344442286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20309,6 +20439,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3614621609493990409
 GameObject:
   m_ObjectHideFlags: 0
@@ -20815,6 +20947,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1279960268817605048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21199,6 +21333,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3798959473665388073
 GameObject:
   m_ObjectHideFlags: 0
@@ -21496,6 +21632,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3884851066724870586
 GameObject:
   m_ObjectHideFlags: 0
@@ -21643,6 +21781,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &271996831506280853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22011,6 +22151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8177573864450043049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22170,6 +22312,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8930554344563203760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22378,6 +22522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1713243418337851683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22537,6 +22683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &3995872425277989060
 GameObject:
   m_ObjectHideFlags: 0
@@ -22733,6 +22881,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8058888302793931343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23369,6 +23519,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2633406904512899050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23528,6 +23680,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1466760065018074325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23687,6 +23841,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8219095290714215554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23846,6 +24002,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1241461730319740443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24129,6 +24287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1077421072362422991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24363,6 +24523,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4134400133612939144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24829,6 +24991,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &328757558662047802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24988,6 +25152,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &4516498264215623974
 GameObject:
   m_ObjectHideFlags: 0
@@ -25135,6 +25301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &4542384174560173764
 GameObject:
   m_ObjectHideFlags: 0
@@ -25282,6 +25450,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8542242226000019028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25516,6 +25686,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7768103943460201884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25825,6 +25997,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &4632095851856071153
 GameObject:
   m_ObjectHideFlags: 0
@@ -25972,6 +26146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7471245864614467777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26405,6 +26581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7454409963767839474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26763,6 +26941,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5493361518306727343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27190,6 +27370,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5804889627761538012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27649,6 +27831,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2012961699806246315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27808,6 +27992,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2016779594074383513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27967,6 +28153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &5099831885865102699
 GameObject:
   m_ObjectHideFlags: 0
@@ -28339,6 +28527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2555976136782957227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28622,6 +28812,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &5214901452697491233
 GameObject:
   m_ObjectHideFlags: 0
@@ -28919,6 +29111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8552018562499690396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29153,6 +29347,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8997514862435633565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29619,6 +29815,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8232481321006357898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29778,6 +29976,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &232317478098534004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30652,6 +30852,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6331389700980617756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31284,6 +31486,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1522623049048137804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31593,6 +31797,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5686177155710866653
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31876,6 +32082,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6022412306029070151
 GameObject:
   m_ObjectHideFlags: 0
@@ -32382,6 +32590,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6816264229108322031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32740,6 +32950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6144909433131136412
 GameObject:
   m_ObjectHideFlags: 0
@@ -32887,6 +33099,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6147454552585290165
 GameObject:
   m_ObjectHideFlags: 0
@@ -33233,6 +33447,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6231972500673686055
 GameObject:
   m_ObjectHideFlags: 0
@@ -33504,6 +33720,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3527203634169158282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33872,6 +34090,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3649486975541816467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34106,6 +34326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1258331661379288028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34533,6 +34755,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6679179455637703850
 GameObject:
   m_ObjectHideFlags: 0
@@ -35323,6 +35547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &6839138686733331279
 GameObject:
   m_ObjectHideFlags: 0
@@ -35519,6 +35745,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7440816678733884896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35903,6 +36131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5775028051656517604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36062,6 +36292,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8424810185206975044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36714,6 +36946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &7229665954636446464
 GameObject:
   m_ObjectHideFlags: 0
@@ -37070,6 +37304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5138927759466244987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37428,6 +37664,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6371981030663903340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37737,6 +37975,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4969231772943034352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38121,6 +38361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8014197540160705088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38361,6 +38603,7 @@ RectTransform:
   - {fileID: 7102266847077264529}
   - {fileID: 6353688366439910895}
   - {fileID: 6582688218929468323}
+  - {fileID: 3073108307083471182}
   - {fileID: 163343761888985182}
   - {fileID: 3101032316136093459}
   - {fileID: 4723253928996841690}
@@ -38568,6 +38811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6611239875778667789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38727,6 +38972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4787473062852200221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39134,6 +39381,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &7586576789875180854
 GameObject:
   m_ObjectHideFlags: 0
@@ -39823,6 +40072,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &7743594561322316734
 GameObject:
   m_ObjectHideFlags: 0
@@ -39970,6 +40221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4574970641815896100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40178,6 +40431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1875216102600416891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40412,6 +40667,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4380349975256789515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41123,6 +41380,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4296901032576647379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41491,6 +41750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8018069433606790638
 GameObject:
   m_ObjectHideFlags: 0
@@ -41638,6 +41899,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7548894961636574857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41797,6 +42060,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1896595975959563586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41956,6 +42221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2148393253955582316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42314,6 +42581,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5639325591903102275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42597,6 +42866,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8751384007013279834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42756,6 +43027,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &4955234575082594703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43065,6 +43338,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6908601513187536443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43508,6 +43783,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8523596001314684801
 GameObject:
   m_ObjectHideFlags: 0
@@ -43655,6 +43932,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2413427985668161575
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43814,6 +44093,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8543930405779308221
 GameObject:
   m_ObjectHideFlags: 0
@@ -44284,6 +44565,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2358550256851640347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44443,6 +44726,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &8206664221503181950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44827,6 +45112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7733507838330311619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45120,6 +45407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8787944350814145714
 GameObject:
   m_ObjectHideFlags: 0
@@ -45476,6 +45765,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8816207838444876239
 GameObject:
   m_ObjectHideFlags: 0
@@ -45698,6 +45989,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &6108643732318132147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45932,6 +46225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &8834384104921992320
 GameObject:
   m_ObjectHideFlags: 0
@@ -46079,6 +46374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7434748661075940614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46241,6 +46538,167 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8868531966589412827
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3073108307083471182}
+  - component: {fileID: 5307214475438398304}
+  - component: {fileID: 6308802715358417986}
+  - component: {fileID: 1673201049418720481}
+  - component: {fileID: 8191180992379610757}
+  - component: {fileID: 7629236040585036528}
+  m_Layer: 5
+  m_Name: 0 and 1 and 2 and 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3073108307083471182
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2054040899247875887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 87.5, y: -346.06}
+  m_SizeDelta: {x: 25, y: 20}
+  m_Pivot: {x: 0, y: 1}
+--- !u!222 &5307214475438398304
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_CullTransparentMesh: 1
+--- !u!114 &6308802715358417986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9490196, g: 0.8235294, b: 0.44313726, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1673201049418720481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 6308802715358417986}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8191180992379610757}
+        m_TargetAssemblyTypeName: Casino.Roulette.RouletteBet, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8191180992379610757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd395271613a1bc48b4e2cce4f2be2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
+--- !u!114 &7629236040585036528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868531966589412827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a8576481ddb4c6498caebec79bc0fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8897167007401673191
 GameObject:
   m_ObjectHideFlags: 0
@@ -46512,6 +46970,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &1180467182846333529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46805,6 +47265,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &5766054034313174006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46964,6 +47426,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &732672025601612629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47123,6 +47587,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &2737755117726823504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47282,6 +47748,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!1 &9077630850224064490
 GameObject:
   m_ObjectHideFlags: 0
@@ -47504,6 +47972,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &7463872205215937788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47937,6 +48407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2
 --- !u!114 &3764200199789065178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48096,3 +48568,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipPrefab: {fileID: 4079728912466275411, guid: b657f47db8d8856428311e72acd9141c, type: 3}
+  _chipTransformOffsetToPrevious: {x: 0, y: 2}
+  _horizontalOffsetRandomness: 2

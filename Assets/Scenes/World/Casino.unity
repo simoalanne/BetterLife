@@ -547,7 +547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneToLoad: BlackJack
-  _playerVisibleInNewScene: 0
+  _playerVisibilityInNewScene: 1
+  _transitionType: 7
   _interactMinDistance: {x: 1, y: 1}
   _isInteractable: 1
 --- !u!61 &336410930
@@ -627,7 +628,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneToLoad: Slots2
-  _playerVisibleInNewScene: 0
+  _playerVisibilityInNewScene: 1
+  _transitionType: 0
   _interactMinDistance: {x: 1, y: 1}
   _isInteractable: 1
 --- !u!61 &474007672
@@ -1110,6 +1112,10 @@ PrefabInstance:
       propertyPath: m_BlocksRaycasts
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5045104071809797147, guid: cf27507aae7cb17459cd42a881994c58, type: 3}
+      propertyPath: _circleSprite
+      value: 
+      objectReference: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
     - target: {fileID: 6468203450260896400, guid: cf27507aae7cb17459cd42a881994c58, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1424,7 +1430,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneToLoad: Roulette
-  _playerVisibleInNewScene: 0
+  _playerVisibilityInNewScene: 1
+  _transitionType: 7
   _interactMinDistance: {x: 0.5, y: 0.5}
   _isInteractable: 1
 --- !u!1660057539 &9223372036854775807

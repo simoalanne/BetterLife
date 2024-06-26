@@ -45,8 +45,53 @@ public class PlayerScript : MonoBehaviour
         {
             aceList.Add(hand[cardIndex].GetComponent<CardScript>());
         }
-        // AceCheck();
+        AceCheck();
         cardIndex++;
         return handValue;
+    }
+
+    // Needed for ace conversion, 1 to 11 or vice versa
+    public void AceCheck()
+    {
+        // For each ace in the acelist check
+        foreach (CardScript ace in aceList) 
+        {
+            if (handValue + 10 < 22 && ace.GetValueOfCard() == 1)
+            {
+                // if converting, adjust ace value and hand
+                ace.SetValue(11);
+                handValue += 10;
+            } else if (handValue > 21 &&  ace.GetValueOfCard() == 11)
+            {
+                // if converting, adjust ace value and hand
+                ace.SetValue(1);
+                handValue -= 10;
+            }
+        }
+    }
+
+    // Add or subtract money, for bets
+    public void AdjustMoney(int amount)
+    {
+        money += amount;
+    }
+
+    // Get function for money
+    public int GetMoney()
+    {
+        return money;
+    }
+
+    // Hides all cards, resets needed variables
+    public void ResetHand()
+    {
+        for (int i = 0; i < hand.Length; i++)
+        {
+            hand[i].GetComponent<CardScript>().ResetCard();
+            hand[i].GetComponent<Renderer>().enabled = false;
+        }
+        cardIndex = 0;
+        handValue = 0;
+        aceList = new List<CardScript>();
     }
 }

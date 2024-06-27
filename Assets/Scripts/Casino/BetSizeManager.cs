@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +18,6 @@ namespace Casino
         public Sprite[] ChipSprites => _chipSprites;
         public int CurrentChipIndex => _currentChipIndex;
         public List<float> BetSizes => _betSizes;
-
 
         void Awake()
         {

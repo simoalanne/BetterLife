@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary>
 /// This script can be used for objects that load a scene when interacted with
 /// </summary>
-[RequireComponent(typeof(Collider2D))]
 
 public class LoadSceneOnInteract : MonoBehaviour, IInteractable
 {

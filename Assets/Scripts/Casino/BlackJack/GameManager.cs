@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Runtime.CompilerServices;
+using Casino;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +13,10 @@ public class GameManager : MonoBehaviour
     public Button hitButton;
     public Button standButton;
     public Button betButton;
+    public Button backButton;
+
+    public Sprite[] chipSprites;
+    public GameObject[] chipObjects;
 
     // Access the player and dealers script
     public PlayerScript playerScript;
@@ -29,7 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject hideCard;
     // How much is the bet
     int pot = 0;
-
+    int placedChips = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -37,9 +43,16 @@ public class GameManager : MonoBehaviour
         dealButton.onClick.AddListener(() => DealClicked());
         hitButton.onClick.AddListener(() => HitClicked());
         standButton.onClick.AddListener(() => StandClicked());
+        betButton.onClick.AddListener(() => BetClicked());
+        hitButton.gameObject.SetActive(false);
+        standButton.gameObject.SetActive(false);
     }
     private void DealClicked()
     {
+        if (pot == 0)
+        {
+            return;
+        }
         // Reset Round, hide text, prep for new hand
         playerScript.ResetHand();
         dealerScript.ResetHand();
@@ -59,11 +72,7 @@ public class GameManager : MonoBehaviour
         hitButton.gameObject.SetActive(true);
         standButton.gameObject.SetActive(true);
         betButton.gameObject.SetActive(false);
-        // Set standard pot size
-        pot = 40;
-        betsText.text = "Pot: " + pot.ToString() + "€";
-        playerScript.AdjustMoney(-20);
-        cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+        backButton.gameObject.SetActive(false);
     }
 
     private void HitClicked()
@@ -87,6 +96,32 @@ public class GameManager : MonoBehaviour
             RoundOver();
         }
         HitDealer();
+    }
+
+    private void BetClicked()
+    {
+        float incomingBet = GameObject.Find("BetSizeUI").GetComponent<BetSizeManager>().CurrentBetSize;
+        int chipIndex = GameObject.Find("BetSizeUI").GetComponent<BetSizeManager>().CurrentChipIndex;
+
+        if(mainText.gameObject.activeSelf)
+        {
+            mainText.gameObject.SetActive(false);
+        }
+
+        if (incomingBet > playerScript.GetMoney() || placedChips >= 20)
+        {
+            return;
+        } else
+        {
+            backButton.gameObject.SetActive(false);
+            pot += (int) (incomingBet * 2);
+            betsText.text = "Bets: " + (pot/2).ToString() + "€";
+            playerScript.AdjustMoney((int)-incomingBet);
+            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+            chipObjects[placedChips].GetComponent<SpriteRenderer>().sprite = chipSprites[chipIndex];
+            chipObjects[placedChips].GetComponent<SpriteRenderer>().enabled = true;
+            placedChips++;
+        }
     }
 
     private void HitDealer()
@@ -155,6 +190,14 @@ public class GameManager : MonoBehaviour
             hideCard.GetComponent<Renderer>().enabled = false;
             cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
             standClicks = 0;
+            pot = 0;
+            betsText.text = "Bets: " + pot.ToString() + "€";
+            placedChips = 0;
+            backButton.gameObject.SetActive(true);
+            for(int i = 0; i < chipObjects.Length; i++)
+            {
+                chipObjects[i].GetComponent<SpriteRenderer>().enabled = false;
+            }
         }
     }
 }

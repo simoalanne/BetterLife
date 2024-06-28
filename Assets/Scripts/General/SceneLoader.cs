@@ -135,10 +135,10 @@ public class SceneLoader : MonoBehaviour
             case TransitionType.SlideRight:
                 StartCoroutine(SlideTransition(TransitionDirection.RightToLeft, TransitionState.In));
                 break;
-            case TransitionType.SlideUp:
+            case TransitionType.SlideDown:
                 StartCoroutine(SlideTransition(TransitionDirection.TopToBottom, TransitionState.In));
                 break;
-            case TransitionType.SlideDown:
+            case TransitionType.SlideUp:
                 StartCoroutine(SlideTransition(TransitionDirection.BottomToTop, TransitionState.In));
                 break;
             case TransitionType.Circle:
@@ -180,10 +180,10 @@ public class SceneLoader : MonoBehaviour
             case TransitionType.SlideRight:
                 StartCoroutine(SlideTransition(TransitionDirection.RightToLeft, TransitionState.Out));
                 break;
-            case TransitionType.SlideUp:
+            case TransitionType.SlideDown:
                 StartCoroutine(SlideTransition(TransitionDirection.TopToBottom, TransitionState.Out));
                 break;
-            case TransitionType.SlideDown:
+            case TransitionType.SlideUp:
                 StartCoroutine(SlideTransition(TransitionDirection.BottomToTop, TransitionState.Out));
                 break;
             case TransitionType.Circle:

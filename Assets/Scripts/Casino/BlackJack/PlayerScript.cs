@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -14,16 +15,21 @@ public class PlayerScript : MonoBehaviour
     public int handValue = 0;
 
     // Betting money
-    private int money = 1000;
+    private int money;
 
     // Array of card objects on the table
     public GameObject[] hand;
 
     // Index of next card to be turned over
     public int cardIndex = 0;
-    
+
     // Tracking aces for 1 to 11 conversions
     List<CardScript> aceList = new List<CardScript>();
+
+    void Awake()
+    {
+        money = (int)PlayerManager.Instance.MoneyInBankAccount;
+    }
 
     public void StartHand()
     {
@@ -41,7 +47,7 @@ public class PlayerScript : MonoBehaviour
         // Add the cards value to the hand total value
         handValue += cardValue;
         // if value is 1, then the card is an ace
-        if(cardValue == 1)
+        if (cardValue == 1)
         {
             aceList.Add(hand[cardIndex].GetComponent<CardScript>());
         }
@@ -54,14 +60,15 @@ public class PlayerScript : MonoBehaviour
     public void AceCheck()
     {
         // For each ace in the acelist check
-        foreach (CardScript ace in aceList) 
+        foreach (CardScript ace in aceList)
         {
             if (handValue + 10 < 22 && ace.GetValueOfCard() == 1)
             {
                 // if converting, adjust ace value and hand
                 ace.SetValue(11);
                 handValue += 10;
-            } else if (handValue > 21 &&  ace.GetValueOfCard() == 11)
+            }
+            else if (handValue > 21 && ace.GetValueOfCard() == 11)
             {
                 // if converting, adjust ace value and hand
                 ace.SetValue(1);

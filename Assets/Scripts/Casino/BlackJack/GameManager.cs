@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Runtime.CompilerServices;
 using Casino;
+using Player;
 
 public class GameManager : MonoBehaviour
 {
@@ -115,9 +116,9 @@ public class GameManager : MonoBehaviour
         {
             backButton.gameObject.SetActive(false);
             pot += (int) (incomingBet * 2);
-            betsText.text = "Bets: " + (pot/2).ToString() + "€";
+            betsText.text = "Bets: " + (pot/2).ToString() + "â‚¬";
             playerScript.AdjustMoney((int)-incomingBet);
-            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "â‚¬";
             chipObjects[placedChips].GetComponent<SpriteRenderer>().sprite = chipSprites[chipIndex];
             chipObjects[placedChips].GetComponent<SpriteRenderer>().enabled = true;
             placedChips++;
@@ -188,10 +189,10 @@ public class GameManager : MonoBehaviour
             mainText.gameObject.SetActive(true);
             dealerScoreText.gameObject.SetActive(true);
             hideCard.GetComponent<Renderer>().enabled = false;
-            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "â‚¬";
             standClicks = 0;
             pot = 0;
-            betsText.text = "Bets: " + pot.ToString() + "€";
+            betsText.text = "Bets: " + pot.ToString() + "â‚¬";
             placedChips = 0;
             backButton.gameObject.SetActive(true);
             for(int i = 0; i < chipObjects.Length; i++)

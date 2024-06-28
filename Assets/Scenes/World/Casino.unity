@@ -548,7 +548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneToLoad: BlackJack
   _playerVisibilityInNewScene: 1
-  _transitionType: 7
+  _transitionType: 0
   _interactMinDistance: {x: 1, y: 1}
   _isInteractable: 1
 --- !u!61 &336410930
@@ -630,7 +630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 57.9, y: -230}
+  m_AnchoredPosition: {x: 57.899902, y: -230}
   m_SizeDelta: {x: 185.5077, y: 37.8753}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &410598132
@@ -813,7 +813,7 @@ Transform:
   m_GameObject: {fileID: 474007670}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: -2.97, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1285,7 +1285,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 400, y: 50}
+  m_SizeDelta: {x: 600, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1254251992
 MonoBehaviour:
@@ -1310,14 +1310,14 @@ MonoBehaviour:
   m_text: 'Balance:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4285649638
+  m_fontColor: {r: 0.9019608, g: 0.8235294, b: 0.44313726, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1334,13 +1334,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -1970,7 +1970,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1738632194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2221,8 +2221,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneToLoad: Roulette
   _playerVisibilityInNewScene: 1
-  _transitionType: 6
-  _interactMinDistance: {x: 0.5, y: 0.5}
+  _transitionType: 5
+  _interactMinDistance: {x: 1, y: 1}
   _isInteractable: 1
 --- !u!1001 &678985822198546625
 PrefabInstance:

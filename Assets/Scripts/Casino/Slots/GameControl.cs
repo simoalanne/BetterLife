@@ -1,11 +1,10 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Player;
 
 public class GameControl : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI prizeText; // palkintoteksti
 
     [SerializeField]
     private Row[] rows; // Rivit. Järjestä vasemmalta oikealle
@@ -20,14 +19,45 @@ public class GameControl : MonoBehaviour
 
     [SerializeField] private float _howLongToSpin = 3f; // Kuinka kauan kaikkien rivien pyöriminen kestää
 
+    [SerializeField] private TMP_Text _winText; // Voittoteksti
+
+    [SerializeField] private TMP_Text _tutorialText; // Ohjeteksti
+
+    [SerializeField] private TMP_Text _balanceText; // Saldo
+
+    [SerializeField] private TMP_Text _betText; // Panos
+
+    private float _betAmount = 50f;
+
     private int prizeValue; // Palkintoarvo
 
     private bool _handlePulled; // Onko kahvaa vedetty
+
+
+    void Awake()
+    {
+        _tutorialText.gameObject.SetActive(true);
+        _betText.text = _betAmount.ToString() + " €";
+        _winText.text = "";
+    }
+
+    private void Update()
+    {
+        _balanceText.text = PlayerManager.Instance.MoneyInBankAccount.ToString() + " €";
+    }
 
     private void OnMouseDown() // Klikkaa kahvaa
     {
         if (_handlePulled == false)
         {
+            if (PlayerManager.Instance.MoneyInBankAccount < _betAmount)
+            {
+                _tutorialText.text = "Not enough money!";
+                return;
+            }
+
+            PlayerManager.Instance.MoneyInBankAccount -= _betAmount;
+            _tutorialText.text = "";
             _handlePulled = true;
             StartCoroutine(PullHandle());
         }
@@ -38,7 +68,8 @@ public class GameControl : MonoBehaviour
         // Reset values on each spin
         _slotMachineAnimation.enabled = false;
         prizeValue = 0;
-        prizeText.text = "";
+        _winText.text = "";
+
 
         handleAnimation.SetBool("playSpin", true);
         yield return new WaitForSeconds(0.3f);
@@ -68,15 +99,15 @@ public class GameControl : MonoBehaviour
         {
             prizeValue = rows[0].StoppedSlot switch // newer switch syntax 
             {
-                "Strawberry" => 200,
-                "Plum" => 400,
-                "Pineapple" => 600,
-                "Cherry" => 800,
-                "Orange" => 1500,
-                "Melon" => 3000,
-                "Lemon" => 5000,
-                "Grapes" => 6000,
-                "Seven" => 7000,
+                "Strawberry" => 3,
+                "Plum" => 4,
+                "Pineapple" => 6,
+                "Cherry" => 8,
+                "Orange" => 10,
+                "Melon" => 12,
+                "Lemon" => 14,
+                "Grapes" => 16,
+                "Seven" => 25,
                 _ => 0
             };
         }
@@ -85,15 +116,15 @@ public class GameControl : MonoBehaviour
         {
             prizeValue = rows[0].StoppedSlot switch
             {
-                "Strawberry" => 100,
-                "Plum" => 300,
-                "Pineapple" => 500,
-                "Cherry" => 700,
-                "Orange" => 1000,
-                "Melon" => 2000,
-                "Lemon" => 4000,
-                "Grapes" => 5000,
-                "Seven" => 6000,
+                "Strawberry" => 1,
+                "Plum" => 3,
+                "Pineapple" => 5,
+                "Cherry" => 7,
+                "Orange" => 1,
+                "Melon" => 12,
+                "Lemon" => 14,
+                "Grapes" => 16,
+                "Seven" => 25,
                 _ => 0
             };
         }
@@ -101,11 +132,12 @@ public class GameControl : MonoBehaviour
         if (prizeValue > 0)
         {
             _slotMachineAnimation.enabled = true;
-            prizeText.text = "you won " + prizeValue + " coins!";
+            _winText.text = $"You won {_betAmount * prizeValue} €";
+            PlayerManager.Instance.MoneyInBankAccount += _betAmount * prizeValue;
         }
         else
         {
-            prizeText.text = "No win this time";
+            _winText.text = "No win";
         }
         _handlePulled = false;
     }

@@ -26,11 +26,7 @@ namespace Casino.Roulette
 
         public void OnClick()
         {
-            /* This is checked because the multibets directly contain the bet name, while the single bets are children of the bet name.
-            This is a thing because of hierarchy organization. */
-            string betName = transform.parent.name == "BettingTable" ? transform.name : transform.parent.name;
-
-            if (_rouletteBetHandler.PlaceBet(betName, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
+            if (_rouletteBetHandler.PlaceBet(transform.name, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
             {
                 TryPlaceChip();
             }

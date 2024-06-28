@@ -24,9 +24,9 @@ namespace Casino
         void Awake()
         {
             _betSizes.Sort(); // Sort the bet sizes in ascending order if they are not already sorted.
-            _currentChipIndex = 0;
             _decreaseBetSizeButton.interactable = false; // Disable the decrease bet size button when the bet size is at the minimum.
-            _maxIndex = _chipSprites.Length - 1; 
+            _maxIndex = _chipSprites.Length - 1;
+            _currentChipIndex = _maxIndex / 2; // Set the current chip index to the middle of the array.
             _currentBetSize = _betSizes[_currentChipIndex];
             _activeChipImage.sprite = _chipSprites[_currentChipIndex];
         }

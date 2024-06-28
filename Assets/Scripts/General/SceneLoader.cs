@@ -245,21 +245,25 @@ public class SceneLoader : MonoBehaviour
             Vector2 startPos = Vector2.zero;
             Vector2 endPos = Vector2.zero;
 
+            var canvasRectTransform = GetComponent<RectTransform>();
+            float canvasWidth = canvasRectTransform.sizeDelta.x;
+            float canvasHeight = canvasRectTransform.sizeDelta.y;;
+
             if (state == TransitionState.In)
             {
                 switch (direction)
                 {
                     case TransitionDirection.LeftToRight:
-                        startPos = new Vector2(-Screen.width, 0);
+                        startPos = new Vector2(-canvasWidth, 0);
                         break;
                     case TransitionDirection.RightToLeft:
-                        startPos = new Vector2(Screen.width, 0);
+                        startPos = new Vector2(canvasWidth, 0);
                         break;
                     case TransitionDirection.TopToBottom:
-                        startPos = new Vector2(0, Screen.height);
+                        startPos = new Vector2(0, canvasHeight);
                         break;
                     case TransitionDirection.BottomToTop:
-                        startPos = new Vector2(0, -Screen.height);
+                        startPos = new Vector2(0, -canvasHeight);
                         break;
                     default:
                         Debug.LogError("Invalid transition direction");
@@ -273,16 +277,16 @@ public class SceneLoader : MonoBehaviour
                 switch (direction)
                 {
                     case TransitionDirection.LeftToRight:
-                        endPos = new Vector2(Screen.width, 0);
+                        endPos = new Vector2(canvasWidth, 0);
                         break;
                     case TransitionDirection.RightToLeft:
-                        endPos = new Vector2(-Screen.width, 0);
+                        endPos = new Vector2(-canvasWidth, 0);
                         break;
                     case TransitionDirection.TopToBottom:
-                        endPos = new Vector2(0, -Screen.height);
+                        endPos = new Vector2(0, -canvasHeight);
                         break;
                     case TransitionDirection.BottomToTop:
-                        endPos = new Vector2(0, Screen.height);
+                        endPos = new Vector2(0, canvasHeight);
                         break;
                     default:
                         Debug.LogError("Invalid transition direction");

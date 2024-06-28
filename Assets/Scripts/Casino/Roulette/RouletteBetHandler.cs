@@ -52,7 +52,7 @@ namespace Casino.Roulette
             { "19 to 36", 2 },
             { "Red", 2 },
             { "Black", 2 },
-            { "3rd column ", 3 },
+            { "3rd column", 3 },
             { "2nd column", 3 },
             { "1st column", 3 },
             { "Corner", 9 },
@@ -165,7 +165,7 @@ namespace Casino.Roulette
                 }
             }
 
-            StartCoroutine(_rouletteUIManager.DisplayRoundEndTexts(winningNumber, totalWinAmount)); // Display the winning number and winnings.
+            StartCoroutine(_rouletteUIManager.EnableResultsPanel(winningNumber, totalWinAmount)); // Display the winning number and winnings.
             ClearBets();
         }
 

@@ -26,13 +26,15 @@ namespace Casino.Roulette
         private SoundEffectPlayer _soundEffectPlayer; // Reference to the SoundEffectPlayer script.
         private int _spinDirection = 1; // The direction in which the wheel spins. 1 is clockwise, -1 is counterclockwise.
         private bool _roundUnderway; // Whether the wheel is spinning or not.
-        readonly string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
+        private string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
         {
         "0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"
         };
 
+        public string[] RouletteNumbers => _rouletteNumbers;
+
         [SerializeField] private float currentAngle = 90f; // The current angle of the ball.
-        private readonly Vector2[] _pockets = new Vector2[37]; // The positions of the pockets on the wheel.
+        // private readonly Vector2[] _pockets = new Vector2[37]; // The positions of the pockets on the wheel.
         private RouletteBetHandler _rouletteBetHandler; // Reference to the RouletteBetHandler script.
         private float _originalRadius; // The original radius of the ball.
 
@@ -42,10 +44,7 @@ namespace Casino.Roulette
             _soundEffectPlayer = GetComponent<SoundEffectPlayer>(); // Get the SoundEffectPlayer component.
             _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
 
-            /* Calculate the position for each pocket on the wheel.
-            *  The wheel sprite must be perfectly centered in the scene for this to work correctly. 
-            *  for this project the sprite rotation is rotated 2.158 degrees to the right to make the 0 pocket be at the top of the wheel.
-            */
+            /* Not needed anymore
             for (int i = 0; i < _pockets.Length; i++)
             {
                 float angle = (90 - (i * 360.0f / _pockets.Length)) * Mathf.Deg2Rad; // Calculate the angle of the pocket
@@ -64,7 +63,7 @@ namespace Casino.Roulette
                     transform.SetParent(pocket.transform);
                     transform.position = pocket.transform.position;
                 }
-            }
+            } */
         }
 
         void Update()

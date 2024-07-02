@@ -13,7 +13,6 @@ namespace Player
         private Vector2 _lastMovement;
         public bool CanMove { get; set; } = true;
         private Keyboard _keyboard;
-        private Vector3 _playerScale = Vector3.zero;
         [SerializeField] private Sprite _idleSpriteFrontLeft;
         [SerializeField] private Sprite _idleSpriteBackLeft;
         [SerializeField] private Sprite _idleSpriteFrontRight;
@@ -25,7 +24,7 @@ namespace Player
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _keyboard = Keyboard.current;
             _animator.enabled = false;
-            _playerScale = transform.localScale;
+
         }
 
         void Update()
@@ -40,30 +39,34 @@ namespace Player
 
             if (_keyboard != null)
             {
-                _movement.x = _keyboard.dKey.isPressed ? 1 : _keyboard.aKey.isPressed ? -1 : 0; // If D key is pressed, move right. If A key is pressed, move left. Otherwise, don't move
-                _movement.y = _keyboard.wKey.isPressed ? 1 : _keyboard.sKey.isPressed ? -1 : 0; // If W key is pressed, move up. If S key is pressed, move down. Otherwise, don't move
+                _movement.x = _keyboard.dKey.isPressed ? 1 : _keyboard.aKey.isPressed ? -1 : 0;
+                _movement.y = _keyboard.wKey.isPressed ? 1 : _keyboard.sKey.isPressed ? -1 : 0;
             }
 
             if (_movement != Vector2.zero)
             {
                 _animator.enabled = true;
-                _lastMovement = _movement; // Store the last movement direction to determine which idle animation to play when the player stops moving
 
-                if (_movement != Vector2.zero)
+                // Determine the animation based on movement direction, using last movement direction for purely vertical movement
+                if (_movement.x == 0 && _movement.y != 0) // Moving purely vertically
                 {
-                    _animator.enabled = true;
-                    _lastMovement = _movement; // Store the last movement direction
+                    // Use _lastMovement.x to determine the horizontal direction for the animation
+                    _animator.Play(_lastMovement.x > 0 ? _movement.y <= 0 ? "FrontRunRight" : "BackRunRight" : _movement.y <= 0 ? "FrontRunLeft" : "BackRunLeft");
+                }
+                else
+                {
+                    // Normal movement handling
                     _animator.Play(_movement.x > 0 ? _movement.y <= 0 ? "FrontRunRight" : "BackRunRight" : _movement.y <= 0 ? "FrontRunLeft" : "BackRunLeft");
+                    _lastMovement = _movement; // Update last movement direction since there's horizontal movement
                 }
             }
             else
             {
                 _animator.enabled = false;
                 GetComponent<SpriteRenderer>().sprite =
-                _lastMovement.x > 0 ? _lastMovement.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight : _lastMovement.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
+                    _lastMovement.x > 0 ? _lastMovement.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight : _lastMovement.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
             }
         }
-
         void FixedUpdate()
         {
             // Use normalized to prevent diagonal movement from being faster than horizontal or vertical movement.

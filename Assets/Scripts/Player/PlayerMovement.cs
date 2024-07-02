@@ -13,6 +13,11 @@ namespace Player
         private Vector2 _lastMovement;
         public bool CanMove { get; set; } = true;
         private Keyboard _keyboard;
+        private Vector3 _playerScale = Vector3.zero;
+        [SerializeField] private Sprite _idleSpriteFrontLeft;
+        [SerializeField] private Sprite _idleSpriteBackLeft;
+        [SerializeField] private Sprite _idleSpriteFrontRight;
+        [SerializeField] private Sprite _idleSpriteBackRight;
 
         void Awake()
         {
@@ -20,6 +25,7 @@ namespace Player
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _keyboard = Keyboard.current;
             _animator.enabled = false;
+            _playerScale = transform.localScale;
         }
 
         void Update()
@@ -43,27 +49,18 @@ namespace Player
                 _animator.enabled = true;
                 _lastMovement = _movement; // Store the last movement direction to determine which idle animation to play when the player stops moving
 
-                if (_movement.x != 0)
+                if (_movement != Vector2.zero)
                 {
-                    //_animator.Play(_movement.x > 0 ? "WalkRight" : "WalkLeft");
-                }
-                else if (_movement.y != 0)
-                {
-                    //_animator.Play(_movement.y > 0 ? "WalkUp" : "WalkDown");
+                    _animator.enabled = true;
+                    _lastMovement = _movement; // Store the last movement direction
+                    _animator.Play(_movement.x > 0 ? _movement.y <= 0 ? "FrontRunRight" : "BackRunRight" : _movement.y <= 0 ? "FrontRunLeft" : "BackRunLeft");
                 }
             }
             else
             {
                 _animator.enabled = false;
-                // Play idle animation matching the direction the player was facing when they stopped moving
-                if (_lastMovement.x != 0)
-                {
-                    //_animator.Play(_lastMovement.x > 0 ? "IdleRight" : "IdleLeft");
-                }
-                else if (_lastMovement.y != 0)
-                {
-                    //_animator.Play(_lastMovement.y > 0 ? "IdleUp" : "IdleDown");
-                }
+                GetComponent<SpriteRenderer>().sprite =
+                _lastMovement.x > 0 ? _lastMovement.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight : _lastMovement.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
             }
         }
 

@@ -81,7 +81,7 @@ namespace Casino.Roulette
             _rouletteBetHandler.ResetAllBets();
         } */
 
-        public void ExitTable()
+        /*public void ExitTable()
         {
             if (Time.timeScale != 1f)
             {
@@ -96,7 +96,7 @@ namespace Casino.Roulette
 
             PlayerManager.Instance.MoneyInBankAccount = _rouletteBetHandler.PlayerBalance;
             SceneLoader.Instance.LoadScene("Casino", SceneLoader.PlayerVisibility.Visible, SceneLoader.TransitionType.Circle);
-        }
+        } */
 
         public void SetBalanceAndTotalBetText(float balance, float totalBet)
         {

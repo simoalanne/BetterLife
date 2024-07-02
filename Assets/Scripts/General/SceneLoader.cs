@@ -89,6 +89,7 @@ public class SceneLoader : MonoBehaviour
         _canvasGroup.alpha = 0; // Set the canvas to be invisible initially
         _canvasGroup.blocksRaycasts = false; // Make sure the canvas group doesn't block raycasts initially
         _transitionImage.color = _transitionColor;
+        _circleRevealMaterial = Instantiate(_circleRevealMaterial); // Instantiate the material so that the original material doesn't get changed and doesn't appear in version control.
         _circleRevealMaterial.SetColor("_TransitionColor", _transitionColor);
     }
 
@@ -198,10 +199,9 @@ public class SceneLoader : MonoBehaviour
         }
 
         _activeCoroutine = null; // Set the active coroutine to null so that a new scene load can be triggered
-        _canvasGroup.blocksRaycasts = false; // Make sure the canvas group doesn't block raycasts after the fade out
 
         yield return new WaitUntil(() => _transitionOutDone); // Wait until the transition out is done
-
+        _canvasGroup.blocksRaycasts = false; // Make sure the canvas group doesn't block raycasts after the fade out
         // Enable the player interact and movement last so that the player can't trigger another scene load while this coroutine is still running
         if (visibility == PlayerVisibility.Visible)
         {
@@ -247,7 +247,7 @@ public class SceneLoader : MonoBehaviour
 
             var canvasRectTransform = GetComponent<RectTransform>();
             float canvasWidth = canvasRectTransform.sizeDelta.x;
-            float canvasHeight = canvasRectTransform.sizeDelta.y;;
+            float canvasHeight = canvasRectTransform.sizeDelta.y; ;
 
             if (state == TransitionState.In)
             {

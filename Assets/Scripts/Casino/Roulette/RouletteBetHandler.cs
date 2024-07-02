@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Player;
 
 namespace Casino.Roulette
 {
@@ -65,7 +66,7 @@ namespace Casino.Roulette
         {
             _rouletteBets = FindObjectsOfType<RouletteBet>(); // Store references to all instances of the RouletteBet script.
 
-            _playerBalance = Player.PlayerManager.Instance.MoneyInBankAccount; // Get the initial balance from the player manager.
+            _playerBalance = PlayerManager.Instance.MoneyInBankAccount; // Get the initial balance from the player manager.
             _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, 0); // Set the balance and total bet text.
             for (int i = 0; i <= 36; i++)
             {
@@ -214,6 +215,7 @@ namespace Casino.Roulette
             _betsInOrder.Clear(); // Clear the bets in order list.
             RouletteBet.AllPlacedChips.Clear(); // Clear the list of all placed chips.
             _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, _balancePlacedInActiveBets);
+            PlayerManager.Instance.MoneyInBankAccount = _playerBalance; // Update the player balance in the player manager.
         }
 
         public void ResetAllBets()

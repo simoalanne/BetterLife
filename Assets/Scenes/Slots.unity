@@ -1588,7 +1588,7 @@ GameObject:
   - component: {fileID: 2035314613}
   - component: {fileID: 2035314612}
   - component: {fileID: 2035314615}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1659,8 +1659,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2035314615}
-        m_TargetAssemblyTypeName: LoadSceneOnInteract, Assembly-CSharp
-        m_MethodName: Interact
+        m_TargetAssemblyTypeName: SceneLoadTrigger, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1723,6 +1723,7 @@ MonoBehaviour:
   _sceneToLoad: Casino
   _playerVisibilityInNewScene: 0
   _transitionType: 0
+  _loadTriggerType: 2
   _interactMinDistance: {x: 0.5, y: 0.5}
   _isInteractable: 1
 --- !u!1001 &2085625234

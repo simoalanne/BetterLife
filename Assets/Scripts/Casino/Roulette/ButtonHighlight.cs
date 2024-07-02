@@ -13,7 +13,6 @@ namespace Casino.Roulette
         private Dictionary<string, Coroutine> _activeCoroutines = new();
         private Dictionary<string, Color> _originalColors = new();
 
-
         private void Awake()
         {
             foreach (Transform child in GameObject.Find("BettingTable").transform)
@@ -67,6 +66,8 @@ namespace Casino.Roulette
                 {
                     ChangeBetColor(betName, isSelecting);
                 }
+
+                ChangeBetColor(selectedObject.name, isSelecting); // Change the color of the category button as well
             }
             else
             {

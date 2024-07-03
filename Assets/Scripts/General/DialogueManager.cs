@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 
@@ -16,11 +17,15 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false; // Prevents raycasts from hitting the dialogue box
         sentences = new Queue<string>();
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
+        gameObject.GetComponent<CanvasGroup>().alpha = 1;
+        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true; // Allows raycasts to hit the dialogue box
         animator.SetBool("IsOpen", true);
 
         nameText.text = dialogue.name;
@@ -62,5 +67,7 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("End of conversation.");
         animator.SetBool("IsOpen", false);
+        gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
     }
 }

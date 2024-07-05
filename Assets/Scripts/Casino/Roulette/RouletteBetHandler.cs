@@ -20,6 +20,7 @@ namespace Casino.Roulette
         private float _balancePlacedInActiveBets; // Variable to store the balance placed in active bets.
         private float _playerBalance; // Variable to store the initial balance.
         private bool _buttonActivationDone = false;
+        private PreviousNumbers _previousNumbers;
         public float PlayerBalance => _playerBalance; // Property to get the initial balance.
         private readonly List<(string, int)> _betsInOrder = new(); // List to store the bets in order.
         public Dictionary<string, Func<int, bool>> BetConditions => betConditions; // Property to get the bet conditions.
@@ -35,9 +36,9 @@ namespace Casino.Roulette
             { "1st 12", (winningNumber) => winningNumber <= 12 },
             { "2nd 12", (winningNumber) => winningNumber > 12 && winningNumber <= 24 },
             { "3rd 12", (winningNumber) => winningNumber > 24 },
-            { "3rd column", (winningNumber) => new int[] { 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 }.Contains(winningNumber) },
-            { "2nd column", (winningNumber) => new int[] { 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 }.Contains(winningNumber) },
-            { "1st column", (winningNumber) => new int[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }.Contains(winningNumber) },
+            { "Right column", (winningNumber) => new int[] { 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36 }.Contains(winningNumber) },
+            { "Middle column", (winningNumber) => new int[] { 2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 }.Contains(winningNumber) },
+            { "Left column", (winningNumber) => new int[] { 1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34 }.Contains(winningNumber) },
         };
 
         /* Dictionary to store the payouts for each bet type.
@@ -53,9 +54,9 @@ namespace Casino.Roulette
             { "19 to 36", 2 },
             { "Red", 2 },
             { "Black", 2 },
-            { "3rd column", 3 },
-            { "2nd column", 3 },
-            { "1st column", 3 },
+            { "Right column", 3 },
+            { "Middle column", 3 },
+            { "Left column", 3 },
             { "Corner", 9 },
             { "Street", 12 },
             { "Split", 18 },
@@ -65,6 +66,7 @@ namespace Casino.Roulette
         void Awake()
         {
             _rouletteBets = FindObjectsOfType<RouletteBet>(); // Store references to all instances of the RouletteBet script.
+            _previousNumbers = FindObjectOfType<PreviousNumbers>();
 
             _playerBalance = PlayerManager.Instance.MoneyInBankAccount; // Get the initial balance from the player manager.
             _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, 0); // Set the balance and total bet text.
@@ -165,7 +167,7 @@ namespace Casino.Roulette
                     }
                 }
             }
-
+            _previousNumbers.AddNumber(winningNumber); // Add the winning number to the previous numbers list.
             StartCoroutine(_rouletteUIManager.EnableResultsPanel(winningNumber, totalWinAmount)); // Display the winning number and winnings.
             ClearBets();
         }

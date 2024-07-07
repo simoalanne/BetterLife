@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 namespace Casino.Roulette
 {
     public class DisplayBetInfo : MonoBehaviour
@@ -50,8 +49,12 @@ namespace Casino.Roulette
         {
             if (!_showBetType && !_showBetOdds)
             {
-                Debug.Log("Both bet type and odds set not to be shown");
                 return;
+            }
+
+            if (_canvasGroup.alpha == 0)
+            {
+                _canvasGroup.alpha = 1;
             }
 
             _betInfo.text = "";
@@ -137,9 +140,7 @@ namespace Casino.Roulette
         {
             // Calculate the size of the background based on the text size
             Vector2 textSize = _betInfo.GetPreferredValues();
-            Debug.Log(textSize);
             _betInfoBackground.rectTransform.sizeDelta = textSize + new Vector2(_infoTextBackgroundPadding, _infoTextBackgroundPadding); // Add padding to the size
-            _canvasGroup.alpha = 1; // Make the background visible after calculating the size
         }
 
         /// <summary>

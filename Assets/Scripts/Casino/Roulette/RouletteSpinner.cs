@@ -26,12 +26,6 @@ namespace Casino.Roulette
         private SoundEffectPlayer _soundEffectPlayer; // Reference to the SoundEffectPlayer script.
         private int _spinDirection = 1; // The direction in which the wheel spins. 1 is clockwise, -1 is counterclockwise.
         private bool _roundUnderway; // Whether the wheel is spinning or not.
-        private string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
-        {
-        "0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"
-        };
-
-        public string[] RouletteNumbers => _rouletteNumbers;
 
         [SerializeField] private float currentAngle = 90f; // The current angle of the ball.
         // private readonly Vector2[] _pockets = new Vector2[37]; // The positions of the pockets on the wheel.
@@ -44,26 +38,6 @@ namespace Casino.Roulette
             _soundEffectPlayer = GetComponent<SoundEffectPlayer>(); // Get the SoundEffectPlayer component.
             _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
 
-            /* Not needed anymore
-            for (int i = 0; i < _pockets.Length; i++)
-            {
-                float angle = (90 - (i * 360.0f / _pockets.Length)) * Mathf.Deg2Rad; // Calculate the angle of the pocket
-
-                float x = Mathf.Cos(angle) * pocketRadius; // Calculate the x position of the pocket
-                float y = Mathf.Sin(angle) * pocketRadius; // Calculate the y position of the pocket
-                _pockets[i] = new Vector2(x, y) + (Vector2)rouletteCenter.position; // Set the position of the pocket
-
-                GameObject pocket = new(_rouletteNumbers[i]); // Create a new GameObject for the pocket
-                pocket.transform.position = _pockets[i]; // Set the position of the pocket
-                pocket.transform.SetParent(_wheel.transform); // Set the parent of the pocket to the wheel
-
-                // If the pocket number is "0", set the ball's parent to this pocket
-                if (_rouletteNumbers[i] == "0")
-                {
-                    transform.SetParent(pocket.transform);
-                    transform.position = pocket.transform.position;
-                }
-            } */
         }
 
         void Update()

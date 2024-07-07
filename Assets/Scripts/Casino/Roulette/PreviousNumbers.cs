@@ -12,7 +12,7 @@ namespace Casino.Roulette
     {
         private string _filePath;
 
-        [SerializeField] private int _howManyToStore = 36; // How many numbers visible in the grid.
+        [SerializeField] private int _howManyToStore = 32; // How many numbers visible in the grid.
         [SerializeField] private GameObject _prevNumberPrefab;
         [SerializeField] private Button _clearPreviousNumbersButton;
         [SerializeField] private TMP_Text _redNumbersPercentage;
@@ -96,10 +96,8 @@ namespace Casino.Roulette
                 _clearPreviousNumbersButton.interactable = true;
             }
 
-            Debug.Log(_previousNumbers.Count);
             if (_previousNumbers.Count >= _howManyToStore)
             {
-                Debug.Log("Removing");
                 _previousNumbers.RemoveAt(0); // Remove the oldest number from the list
                 Destroy(_gridLayoutGroup.transform.GetChild(transform.childCount - 1).gameObject); // Remove the oldest number from the grid
             }
@@ -136,7 +134,6 @@ namespace Casino.Roulette
         {
             if (_previousNumbers.Count == 0)
             {
-                Debug.Log("No numbers to save");
                 return;
             }
 
@@ -145,7 +142,7 @@ namespace Casino.Roulette
             {
                 Directory.CreateDirectory(directoryPath);
             }
-            Debug.Log("Saving to " + _filePath);
+
             string numbersToSave = string.Join(",", _previousNumbers);
             using StreamWriter writer = new(_filePath);
             writer.Write(numbersToSave);

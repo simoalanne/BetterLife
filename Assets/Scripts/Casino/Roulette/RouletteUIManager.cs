@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Player;
 
 namespace Casino.Roulette
 {
@@ -35,6 +34,11 @@ namespace Casino.Roulette
 
         [Header("Variables")]
         [SerializeField] private float _noBalanceTextScreenTime = 0.75f;
+
+        private string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
+        {
+        "0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"
+        };
 
         void Awake()
         {
@@ -74,30 +78,6 @@ namespace Casino.Roulette
             _rouletteBetHandler.UndoLatestBet();
         }
 
-        /*public void ClearAllBets()
-        {
-            _resetBetsButton.interactable = false;
-            _spinButton.interactable = false;
-            _rouletteBetHandler.ResetAllBets();
-        } */
-
-        /*public void ExitTable()
-        {
-            if (Time.timeScale != 1f)
-            {
-                Time.timeScale = 1f;
-            }
-
-            if (_undoBetButton.interactable)
-            {
-                _undoBetButton.interactable = false;
-                _rouletteBetHandler.ResetAllBets();
-            }
-
-            PlayerManager.Instance.MoneyInBankAccount = _rouletteBetHandler.PlayerBalance;
-            SceneLoader.Instance.LoadScene("Casino", SceneLoader.PlayerVisibility.Visible, SceneLoader.TransitionType.Circle);
-        } */
-
         public void SetBalanceAndTotalBetText(float balance, float totalBet)
         {
             _totalBetText.text = $"{totalBet} €";
@@ -108,13 +88,13 @@ namespace Casino.Roulette
         {
             string winningNumberStr = winningNumber.ToString();
 
-            int winningIndex = Array.IndexOf(_rouletteSpinner.RouletteNumbers, winningNumberStr);
+            int winningIndex = Array.IndexOf(_rouletteNumbers, winningNumberStr);
 
-            int leftIndex = (winningIndex - 1 + _rouletteSpinner.RouletteNumbers.Length) % _rouletteSpinner.RouletteNumbers.Length;
-            int rightIndex = (winningIndex + 1) % _rouletteSpinner.RouletteNumbers.Length;
+            int leftIndex = (winningIndex - 1 + _rouletteNumbers.Length) % _rouletteNumbers.Length;
+            int rightIndex = (winningIndex + 1) % _rouletteNumbers.Length;
 
-            string leftNumber = _rouletteSpinner.RouletteNumbers[leftIndex];
-            string rightNumber = _rouletteSpinner.RouletteNumbers[rightIndex];
+            string leftNumber = _rouletteNumbers[leftIndex];
+            string rightNumber = _rouletteNumbers[rightIndex];
 
             _winningNumberStrip.transform.Find("LeftNumber").transform.Find("LeftNumberText").GetComponent<TMP_Text>().text = leftNumber;
             _winningNumberStrip.transform.Find("RightNumber").transform.Find("RightNumberText").GetComponent<TMP_Text>().text = rightNumber;

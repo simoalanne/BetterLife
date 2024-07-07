@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 namespace Casino.Roulette
 {
-    public class RouletteBet : MonoBehaviour, IPointerDownHandler
+    public class RouletteBet : MonoBehaviour
     {
         private RouletteBetHandler _rouletteBetHandler;
         private BetSizeManager _betSizeManager;
@@ -19,10 +18,6 @@ namespace Casino.Roulette
         private static List<GameObject> _allPlacedChips = new(); // This is used to keep track of the latest chip placed on the table
         public static List<GameObject> AllPlacedChips => _allPlacedChips; // Informs the RouletteBetHandler of all the placed chips on the table
 
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            Debug.Log("Pointer down" + eventData.position);
-        }
         void Awake()
         {
             _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
@@ -63,7 +58,7 @@ namespace Casino.Roulette
         {
             foreach (Transform child in transform)
             {
-                if (child.GetComponent<Image>() != null) // if the child is a chip (has a Image component). Assumes that only chips have that
+                if (child.GetComponent<Image>() != null && child.name == "Chip")
                 {
                     Destroy(child.gameObject);
                 }

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using Player;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -24,6 +24,8 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        PlayerManager.Instance.DisablePlayerMovement();
+        PlayerManager.Instance.DisablePlayerInteract();
         gameObject.GetComponent<CanvasGroup>().alpha = 1;
         gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true; // Allows raycasts to hit the dialogue box
         animator.SetBool("IsOpen", true);
@@ -65,6 +67,8 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        PlayerManager.Instance.EnablePlayerMovement();
+        PlayerManager.Instance.EnablePlayerInteract();
         Debug.Log("End of conversation.");
         animator.SetBool("IsOpen", false);
         gameObject.GetComponent<CanvasGroup>().alpha = 0;

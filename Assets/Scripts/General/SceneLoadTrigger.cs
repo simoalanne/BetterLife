@@ -53,7 +53,14 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
             PlayerManager.Instance.MoneyInBankAccount = FindObjectOfType<PlayerScript>().GetMoney();
         }
 
-        SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType);
+        if (SceneLoader.Instance != null)
+        {
+            SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(_sceneToLoad);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)

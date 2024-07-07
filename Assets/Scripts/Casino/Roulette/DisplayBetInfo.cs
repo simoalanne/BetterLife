@@ -93,7 +93,6 @@ namespace Casino.Roulette
                 {
                     _betInfo.text += tempArr[1];
                 }
-
             }
             else
             {

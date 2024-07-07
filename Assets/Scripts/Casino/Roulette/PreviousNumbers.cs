@@ -83,10 +83,9 @@ namespace Casino.Roulette
         void AddToGrid(int num)
         {
             GameObject n = Instantiate(_prevNumberPrefab, _gridLayoutGroup.transform);
-            // should be first child so it is shown first
-            n.transform.SetAsFirstSibling();
+            n.transform.SetAsFirstSibling(); // should be first child so it is shown first
             n.name = num.ToString();
-            n.GetComponent<Image>().color = _redNumbers.Contains(num) ? Color.red : _blackNumbers.Contains(num) ? Color.black : Color.green;
+            n.GetComponentInChildren<TMP_Text>().color = _redNumbers.Contains(num) ? Color.red : _blackNumbers.Contains(num) ? Color.white : Color.green;
             n.GetComponentInChildren<TMP_Text>().text = num.ToString();
         }
 

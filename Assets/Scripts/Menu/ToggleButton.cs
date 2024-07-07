@@ -12,17 +12,13 @@ public class ToggleButton : MonoBehaviour
     private float _amountToMove;
     private bool _isOn = false;
 
-    private void Awake()
+    public void SetInitialStatus(bool isOn)
     {
         _amountToMove = gameObject.GetComponent<RectTransform>().sizeDelta.x - _knobrectTransform.sizeDelta.x - 10; // 10 is the padding
         _toggleButton = GetComponent<Button>();
         _toggleButton.onClick.AddListener(ToggleSetting);
-    }
-
-    public void SetInitialStatus(bool isOn)
-    {
-        _knobrectTransform.anchoredPosition = new Vector2(5,0); // Initial position is the off position.
-        _isOn = isOn; 
+        _knobrectTransform.anchoredPosition = new Vector2(5, 0); // Initial position is the off position.
+        _isOn = isOn;
         _knobrectTransform.anchoredPosition += new Vector2(_isOn ? _amountToMove : 0, 0); // Move to right if it is on
         _toggleButton.image.color = _isOn ? _onColor : _offColor; // Change color according to the status
     }

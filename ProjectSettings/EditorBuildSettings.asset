@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DialogueTest.unity
     guid: 32ad1391ff36b7846ba50e03cd423c77
+  - enabled: 1
+    path: Assets/Scenes/World/PlayerHome.unity
+    guid: 2f3739059e6b6cf42ab8f40141a507d7
   m_configObjects: {}

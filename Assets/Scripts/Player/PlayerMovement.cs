@@ -11,36 +11,55 @@ namespace Player
         private Rigidbody2D _rigidbody2D;
         private Vector2 _movement;
         private Vector2 _lastMovement;
-        public bool CanMove { get; set; } = true;
-        private Keyboard _keyboard;
+        private bool _canMove = true;
+        public bool CanMove { get => _canMove; set => _canMove = value; }
+
         [SerializeField] private Sprite _idleSpriteFrontLeft;
         [SerializeField] private Sprite _idleSpriteBackLeft;
         [SerializeField] private Sprite _idleSpriteFrontRight;
         [SerializeField] private Sprite _idleSpriteBackRight;
 
+        private PlayerControls _playerControls;
+
+        void OnEnable()
+        {
+            _playerControls.Player.Enable();
+        }
+
+        void OnDisable()
+        {
+            _playerControls.Player.Disable();
+        }
+
         void Awake()
         {
+            _playerControls = new PlayerControls();
+            _playerControls.Player.Move.performed += OnMovePerformed;
+            _playerControls.Player.Move.canceled += OnMoveCanceled;
+
             _animator = GetComponent<Animator>();
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            _keyboard = Keyboard.current;
             _animator.enabled = false;
+        }
 
+        private void OnMovePerformed(InputAction.CallbackContext context)
+        {
+            _movement = context.ReadValue<Vector2>();
+        }
+
+        private void OnMoveCanceled(InputAction.CallbackContext context)
+        {
+            _movement = Vector2.zero;
         }
 
         void Update()
         {
-            if (!CanMove)
+            if (!_canMove)
             {
                 _movement = Vector2.zero;
                 _rigidbody2D.velocity = Vector2.zero;
                 _animator.enabled = false;
                 return;
-            }
-
-            if (_keyboard != null)
-            {
-                _movement.x = _keyboard.dKey.isPressed ? 1 : _keyboard.aKey.isPressed ? -1 : 0;
-                _movement.y = _keyboard.wKey.isPressed ? 1 : _keyboard.sKey.isPressed ? -1 : 0;
             }
 
             if (_movement != Vector2.zero)
@@ -67,6 +86,7 @@ namespace Player
                     _lastMovement.x > 0 ? _lastMovement.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight : _lastMovement.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
             }
         }
+
         void FixedUpdate()
         {
             // Use normalized to prevent diagonal movement from being faster than horizontal or vertical movement.

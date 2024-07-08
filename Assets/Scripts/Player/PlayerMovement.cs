@@ -92,5 +92,12 @@ namespace Player
             // Use normalized to prevent diagonal movement from being faster than horizontal or vertical movement.
             _rigidbody2D.velocity = _movement.normalized * _movementSpeed;
         }
+
+        public void SetFacingDirection(Vector2 direction)
+        {
+            Debug.Log("Direction: " + direction);
+            GetComponent<SpriteRenderer>().sprite =
+                direction.x > 0 ? direction.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight : direction.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
+        }
     }
 }

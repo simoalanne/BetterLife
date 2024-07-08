@@ -63,10 +63,5 @@ namespace Player
         {
             _spriteRenderer.enabled = true;
         }
-
-        public void SetPlayerPosition(Vector2 position)
-        {
-            transform.position = position;
-        }
     }
 }

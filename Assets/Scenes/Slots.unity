@@ -1724,6 +1724,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 0
   _transitionType: 0
   _loadTriggerType: 2
+  _playerSpawnPoint: Previous Location
   _interactMinDistance: {x: 0.5, y: 0.5}
   _isInteractable: 1
 --- !u!1001 &2085625234

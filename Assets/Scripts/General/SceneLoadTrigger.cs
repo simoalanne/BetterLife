@@ -1,19 +1,19 @@
 using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Linq;
 
 public class SceneLoadTrigger : MonoBehaviour, IInteractable
 {
-    [Header("Scene options")]
     [SerializeField] private string _sceneToLoad;
     [SerializeField] private SceneLoader.PlayerVisibility _playerVisibilityInNewScene;
     [SerializeField] private SceneLoader.TransitionType _transitionType;
-
-    [Header("Which event triggers the scene load?")]
     [SerializeField] private LoadTriggerType _loadTriggerType;
+    [SerializeField] private string _playerSpawnPoint;
 
     [Header("Game world interact options")]
-    [SerializeField] private Vector2 _interactMinDistance = new Vector2(0.5f, 0.5f);
+    [SerializeField] private Vector2 _interactMinDistance = new(0.5f, 0.5f);
     [SerializeField] private bool _isInteractable = true;
 
     public Vector2 InteractMinDistance { get; set; }
@@ -30,14 +30,15 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
 
     void Awake()
     {
+        if (_loadTriggerType == LoadTriggerType.OnUIButtonClick)
+        {
+            GetComponent<Button>().onClick.AddListener(() => LoadScene());
+        }
+
         InteractMinDistance = _interactMinDistance;
         IsInteractable = _isInteractable;
     }
 
-    /// <summary>
-    /// This method is called when the player interacts with an object,
-    /// containing this script.
-    /// </summary>
     public void Interact()
     {
         if (_loadTriggerType == LoadTriggerType.OnGameWorldInteract)
@@ -46,7 +47,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
         }
     }
 
-    public void LoadScene()
+    private void LoadScene()
     {
         if (SceneManager.GetActiveScene().name == "BlackJack")
         {
@@ -55,12 +56,25 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
 
         if (SceneLoader.Instance != null)
         {
-            SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType);
+            Vector2 spawnPointPosition = GetSpawnPointPosition(_sceneToLoad, _playerSpawnPoint);
+            SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, spawnPointPosition);
         }
-        else
+    }
+
+    private Vector2 GetSpawnPointPosition(string sceneName, string spawnPointName)
+    {
+        Debug.Log($"Scene name: {sceneName}, Spawn point name: {spawnPointName}");
+        SpawnPointData spawnPointData = Resources.Load<SpawnPointData>("SpawnPointData");
+        if (spawnPointData != null)
         {
-            SceneManager.LoadSceneAsync(_sceneToLoad);
+            var spawnPoint = spawnPointData.spawnPoints
+                .FirstOrDefault(sp => sp.sceneName == sceneName && sp.spawnPointName == spawnPointName);
+            if (spawnPoint != null)
+            {
+                return spawnPoint.position;
+            }
         }
+        return default;
     }
 
     void OnTriggerEnter2D(Collider2D other)

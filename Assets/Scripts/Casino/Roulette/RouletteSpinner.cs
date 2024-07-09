@@ -94,7 +94,7 @@ namespace Casino.Roulette
                 _speed -= deceleration * Time.deltaTime; // Slow down the ball
                 yield return null; // Wait for the next frame
             }
-
+            _soundEffectPlayer.PlaySoundEffect(1); // Play the sound of the ball stopping
             _speed = 0; // Set the speed to 0 to make sure the ball stops spinning
             while (radius > pocketRadius - 0.05f) // While the ball is not in the center of the wheel
             {
@@ -150,7 +150,6 @@ namespace Casino.Roulette
                 transform.SetParent(nearestPocket); // Set the parent of the ball to the nearest pocket
                 transform.position = transform.parent.position; // Set the position of the ball to the position of the pocket
                 _rouletteBetHandler.CheckWin(int.Parse(nearestPocket.name)); // Check if the player has won
-                _soundEffectPlayer.StopSoundEffect(); // Stop the sound of the ball spinning
                 _roundUnderway = false; // Set the round underway to false
                 _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = true; // Enable the betting table
             }

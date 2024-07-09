@@ -14888,9 +14888,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundEffect:
-  - {fileID: 8300000, guid: cc8361c45522c824ea2cbc8a95a73225, type: 3}
+  - {fileID: 8300000, guid: 7de8c33804521434b91df4ea157d64cb, type: 3}
+  - {fileID: 8300000, guid: 4930cc4bc93a47f4b8feaebabed200bc, type: 3}
   _loopSound: 0
-  _volumeFromZeroToOne: 0.25
+  _volumeFromZeroToOne: 1
 --- !u!114 &655299887777467791
 MonoBehaviour:
   m_ObjectHideFlags: 0

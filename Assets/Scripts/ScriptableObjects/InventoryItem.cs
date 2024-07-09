@@ -6,5 +6,6 @@ public class InventoryItem : ScriptableObject
     public string itemName;
     public Sprite icon;
     [Range(1, 99)]
-    public int maxStackSize;
+    public int maxAmount;
+    public int amount;
 }

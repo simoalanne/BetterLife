@@ -2,12 +2,12 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 [InitializeOnLoad]
 public static class SpawnPointUpdater
 {
     static SpawnPointUpdater()
     {
+        /*
         EditorSceneManager.sceneSaved += scene => EditorApplication.delayCall += () => UpdateSpawnPoints(scene);
     }
 
@@ -50,6 +50,6 @@ public static class SpawnPointUpdater
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh(); // Ensure the AssetDatabase is up-to-date
     
-        Debug.Log("Spawn points updated successfully.");
+        Debug.Log("Spawn points updated successfully."); */
     }
 }

@@ -12,6 +12,13 @@ public class PlayerInteract : MonoBehaviour
     private readonly CursorMode cursorMode = CursorMode.Auto;
     private readonly Vector2 hotSpot = new(16.5f, 4.5f); // Changed from Vector2 to Vector2(16.5f, 16.5f
     private bool _isHovering = false;
+    private Collider2D _playerCollider;
+
+
+    void Start()
+    {
+        _playerCollider = GetComponent<Collider2D>();
+    }
 
     void Update()
     {
@@ -50,23 +57,19 @@ public class PlayerInteract : MonoBehaviour
             {
                 if (hit.collider.TryGetComponent(out IInteractable interactable)) // If collider implemented the IInteractable interface
                 {
-                    float distance = Vector2.Distance(transform.position, hit.collider.transform.position); // Distance between player and interactable object center
-                    float colliderRadius = hit.collider.bounds.extents.magnitude; // Radius of the interactable object collider
-                    float actualDistance = distance - colliderRadius; // Distance between player and interactable object surface
+                    Collider2D[] objectColliders = hit.collider.GetComponents<Collider2D>(); // Get all colliders on the object
 
-                    if (actualDistance < interactable.InteractMinDistance.magnitude && interactable.IsInteractable) // If player is close enough and object is in interactable state
+                    foreach (Collider2D collider in objectColliders)
                     {
-                        interactable.Interact(); // Call the interact method on the object that implements from the IInteractable interface
+                        if (collider.isTrigger)
+                        {
+                            if (BoundsIntersect2D(collider.bounds, _playerCollider.bounds)) // Check if the player is within the trigger bounds
+                            {
+                                interactable.Interact();
+                                return;
+                            }
+                        }
                     }
-                    else
-                    {
-                        Debug.Log("Too far away or object is not in interactable state");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Object is in interactable layer but doesn't implement IInteractable interface!");
-                    Debug.LogWarning("Implement the IInteractable interface or remove the object from the interactable layer.");
                 }
             }
         }
@@ -76,5 +79,11 @@ public class PlayerInteract : MonoBehaviour
             _infoObject.SetActive(false); // Hide info text when not hovering over interactable object
             _isHovering = false;
         }
+    }
+
+    bool BoundsIntersect2D(Bounds a, Bounds b)
+    {
+        return a.min.x < b.max.x && a.max.x > b.min.x &&
+               a.min.y < b.max.y && a.max.y > b.min.y;
     }
 }

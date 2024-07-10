@@ -11,8 +11,6 @@ public class SceneLoadTriggerEditor : Editor
     SerializedProperty playerVisibilityInNewScene;
     SerializedProperty transitionType;
     SerializedProperty loadTriggerType;
-    SerializedProperty interactMinDistance;
-    SerializedProperty isInteractable;
     SerializedProperty playerSpawnPoint;
 
     void OnEnable()
@@ -21,8 +19,6 @@ public class SceneLoadTriggerEditor : Editor
         playerVisibilityInNewScene = serializedObject.FindProperty("_playerVisibilityInNewScene");
         transitionType = serializedObject.FindProperty("_transitionType");
         loadTriggerType = serializedObject.FindProperty("_loadTriggerType");
-        interactMinDistance = serializedObject.FindProperty("_interactMinDistance");
-        isInteractable = serializedObject.FindProperty("_isInteractable");
         playerSpawnPoint = serializedObject.FindProperty("_playerSpawnPoint");
 
         if (((SceneLoadTrigger)target).GetComponent<Button>() != null)
@@ -73,8 +69,6 @@ public class SceneLoadTriggerEditor : Editor
 
         if ((SceneLoadTrigger.LoadTriggerType)loadTriggerType.enumValueIndex == SceneLoadTrigger.LoadTriggerType.OnGameWorldInteract)
         {
-            EditorGUILayout.PropertyField(interactMinDistance);
-            EditorGUILayout.PropertyField(isInteractable);
             sceneLoadTrigger.gameObject.layer = LayerMask.NameToLayer("Interactable");
         }
         else

@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Runtime.CompilerServices;
 using Casino;
-using Player;
+using Audio;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,6 +33,7 @@ public class GameManager : MonoBehaviour
     // How much is the bet
     int pot = 0;
     int placedChips = 0;
+    private SoundEffectPlayer _soundEffectPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +44,7 @@ public class GameManager : MonoBehaviour
         betButton.onClick.AddListener(() => BetClicked());
         hitButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(false);
+        _soundEffectPlayer = FindObjectOfType<SoundEffectPlayer>();
     }
     private void DealClicked()
     {
@@ -78,7 +76,7 @@ public class GameManager : MonoBehaviour
 
     private void HitClicked()
     {
-        if(playerScript.cardIndex <= 8)
+        if (playerScript.cardIndex <= 8)
         {
             playerScript.GetCard();
             scoreText.text = "Hand: " + playerScript.handValue.ToString();
@@ -104,7 +102,7 @@ public class GameManager : MonoBehaviour
         float incomingBet = GameObject.Find("BetSizeUI").GetComponent<BetSizeManager>().CurrentBetSize;
         int chipIndex = GameObject.Find("BetSizeUI").GetComponent<BetSizeManager>().CurrentChipIndex;
 
-        if(mainText.gameObject.activeSelf)
+        if (mainText.gameObject.activeSelf)
         {
             mainText.gameObject.SetActive(false);
         }
@@ -112,22 +110,22 @@ public class GameManager : MonoBehaviour
         if (incomingBet > playerScript.GetMoney() || placedChips >= 20)
         {
             return;
-        } else
-        {
-            backButton.gameObject.SetActive(false);
-            pot += (int) (incomingBet * 2);
-            betsText.text = "Bets: " + (pot/2).ToString() + "€";
-            playerScript.AdjustMoney((int)-incomingBet);
-            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
-            chipObjects[placedChips].GetComponent<SpriteRenderer>().sprite = chipSprites[chipIndex];
-            chipObjects[placedChips].GetComponent<SpriteRenderer>().enabled = true;
-            placedChips++;
         }
+        _soundEffectPlayer.PlaySoundEffect(Random.Range(0, _soundEffectPlayer.AudioClipCount));
+        backButton.gameObject.SetActive(false);
+        pot += (int)(incomingBet * 2);
+        betsText.text = "Bets: " + (pot / 2).ToString() + "€";
+        playerScript.AdjustMoney((int)-incomingBet);
+        cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+        chipObjects[placedChips].GetComponent<SpriteRenderer>().sprite = chipSprites[chipIndex];
+        chipObjects[placedChips].GetComponent<SpriteRenderer>().enabled = true;
+        placedChips++;
+
     }
 
     private void HitDealer()
     {
-        while(dealerScript.handValue < 16 &&  dealerScript.cardIndex < 10)
+        while (dealerScript.handValue < 16 && dealerScript.cardIndex < 10)
         {
             dealerScript.GetCard();
             dealerScoreText.text = "Hand: " + dealerScript.handValue.ToString();
@@ -153,7 +151,7 @@ public class GameManager : MonoBehaviour
         }
         bool roundOver = true;
         // All bust, bets returned
-        if (playerBust && dealerBust) 
+        if (playerBust && dealerBust)
         {
             mainText.text = "All Bust: Bets Returned.";
             playerScript.AdjustMoney(pot / 2);
@@ -164,7 +162,7 @@ public class GameManager : MonoBehaviour
             mainText.text = "The House Wins.";
         }
         // Chack for player win
-        else if (dealerBust || playerScript.handValue >  dealerScript.handValue)
+        else if (dealerBust || playerScript.handValue > dealerScript.handValue)
         {
             mainText.text = "The Player Wins.";
             playerScript.AdjustMoney(pot);
@@ -195,7 +193,7 @@ public class GameManager : MonoBehaviour
             betsText.text = "Bets: " + pot.ToString() + "€";
             placedChips = 0;
             backButton.gameObject.SetActive(true);
-            for(int i = 0; i < chipObjects.Length; i++)
+            for (int i = 0; i < chipObjects.Length; i++)
             {
                 chipObjects[i].GetComponent<SpriteRenderer>().enabled = false;
             }

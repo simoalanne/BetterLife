@@ -8,6 +8,7 @@ namespace Audio
         [SerializeField] private bool _loopSound = false;
         [SerializeField] private float _volumeFromZeroToOne = 0.25f;
         private AudioSource _audioSource;
+        public int AudioClipCount => _soundEffect.Length;
 
         private void Awake()
         {

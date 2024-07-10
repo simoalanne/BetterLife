@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Audio;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,7 @@ namespace Casino.Roulette
         [SerializeField] private GameObject _chipPrefab;
         [SerializeField] private Vector2 _chipTransformOffsetToPrevious = new(0, 2f); // This is used to simulate the effect of stacking chips on top of each other
         [SerializeField] private float _horizontalOffsetRandomness = 2f; // This is used to simulate the effect of stacking chips on top of each other
+        private SoundEffectPlayer _soundEffectPlayer;
 
         private bool _betPlaced = false;
         public bool BetPlaced => _betPlaced; // Informs the RouletteBetHandler if the bet is placed.
@@ -20,6 +23,7 @@ namespace Casino.Roulette
 
         void Awake()
         {
+            _soundEffectPlayer = FindObjectOfType<SoundEffectPlayer>();
             _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
             _betSizeManager = FindObjectOfType<BetSizeManager>();
         }
@@ -28,12 +32,13 @@ namespace Casino.Roulette
         {
             if (_rouletteBetHandler.PlaceBet(transform.name, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
             {
-                TryPlaceChip();
+                PlaceChip();
             }
         }
 
-        private void TryPlaceChip()
+        private void PlaceChip()
         {
+            _soundEffectPlayer.PlaySoundEffect(Random.Range(0, _soundEffectPlayer.AudioClipCount)); // Play a random chip sound effect
             int chipCount = 0;
             foreach (Transform child in transform)
             {

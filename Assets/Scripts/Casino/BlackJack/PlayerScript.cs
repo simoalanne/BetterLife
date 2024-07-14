@@ -86,8 +86,10 @@ public class PlayerScript : MonoBehaviour
     // Get function for money
     public int GetMoney()
     {
+        PlayerManager.Instance.MoneyInBankAccount = money; 
         return money;
     }
+
 
     // Hides all cards, resets needed variables
     public void ResetHand()

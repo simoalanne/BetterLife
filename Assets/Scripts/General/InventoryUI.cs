@@ -19,7 +19,6 @@ public class InventoryUI : MonoBehaviour
         List<InventoryItem> items = Inventory.Instance.Items;
         if (items.Count == 0)
         {
-            Debug.Log("No items in inventory");
             return;
         }
 
@@ -35,7 +34,6 @@ public class InventoryUI : MonoBehaviour
                 {
                     // Item exists, update the amount
                     TMP_Text amountText = child.Find("Amount").GetComponent<TMP_Text>();
-                    amountText.text = item.amount.ToString();
                     itemExists = true;
                     break;
                 }

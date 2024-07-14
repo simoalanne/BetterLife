@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
-using TMPro;
 using Audio;
 
 namespace Casino.Roulette
@@ -18,7 +16,7 @@ namespace Casino.Roulette
         [SerializeField] private float minSpeed = 50f; // The minimum speed the ball can spin at before stopping and snapping to a number.
         [SerializeField] private float deceleration = 5f; // The rate at which the ball slows down.
         [SerializeField] private float pocketRadius = 1.45f; // The radius of the pockets from the center of the wheel.
-        [SerializeField] private GameObject _wheel; // The roulette wheel object.
+        [SerializeField] private GameObject _wheel; // The roulette wheel object part that spins.
         [SerializeField] private GameObject _bettingTable; // The betting table object.
         [SerializeField] private float _ballMinimumInitialSpeed = 180f; // The minimum initial speed of the ball.
         [SerializeField] private float _ballMaximumInitialSpeed = 360f; // The maximum initial speed of the ball.
@@ -42,20 +40,11 @@ namespace Casino.Roulette
 
         void Update()
         {
-            RotateWheel(); // Rotate the wheel every frame
-            if (transform.parent != null) // If the ball is on a pocket
-            {
-                //transform.position = transform.parent.position; // Set the position of the ball to the position of the pocket 
-            }
-            else // Else if the ball is spinning around the wheel
-            {
-                currentAngle -= _speed * _spinDirection * Time.deltaTime; // Calculate the new angle of the ball
-                currentAngle %= 360; // Keep the angle between 0 and 360 to avoid overflow which won't realistically happen but just in case
+            RotateWheel();
 
-                float x = Mathf.Cos(currentAngle * Mathf.Deg2Rad) * radius; // Calculate the x position of the ball
-                float y = Mathf.Sin(currentAngle * Mathf.Deg2Rad) * radius; // Calculate the y position of the ball
-
-                transform.position = new Vector3(x, y, 0) + rouletteCenter.position; // Set the position of the ball
+            if (transform.parent == null) // If the ball doesn't have a parent (is not in a pocket)
+            {
+                RotateBall(); // Rotate the ball around the wheel in a circular motion
             }
         }
 
@@ -71,16 +60,27 @@ namespace Casino.Roulette
             }
         }
 
+        void RotateBall()
+        {
+            currentAngle -= _speed * _spinDirection * Time.deltaTime; // Calculate the new angle of the ball
+            currentAngle %= 360; // Keep the angle between 0 and 360 to avoid overflow which won't realistically happen but just in case
+
+            float x = Mathf.Cos(currentAngle * Mathf.Deg2Rad) * radius; // Calculate the x position of the ball
+            float y = Mathf.Sin(currentAngle * Mathf.Deg2Rad) * radius; // Calculate the y position of the ball
+
+            transform.position = new Vector3(x, y, 0) + rouletteCenter.position; // Set the position of the ball
+        }
+
         public void SpinTheWheel()
         {
             _spinDirection = Random.Range(0, 2) == 0 ? 1 : -1; // Randomize the direction of the wheel spin
-            _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = false; // Disable the betting table
-            radius = _originalRadius; // Reset the radius of the ball
-            currentAngle = Random.Range(0, 360); // Randomize the angle of the ball
-            _speed = Random.Range(_ballMinimumInitialSpeed, _ballMaximumInitialSpeed); // Reset the speed of the ball
+            _bettingTable.GetComponentInParent<CanvasGroup>().blocksRaycasts = false; // Dont let player place bets while round is underway.
+            radius = _originalRadius; // Reset the radius of the ball to be on the edge of the wheel
+            currentAngle = Random.Range(0, 360); // Randomize the starting angle of the ball
+            _speed = Random.Range(_ballMinimumInitialSpeed, _ballMaximumInitialSpeed); // Apply a random speed to the ball to make it spin
             transform.SetParent(null); // Remove the parent of the ball to make it spin around the wheel
             _roundUnderway = true; //
-            StartCoroutine(DecelerateBall()); // Start the coroutine that decelerates the ball
+            StartCoroutine(DecelerateBall()); // Start the coroutine that decelerates the ball.
         }
 
         /// <summary>
@@ -92,8 +92,18 @@ namespace Casino.Roulette
             while (_speed > minSpeed)
             {
                 _speed -= deceleration * Time.deltaTime; // Slow down the ball
-                yield return null; // Wait for the next frame
+                yield return null;
             }
+
+            /* Keep moving the ball till it reaches a stopper point.
+            There are total of 8 stopper points on the wheel, each 45 degrees apart.
+            This makes the animation look more realistic since the ball will actually have to "bounce" off the stopper points to fall into a pocket.
+            */
+            while (Mathf.Abs(Mathf.RoundToInt(currentAngle % 45)) != 0) // While the current angle is not in a multiple of 45 degrees
+            {
+                yield return null;
+            }
+
             _soundEffectPlayer.PlaySoundEffect(1); // Play the sound of the ball stopping
             _speed = 0; // Set the speed to 0 to make sure the ball stops spinning
             while (radius > pocketRadius - 0.05f) // While the ball is not in the center of the wheel

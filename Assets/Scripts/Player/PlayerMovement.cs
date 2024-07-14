@@ -111,7 +111,6 @@ namespace Player
 
         private void SetFacingDirection(Vector2 direction)
         {
-            Debug.Log(direction);
             SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
             if (direction.x > 0)

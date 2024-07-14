@@ -24,6 +24,7 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
+        GameTimer.Instance.IsPaused = true;
         PlayerManager.Instance.DisablePlayerMovement();
         PlayerManager.Instance.DisablePlayerInteract();
         gameObject.GetComponent<CanvasGroup>().alpha = 1;
@@ -73,5 +74,6 @@ public class DialogueManager : MonoBehaviour
         animator.SetBool("IsOpen", false);
         gameObject.GetComponent<CanvasGroup>().alpha = 0;
         gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        GameTimer.Instance.IsPaused = false;
     }
 }

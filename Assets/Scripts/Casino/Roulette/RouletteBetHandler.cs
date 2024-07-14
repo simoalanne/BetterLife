@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Player;
+using Audio;
 
 namespace Casino.Roulette
 {
@@ -24,6 +25,7 @@ namespace Casino.Roulette
         public float PlayerBalance => _playerBalance; // Property to get the initial balance.
         private readonly List<(string, int)> _betsInOrder = new(); // List to store the bets in order.
         public Dictionary<string, Func<int, bool>> BetConditions => betConditions; // Property to get the bet conditions.
+        private SoundEffectPlayer _soundEffectPlayer;
 
         readonly Dictionary<string, Func<int, bool>> betConditions = new() // Dictionary to store the conditions for each bet type.
         {
@@ -67,6 +69,7 @@ namespace Casino.Roulette
         {
             _rouletteBets = FindObjectsOfType<RouletteBet>(); // Store references to all instances of the RouletteBet script.
             _previousNumbers = FindObjectOfType<PreviousNumbers>();
+            _soundEffectPlayer = GameObject.Find("ChipSFX").GetComponent<SoundEffectPlayer>();
 
             _playerBalance = PlayerManager.Instance != null ? PlayerManager.Instance.MoneyInBankAccount : 100000; // Get the player balance from the player manager.
             _rouletteUIManager.SetBalanceAndTotalBetText(_playerBalance, 0); // Set the balance and total bet text.
@@ -186,7 +189,8 @@ namespace Casino.Roulette
                 _balancePlacedInActiveBets -= _activeMultiBets[_betsInOrder.Last().Item2].Value; // Remove the bet amount from the balance placed in active bets.
                 _activeMultiBets.RemoveAt(_betsInOrder.Last().Item2); // Remove the bet from the active multiple number bets list.
             }
-
+            
+            _soundEffectPlayer.PlaySoundEffect(UnityEngine.Random.Range(0, _soundEffectPlayer.AudioClipCount)); // Play a random chip sound effect
             GameObject lastChip = RouletteBet.AllPlacedChips.Last(); // Get the last chip
             RouletteBet.AllPlacedChips.Remove(lastChip); // Remove the last chip from the list of all placed chips.
             Destroy(lastChip); // Destroy the last chip GameObject

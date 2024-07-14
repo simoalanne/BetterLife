@@ -39,15 +39,15 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
 
     private void LoadScene()
     {
-        if (SceneManager.GetActiveScene().name == "BlackJack")
-        {
-            PlayerManager.Instance.MoneyInBankAccount = FindObjectOfType<PlayerScript>().GetMoney();
-        }
-
         if (SceneLoader.Instance != null)
         {
             Vector2 spawnPointPosition = GetSpawnPointPosition(_sceneToLoad, _playerSpawnPoint);
             SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, spawnPointPosition);
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync(_sceneToLoad);
+            Debug.LogWarning("SceneLoader instance is null. Loading scene without transition.");
         }
     }
 

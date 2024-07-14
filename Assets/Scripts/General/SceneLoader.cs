@@ -17,10 +17,12 @@ public class SceneLoader : MonoBehaviour
     private Coroutine _activeCoroutine;
     private bool _transitionInDone;
     private bool _transitionOutDone;
+    private bool _isLoading = false;
     private SceneTransitionManager _transitionManager;
 
     public bool TransitionInDone { get => _transitionInDone; set => _transitionInDone = value; }
     public bool TransitionOutDone { get => _transitionOutDone; set => _transitionOutDone = value; }
+    public bool IsLoading => _isLoading;
 
     public enum PlayerVisibility
     {
@@ -70,11 +72,9 @@ public class SceneLoader : MonoBehaviour
     {
         if (_activeCoroutine != null)
         {
-            Debug.LogWarning("A scene is already being loaded!\n Player shouldn't be able to trigger multiple scene loads at once.");
-            Debug.LogWarning("Don't let the player trigger scene load again until the current scene is loaded.");
             return;
         }
-
+        _isLoading = true;
         PlayerManager.Instance.DisablePlayerInteract(); // Disable the player interact script while the scene is being loaded
         PlayerManager.Instance.DisablePlayerMovement(); // Disable the player movement script while the scene is being loaded
 
@@ -95,7 +95,6 @@ public class SceneLoader : MonoBehaviour
         var audioListener = FindObjectOfType<AudioListener>(); // Find the audio listener in the scene
         if (FindObjectOfType<UnityEngine.EventSystems.EventSystem>() != null)
         {
-            Debug.Log("Event system found");
             FindObjectOfType<UnityEngine.EventSystems.EventSystem>().enabled = false; // Disable the event system so that the player can't interact with UI while the scene is transitioning
         }
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive); // Start scene loading in the background
@@ -191,5 +190,6 @@ public class SceneLoader : MonoBehaviour
 
         _transitionInDone = false;
         _transitionOutDone = false;
+        _isLoading = false;
     }
 }

@@ -33,15 +33,7 @@ namespace Casino.Roulette
             _filePath = Application.persistentDataPath + "/previousNumbers.txt";
 
             // Save the numbers when scene changes.
-            SceneManager.activeSceneChanged += (Scene current, Scene next) =>
-            {
-                /* Specifically when switching from roulette to another scene.
-                Without this line numbers are saved unnecessarily when loading the roulette scene itself. */
-                if (current.name == "Roulette")
-                {
-                    SaveNumbers();
-                }
-            };
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
 
             _gridLayoutGroup = GetComponentInChildren<GridLayoutGroup>();
             LoadNumbers();
@@ -168,6 +160,19 @@ namespace Casino.Roulette
             }
 
             CalculatePercentages();
+        }
+
+        void OnActiveSceneChanged(Scene current, Scene next)
+        {
+            if (current.name == "Roulette")
+            {
+                SaveNumbers();
+            }
+        }
+
+        void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
     }
 }

@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Player
 {
@@ -11,10 +13,23 @@ namespace Player
         private PlayerMovement _playerMovement;
         private PlayerInteract _playerInteract;
         private SpriteRenderer _spriteRenderer;
-        
+        private DisplayMoney _displayMoney;
+        private float _moneyBeforeGambling;
+        private string[] _scenesToDisableHUD = { "MainMenu", "Roulette", "BlackJack", "Slots" };
         [SerializeField] private float _moneyInBankAccount = 1000f;
-        public float MoneyInBankAccount { get; set; }
-
+        public float MoneyInBankAccount
+        {
+            get => _moneyInBankAccount;
+            set
+            {
+                if (!_scenesToDisableHUD.Contains(SceneManager.GetActiveScene().name)) // If the scene has hud active, update the money text.
+                {
+                    _displayMoney.UpdateMoneyText(_moneyInBankAccount, value);
+                }
+                
+                _moneyInBankAccount = value;
+            }
+        }
 
         void Awake()
         {
@@ -22,16 +37,23 @@ namespace Player
             {
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
+                _playerMovement = GetComponent<PlayerMovement>();
+                _playerInteract = GetComponent<PlayerInteract>();
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+                _displayMoney = FindObjectOfType<DisplayMoney>();
+                _moneyBeforeGambling = _moneyInBankAccount;
             }
             else
             {
                 Destroy(gameObject);
             }
+        }
 
-            _playerMovement = GetComponent<PlayerMovement>();
-            _playerInteract = GetComponent<PlayerInteract>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            MoneyInBankAccount = _moneyInBankAccount;
+        void Start()
+        {
+            _displayMoney.UpdateMoneyText(0, _moneyInBankAccount);
+
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         public void DisablePlayerMovement()
@@ -62,6 +84,23 @@ namespace Player
         public void EnableSpriteRenderer()
         {
             _spriteRenderer.enabled = true;
+        }
+
+        void OnActiveSceneChanged(Scene current, Scene next)
+        {
+            if (_scenesToDisableHUD.Contains(next.name))
+            {
+                _moneyBeforeGambling = _moneyInBankAccount; // Save the money before the hud is disabled so the animation can be played when hud is re-enabled.
+            }
+            if (!_scenesToDisableHUD.Contains(next.name))
+            {
+                _displayMoney.UpdateMoneyText(_moneyBeforeGambling, _moneyInBankAccount);
+            }
+        }
+
+        void OnDestroy()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
     }
 }

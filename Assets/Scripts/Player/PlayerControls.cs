@@ -37,6 +37,15 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""OpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""8db3185d-32c7-41c4-8f85-71eed857e8a2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -204,6 +213,28 @@ namespace Player
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce239d1f-c1a7-4365-a16c-b9adedd093b0"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de397a39-5159-4331-ad90-f544170ff02e"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -213,6 +244,7 @@ namespace Player
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+            m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -275,11 +307,13 @@ namespace Player
         private readonly InputActionMap m_Player;
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
+        private readonly InputAction m_Player_OpenInventory;
         public struct PlayerActions
         {
             private @PlayerControls m_Wrapper;
             public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
+            public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -292,6 +326,9 @@ namespace Player
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
+                @OpenInventory.started += instance.OnOpenInventory;
+                @OpenInventory.performed += instance.OnOpenInventory;
+                @OpenInventory.canceled += instance.OnOpenInventory;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -299,6 +336,9 @@ namespace Player
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
                 @Move.canceled -= instance.OnMove;
+                @OpenInventory.started -= instance.OnOpenInventory;
+                @OpenInventory.performed -= instance.OnOpenInventory;
+                @OpenInventory.canceled -= instance.OnOpenInventory;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -319,6 +359,7 @@ namespace Player
         public interface IPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
+            void OnOpenInventory(InputAction.CallbackContext context);
         }
     }
 }

@@ -20,31 +20,11 @@ public class Inventory : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        // test adding items at awake
     }
 
     public void AddItem(InventoryItem item)
     {
         items.Add(item);
-        GetComponent<InventoryUI>().UpdateInventoryUI();
-    }
-
-    public void RemoveItem(InventoryItem item)
-    {
-        if (ContainsItem(item))
-        {
-            items.Remove(item);
-        }
-    }
-
-    public bool ContainsItem(InventoryItem item)
-    {
-        return items.Contains(item);
-    }
-
-    public void ClearInventory()
-    {
-        items.Clear();
+        GetComponent<InventoryUI>().AddToInventory(item);
     }
 }

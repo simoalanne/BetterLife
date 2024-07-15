@@ -1,51 +1,120 @@
 using System.Collections.Generic;
-using TMPro;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject itemSlotPrefab;
+    [SerializeField] private GameObject _inventoryPanel;
+    [SerializeField] private Button itemSlotPrefab;
 
-    public void UpdateInventoryUI()
+    private Dictionary<string, int> _itemQuantities = new(); // Dictionary to hold the amount of each item in the inventory.
+    private PlayerControls _playerControls;
+
+    void Awake()
     {
-        // Clear existing item slots
-        foreach (Transform child in inventoryPanel.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        _inventoryPanel.SetActive(false);
+        _playerControls = new PlayerControls();
+        _playerControls.Player.OpenInventory.performed += context => OpenInventory();
+    }
 
-        List<InventoryItem> items = Inventory.Instance.Items;
-        if (items.Count == 0)
+    void OpenInventory()
+    {
+        if (_inventoryPanel.activeSelf)
         {
+            _inventoryPanel.SetActive(false);
+            PlayerManager.Instance.EnablePlayerMovement();
+            PlayerManager.Instance.EnablePlayerInteract();
+        }
+        else
+        {
+            _inventoryPanel.SetActive(true);
+            PlayerManager.Instance.DisablePlayerMovement();
+            PlayerManager.Instance.DisablePlayerInteract();
+        }
+    }
+
+
+    public void AddToInventory(InventoryItem item)
+    {
+        if (item.isUnique && _itemQuantities.ContainsKey(item.itemName))
+        {
+            Debug.Log("You already have this item.");
             return;
+
         }
 
-        foreach (InventoryItem item in items)
+        if (item.isStackable)
         {
-            bool itemExists = false;
-
-            // Check if item already exists in the inventory panel
-            foreach (Transform child in inventoryPanel.transform)
+            if (_itemQuantities.ContainsKey(item.itemName))
             {
-                TextMeshProUGUI itemNameText = child.Find("Name").GetComponent<TextMeshProUGUI>();
-                if (itemNameText.text == item.itemName)
+                if (_itemQuantities[item.itemName] < item.maxAmount)
                 {
-                    // Item exists, update the amount
-                    TMP_Text amountText = child.Find("Amount").GetComponent<TMP_Text>();
-                    itemExists = true;
-                    break;
+                    _itemQuantities[item.itemName]++;
+                    _inventoryPanel.transform.Find(item.itemName).Find("Amount").GetComponent<TMP_Text>().text = _itemQuantities[item.itemName].ToString();
+                    Debug.Log("Added 1 to stack.");
+                    return;
+                }
+                else
+                {
+                    Debug.Log("You have reached the maximum amount of this item.");
+                    return;
                 }
             }
-
-            if (!itemExists)
+            else
             {
-                // Item does not exist, create a new item slot
-                GameObject itemSlot = Instantiate(itemSlotPrefab, inventoryPanel.transform);
-                itemSlot.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                itemSlot.transform.Find("Icon").GetComponent<Image>().sprite = item.icon;
+                Debug.Log("Added to dictionary.");
+                _itemQuantities.Add(item.itemName, 1);
             }
         }
+
+        Debug.Log("Added a new item to the inventory.");
+        Button itemSlot = Instantiate(itemSlotPrefab, _inventoryPanel.transform);
+        itemSlot.transform.Find("Icon").GetComponent<Image>().sprite = item.icon;
+        itemSlot.transform.Find("Name").GetComponent<TMP_Text>().text = item.itemName;
+        if (item.isStackable)
+        {
+            itemSlot.transform.Find("Amount").GetComponent<TMP_Text>().text = "1";
+        }
+        else
+        {
+            itemSlot.transform.Find("Amount").GetComponent<TMP_Text>().text = "";
+        }
+
+        itemSlot.gameObject.name = item.itemName;
+        itemSlot.onClick.AddListener(() => UseItem(item));
+    }
+
+    void UseItem(InventoryItem item)
+    {
+        if (item.isStackable && _itemQuantities[item.itemName] > 1)
+        {
+            _itemQuantities[item.itemName]--;
+            _inventoryPanel.transform.Find(item.itemName).Find("Amount").GetComponent<TMP_Text>().text = _itemQuantities[item.itemName].ToString();
+            Debug.Log("Used 1 from stack.");
+        }
+        else
+        {
+            _itemQuantities.Remove(item.itemName);
+            Destroy(_inventoryPanel.transform.Find(item.itemName).gameObject);
+            Debug.Log("Removed item from inventory.");
+            return;
+        }
+    }
+
+    void OnEnable()
+    {
+        _playerControls.Player.Enable();
+    }
+
+    void OnDisable()
+    {
+        _playerControls.Player.Disable();
+    }
+
+    void OnDestroy()
+    {
+        _playerControls.Player.OpenInventory.performed -= context => OpenInventory();
     }
 }

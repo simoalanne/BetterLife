@@ -8,4 +8,9 @@ public class Loan : InventoryItem
     public int daysToRepay;
     [Range(0, 100)]
     public int interestRate;
+
+    public int ReduceDaysToRepay()
+    {
+        return daysToRepay--;
+    }
 }

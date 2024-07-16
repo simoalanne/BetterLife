@@ -7,6 +7,6 @@ public class PickupItem : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        Inventory.Instance.AddItem(item);
+        PlayerInventory.Instance.AddToInventory(item);
     }
 }

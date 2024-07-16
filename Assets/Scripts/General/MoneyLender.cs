@@ -39,7 +39,8 @@ public class MoneyLender : MonoBehaviour, IInteractable
     public void TakeOutLoan(int loanAmount)
     {
         PlayerManager.Instance.MoneyInBankAccount += loanAmount;
-        Inventory.Instance.AddItem(Array.Find(_loans, loan => loan.loanAmount == loanAmount));
+        var loan = Array.Find(_loans, loan => loan.loanAmount == loanAmount); // Find the correct loan.
+        PlayerInventory.Instance.AddToInventory(loan); // Add the loan to the player's inventory.
         ExitLoanUI();
 
     }

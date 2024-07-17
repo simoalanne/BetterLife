@@ -17,6 +17,7 @@ namespace Player
         private float _moneyBeforeGambling;
         private string[] _scenesToDisableHUD = { "MainMenu", "Roulette", "BlackJack", "Slots" };
         [SerializeField] private float _moneyInBankAccount = 1000f;
+        private float _originalMoney;
         public float MoneyInBankAccount
         {
             get => _moneyInBankAccount;
@@ -26,7 +27,7 @@ namespace Player
                 {
                     _displayMoney.UpdateMoneyText(_moneyInBankAccount, value);
                 }
-                
+
                 _moneyInBankAccount = value;
             }
         }
@@ -42,6 +43,7 @@ namespace Player
                 _spriteRenderer = GetComponent<SpriteRenderer>();
                 _displayMoney = FindObjectOfType<DisplayMoney>();
                 _moneyBeforeGambling = _moneyInBankAccount;
+                _originalMoney = _moneyInBankAccount;
             }
             else
             {
@@ -55,6 +57,8 @@ namespace Player
 
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
+
+        public void ResetMoney() => _moneyInBankAccount = _originalMoney;
 
         public void DisablePlayerMovement()
         {
@@ -88,13 +92,22 @@ namespace Player
 
         void OnActiveSceneChanged(Scene current, Scene next)
         {
+            if (current.name == "MainMenu")
+            {
+                _displayMoney.UpdateMoneyText(0, _moneyInBankAccount);
+                return;
+            }
+
             if (_scenesToDisableHUD.Contains(next.name))
             {
                 _moneyBeforeGambling = _moneyInBankAccount; // Save the money before the hud is disabled so the animation can be played when hud is re-enabled.
             }
             if (!_scenesToDisableHUD.Contains(next.name))
             {
-                _displayMoney.UpdateMoneyText(_moneyBeforeGambling, _moneyInBankAccount);
+                if (_scenesToDisableHUD.Contains(current.name))
+                {
+                    _displayMoney.UpdateMoneyText(_moneyBeforeGambling, _moneyInBankAccount);
+                }
             }
         }
 

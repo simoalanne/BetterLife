@@ -74,6 +74,7 @@ public class SceneLoader : MonoBehaviour
         {
             return;
         }
+        Time.timeScale = 1;
         _isLoading = true;
         PlayerManager.Instance.DisablePlayerInteract(); // Disable the player interact script while the scene is being loaded
         PlayerManager.Instance.DisablePlayerMovement(); // Disable the player movement script while the scene is being loaded

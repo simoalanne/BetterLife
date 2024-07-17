@@ -27,13 +27,15 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
-        foreach (var item in startingInventory)
+        foreach (var entry in startingInventory)
         {
-            AddToInventory(item.item, item.amount);
+            Debug.Log("Adding item to inventory: " + entry.item.itemName + " with amount: " + entry.amount);
+            AddToInventory(entry.item, entry.amount);
         }
-        OnInventoryLoaded?.Invoke();
+        
+        //OnInventoryLoaded?.Invoke(); 
     }
-    
+
     public void AddToInventory(InventoryItem item, int amount = 1)
     {
         if (amount <= 0)
@@ -75,9 +77,9 @@ public class Inventory : MonoBehaviour
         else if (_inventory.ContainsKey(item) == false) // If the item isn't in the inventory
         {
             _inventory.Add(item, amount); // Add new item to inventory dictionary. 
-            Debug.Log("Added item to inventory.");
+            Debug.Log("Added item to inventory, value." + amount);
         }
-        OnInventoryChanged?.Invoke();
+        //OnInventoryChanged?.Invoke();
     }
 
     public void RemoveFromInventory(InventoryItem item, int amount = 1)

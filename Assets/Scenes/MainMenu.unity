@@ -2651,7 +2651,8 @@ GameObject:
   - component: {fileID: 1948260192}
   - component: {fileID: 1948260191}
   - component: {fileID: 1948260190}
-  m_Layer: 5
+  - component: {fileID: 1948260193}
+  m_Layer: 0
   m_Name: NewGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2760,6 +2761,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948260188}
   m_CullTransparentMesh: 1
+--- !u!114 &1948260193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948260188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToLoad: Casino
+  _playerVisibilityInNewScene: 0
+  _transitionType: 0
+  _loadTriggerType: 2
+  _playerSpawnPoint: 
 --- !u!1 &1963262589
 GameObject:
   m_ObjectHideFlags: 0

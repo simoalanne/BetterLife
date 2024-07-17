@@ -10,5 +10,5 @@ public class InventoryItem : ScriptableObject
     [Tooltip("Can the item be stacked in the inventory or\ndoes each item take up a separate slot?")]
     public bool isStackable = true;
     [Tooltip("Can the player have more than one of this item?")]
-    public bool isUnique; 
+    public bool isUnique;
 }

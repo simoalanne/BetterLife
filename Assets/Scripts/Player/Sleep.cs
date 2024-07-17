@@ -20,6 +20,7 @@ public class Sleep : MonoBehaviour
     void Awake()
     {
         _sleepUI.gameObject.SetActive(false);
+        _fadeImage.gameObject.SetActive(false);
         _fadeImage.color = Color.clear;
     }
 
@@ -88,6 +89,7 @@ public class Sleep : MonoBehaviour
     void InitializeSleep()
     {
         _sleepUI.gameObject.SetActive(false);
+        _fadeImage.gameObject.SetActive(true);
         Time.timeScale = 0;
     }
 
@@ -96,5 +98,6 @@ public class Sleep : MonoBehaviour
         Time.timeScale = 1;
         PlayerManager.Instance.EnablePlayerMovement();
         PlayerManager.Instance.EnablePlayerInteract();
+        _fadeImage.gameObject.SetActive(false);
     }
 }

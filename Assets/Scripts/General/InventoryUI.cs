@@ -1,51 +1,78 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Player;
 
 public class InventoryUI : MonoBehaviour
 {
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject itemSlotPrefab;
+    [SerializeField] private GameObject _inventoryPanel;
+    [SerializeField] private Button itemSlotPrefab;
+    private Inventory _inventory;
 
-    public void UpdateInventoryUI()
+    void Awake()
     {
-        // Clear existing item slots
-        foreach (Transform child in inventoryPanel.transform)
+        _inventoryPanel.SetActive(false);
+        _inventory = GetComponent<Inventory>();
+        _inventory.OnInventoryLoaded += PopulateInventory;
+        _inventory.OnInventoryChanged += UpdateUI;
+    }
+
+    void PopulateInventory()
+    {
+        var inventory = _inventory.GetInventory;
+        foreach (var item in inventory)
+        {
+            CheckItemType(item.Key);
+            var itemSlot = Instantiate(itemSlotPrefab, _inventoryPanel.transform);
+            itemSlot.transform.Find("Name").GetComponent<TMP_Text>().text = item.Key.itemName;
+            itemSlot.transform.Find("Amount").GetComponent<TMP_Text>().text = item.Value.ToString();
+            itemSlot.transform.Find("Icon").GetComponent<Image>().sprite = item.Key.icon;
+            itemSlot.onClick.AddListener(() => _inventory.RemoveFromInventory(item.Key));
+        }
+    }
+
+
+    void UpdateUI()
+    {
+        foreach (Transform child in _inventoryPanel.transform)
         {
             Destroy(child.gameObject);
         }
+        PopulateInventory();
+    }
 
-        List<InventoryItem> items = Inventory.Instance.Items;
-        if (items.Count == 0)
+
+    void CheckItemType(InventoryItem item)
+    {
+        if (item is Loan)
         {
-            return;
+            Debug.Log("This is a loan");
         }
-
-        foreach (InventoryItem item in items)
+        else
         {
-            bool itemExists = false;
-
-            // Check if item already exists in the inventory panel
-            foreach (Transform child in inventoryPanel.transform)
-            {
-                TextMeshProUGUI itemNameText = child.Find("Name").GetComponent<TextMeshProUGUI>();
-                if (itemNameText.text == item.itemName)
-                {
-                    // Item exists, update the amount
-                    TMP_Text amountText = child.Find("Amount").GetComponent<TMP_Text>();
-                    itemExists = true;
-                    break;
-                }
-            }
-
-            if (!itemExists)
-            {
-                // Item does not exist, create a new item slot
-                GameObject itemSlot = Instantiate(itemSlotPrefab, inventoryPanel.transform);
-                itemSlot.transform.Find("Name").GetComponent<TextMeshProUGUI>().text = item.itemName;
-                itemSlot.transform.Find("Icon").GetComponent<Image>().sprite = item.icon;
-            }
+            Debug.Log("This is not a loan");
         }
+    }
+    public void OpenInventory()
+    {
+        if (_inventoryPanel.activeSelf)
+        {
+            _inventoryPanel.SetActive(false);
+            PlayerManager.Instance.EnablePlayerMovement();
+            PlayerManager.Instance.EnablePlayerInteract();
+        }
+        else
+        {
+            _inventoryPanel.SetActive(true);
+            PlayerManager.Instance.DisablePlayerMovement();
+            PlayerManager.Instance.DisablePlayerInteract();
+        }
+    }
+
+    public void CloseInventory()
+    {
+        _inventoryPanel.SetActive(false);
+        PlayerManager.Instance.EnablePlayerMovement();
+        PlayerManager.Instance.EnablePlayerInteract();
     }
 }

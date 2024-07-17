@@ -1,50 +1,115 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Inventory : MonoBehaviour
 {
-    private readonly List<InventoryItem> items = new();
-    public List<InventoryItem> Items => items;
-
-    public static Inventory Instance { get; private set; }
-
-    private void Awake()
+    [Serializable]
+    public class StartingInventory
     {
-        if (Instance == null)
+        [Header("Details")]
+        public InventoryItem item;
+        public int amount;
+    }
+
+    public List<StartingInventory> startingInventory;
+    private readonly Dictionary<InventoryItem, int> _inventory = new();
+    public Dictionary<InventoryItem, int> GetInventory => _inventory;
+
+    public event Action OnInventoryChanged; // Can be subscribed to by other classes to update UI for example.
+    public event Action OnInventoryLoaded;
+
+    /// <summary>
+    /// Adds n number of items to the inventory. If the item is unique and already in the inventory,
+    /// or if the items max amount in the inventory has been reached, then the item won't be added.
+    /// </summary>
+    /// 
+
+    void Start()
+    {
+        foreach (var item in startingInventory)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            AddToInventory(item.item, item.amount);
+        }
+        OnInventoryLoaded?.Invoke();
+    }
+    
+    public void AddToInventory(InventoryItem item, int amount = 1)
+    {
+        if (amount <= 0)
+        {
+            Debug.LogError("Amount must be greater than 0...");
+            return;
+        }
+
+        if (amount > item.maxAmount)
+        {
+            Debug.LogError("Amount is greater than the max amount of the item.");
+            return;
+        }
+
+        if (item.isUnique && _inventory.ContainsKey(item))
+        {
+            Debug.LogWarning("This Unique item is already in the inventory.");
+            return;
+        }
+
+        if (item.isUnique && amount > 1)
+        {
+            Debug.LogWarning("This item is unique and can only be added once.");
+            return;
+        }
+
+        if (_inventory.ContainsKey(item)) // If the item is already in the inventory
+        {
+            if (_inventory[item] < item.maxAmount) // If the max amount of the item hasn't been reached.
+            {
+                _inventory[item] += amount; // Add to the stack
+                Debug.Log("Added 1 to stack.");
+            }
+            else
+            {
+                Debug.Log("Inventory full.");
+            }
+        }
+        else if (_inventory.ContainsKey(item) == false) // If the item isn't in the inventory
+        {
+            _inventory.Add(item, amount); // Add new item to inventory dictionary. 
+            Debug.Log("Added item to inventory.");
+        }
+        OnInventoryChanged?.Invoke();
+    }
+
+    public void RemoveFromInventory(InventoryItem item, int amount = 1)
+    {
+        if (amount <= 0)
+        {
+            Debug.LogError("Amount must be greater than 0...");
+            return;
+        }
+
+        if (amount > _inventory[item])
+        {
+            Debug.LogError("Amount is greater than the stack.");
+            return;
+        }
+
+        if (_inventory.ContainsKey(item) == false) // If the item isn't in the inventory
+        {
+            Debug.LogError("Item not in inventory.");
+            return;
+        }
+
+        if (_inventory[item] > amount)
+        {
+            _inventory[item] -= amount;
+            Debug.Log($"Removed {amount} from stack.");
         }
         else
         {
-            Destroy(gameObject);
+            _inventory.Remove(item);
+            Debug.Log("Removed item from inventory.");
         }
-
-        // test adding items at awake
-    }
-
-    public void AddItem(InventoryItem item)
-    {
-        items.Add(item);
-        GetComponent<InventoryUI>().UpdateInventoryUI();
-    }
-
-    public void RemoveItem(InventoryItem item)
-    {
-        if (ContainsItem(item))
-        {
-            items.Remove(item);
-        }
-    }
-
-    public bool ContainsItem(InventoryItem item)
-    {
-        return items.Contains(item);
-    }
-
-    public void ClearInventory()
-    {
-        items.Clear();
+        OnInventoryChanged?.Invoke();
     }
 }

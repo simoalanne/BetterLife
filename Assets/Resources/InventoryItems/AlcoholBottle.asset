@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 650b7d3a8d4535e45b3fce5a077a76bf, type: 3}
-  m_Name: Loan2
+  m_Script: {fileID: 11500000, guid: dedacf74cf065bd47a73e1ef47165513, type: 3}
+  m_Name: AlcoholBottle
   m_EditorClassIdentifier: 
-  loanAmount: 500
-  daysToRepay: 2
-  interestRate: 7
+  itemName: Alcohol bottle
+  icon: {fileID: 21300000, guid: 3e472f0ad570ecb489a01fecd614ddc4, type: 3}
+  maxAmount: 99
+  isStackable: 1
+  isUnique: 0
+  hungerRestored: 0
+  energyRestored: 0

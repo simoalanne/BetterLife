@@ -10,8 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 650b7d3a8d4535e45b3fce5a077a76bf, type: 3}
-  m_Name: Loan3
+  m_Name: Loan1
   m_EditorClassIdentifier: 
-  loanAmount: 1000
-  daysToRepay: 3
-  interestRate: 10
+  itemName: Loan100
+  icon: {fileID: 0}
+  maxAmount: 1
+  isStackable: 0
+  isUnique: 1
+  loanAmount: 100
+  daysToRepay: 1
+  interestRate: 5

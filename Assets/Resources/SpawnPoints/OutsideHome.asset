@@ -10,14 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11cf4da71dd9e3d48ba619ad7e337a66, type: 3}
-  m_Name: SpawnPointData
+  m_Name: OutsideHome
   m_EditorClassIdentifier: 
-  spawnPoints:
-  - sceneName: PlayerHome
-    spawnPointName: SpawnPoint2
-    position: {x: 6.98, y: 4.24}
-    playerFacingDirection: {x: 1, y: 0}
-  - sceneName: Casino
-    spawnPointName: SpawnPoint
-    position: {x: 4.41, y: -10.12}
-    playerFacingDirection: {x: 1, y: 0}
+  sceneName: City
+  spawnPoint: {x: 1.5, y: 1}
+  spawnPointName: OutsideHome

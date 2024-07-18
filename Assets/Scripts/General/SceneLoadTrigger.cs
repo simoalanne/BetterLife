@@ -10,7 +10,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     [SerializeField] private SceneLoader.PlayerVisibility _playerVisibilityInNewScene;
     [SerializeField] private SceneLoader.TransitionType _transitionType;
     [SerializeField] private LoadTriggerType _loadTriggerType;
-    [SerializeField] private string _playerSpawnPoint;
+    [SerializeField, Tooltip("Leave empty if doesnt apply")] private SpawnPoint _playerSpawnPoint;
 
     public enum LoadTriggerType
     {
@@ -41,7 +41,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     {
         if (SceneLoader.Instance != null)
         {
-            Vector2 spawnPointPosition = GetSpawnPointPosition(_sceneToLoad, _playerSpawnPoint);
+            Vector2 spawnPointPosition = _playerSpawnPoint != null ? _playerSpawnPoint.spawnPoint : Vector2.zero;
             SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, spawnPointPosition);
         }
         else
@@ -49,22 +49,6 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
             SceneManager.LoadSceneAsync(_sceneToLoad);
             Debug.LogWarning("SceneLoader instance is null. Loading scene without transition.");
         }
-    }
-
-    private Vector2 GetSpawnPointPosition(string sceneName, string spawnPointName)
-    {
-        Debug.Log($"Scene name: {sceneName}, Spawn point name: {spawnPointName}");
-        SpawnPointData spawnPointData = Resources.Load<SpawnPointData>("SpawnPointData");
-        if (spawnPointData != null)
-        {
-            var spawnPoint = spawnPointData.spawnPoints
-                .FirstOrDefault(sp => sp.sceneName == sceneName && sp.spawnPointName == spawnPointName);
-            if (spawnPoint != null)
-            {
-                return spawnPoint.position;
-            }
-        }
-        return default;
     }
 
     void OnTriggerEnter2D(Collider2D other)

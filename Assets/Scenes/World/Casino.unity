@@ -1511,7 +1511,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &249947743
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16224,11 +16224,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: PlayerHome
+  _sceneToLoad: City
   _playerVisibilityInNewScene: 0
   _transitionType: 0
   _loadTriggerType: 1
-  _playerSpawnPoint: SpawnPoint2
+  _playerSpawnPoint: {fileID: 11400000, guid: bf1fac65cdccee148ad34348266e41b7, type: 2}
 --- !u!4 &455185587
 Transform:
   m_ObjectHideFlags: 0
@@ -16238,7 +16238,7 @@ Transform:
   m_GameObject: {fileID: 455185584}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.5, y: -13, z: 0}
+  m_LocalPosition: {x: 4.5, y: -13.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17970,7 +17970,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 5
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!1 &979555848
 GameObject:
   m_ObjectHideFlags: 0
@@ -18005,7 +18005,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 6
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &979555850
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -29746,7 +29746,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &1158551189
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30230,7 +30230,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 5
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &1280550805
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30751,7 +30751,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &1533084476
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31257,7 +31257,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!61 &1608236856
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -31586,51 +31586,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1675014811}
   m_CullTransparentMesh: 1
---- !u!1 &1701878544
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1701878546}
-  - component: {fileID: 1701878545}
-  m_Layer: 0
-  m_Name: SpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1701878545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701878544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf47ea3b863ba244bdd249f302a3f6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerFacingDirection: {x: 1, y: 0}
---- !u!4 &1701878546
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1701878544}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.41, y: -10.12, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1712746161
 GameObject:
   m_ObjectHideFlags: 0
@@ -32796,7 +32751,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 0
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}
 --- !u!4 &1991140471
 Transform:
   m_ObjectHideFlags: 0
@@ -33415,7 +33370,6 @@ SceneRoots:
   - {fileID: 1272553627}
   - {fileID: 264081067}
   - {fileID: 455185587}
-  - {fileID: 1701878546}
   - {fileID: 1652174088}
   - {fileID: 1501522151}
   - {fileID: 1523000135}

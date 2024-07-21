@@ -12,7 +12,8 @@ public class GameTimer : MonoBehaviour
     private int _fullHours = 0;
     private int _fullDays = 0;
     private bool _isPaused = false;
-
+    
+    public float GameMinuteInRealTimeSeconds => _gameMinuteInRealTimeSeconds;
     public int TotalElapsedRealSeconds => Mathf.RoundToInt(_totalElapsedSeconds);
     public int TotalElapsedRealMinutes => Mathf.RoundToInt(_totalElapsedSeconds / 60);
     public int TotalElapsedRealHours => Mathf.RoundToInt(_totalElapsedSeconds / 3600);

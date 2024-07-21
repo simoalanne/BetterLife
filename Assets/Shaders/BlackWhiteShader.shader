@@ -12,6 +12,7 @@ Shader "Custom/BlackAndWhiteShader"
         Pass
         {
             Cull Off // Disable backface culling
+            ZWrite Off // Allows particles to render on top of objects that use this shader.
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag

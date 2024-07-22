@@ -3,41 +3,39 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Player;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI talkerName;
     public TextMeshProUGUI dialogueText;
     public float textSpeed;
-
+    private bool _isYesResponse;
     public Animator animator;
+    [SerializeField] private Button _continueButton;
+    [SerializeField] private Button _yesButton;
+    [SerializeField] private Button _noButton;
+    
+    private Queue<DialogueTrigger.Dialogue> dialogueParts;
 
-    // Stores dialogue, First in, First out
-    private Queue<string> sentences;
-
-    void Start()
+    void Awake()
     {
-        gameObject.GetComponent<CanvasGroup>().alpha = 0;
-        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false; // Prevents raycasts from hitting the dialogue box
-        sentences = new Queue<string>();
+        dialogueParts = new Queue<DialogueTrigger.Dialogue>();
     }
 
-    public void StartDialogue(Dialogue dialogue)
+    public void StartDialogue(DialogueTrigger.Dialogue[] dialogue)
     {
         GameTimer.Instance.IsPaused = true;
         PlayerManager.Instance.DisablePlayerMovement();
         PlayerManager.Instance.DisablePlayerInteract();
-        gameObject.GetComponent<CanvasGroup>().alpha = 1;
-        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true; // Allows raycasts to hit the dialogue box
+        _continueButton.gameObject.SetActive(false);
+        _yesButton.gameObject.SetActive(false);
+        _noButton.gameObject.SetActive(false);
         animator.SetBool("IsOpen", true);
 
-        nameText.text = dialogue.name;
-
-        sentences.Clear();
-
-        foreach (string sentence in dialogue.sentences)
+        foreach (var dialoguePart in dialogue)
         {
-            sentences.Enqueue(sentence);
+            dialogueParts.Enqueue(dialoguePart);
         }
 
         DisplayNextSentence();
@@ -45,25 +43,81 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
-        if (sentences.Count == 0) 
+        if (dialogueParts.Count == 0)
         {
             EndDialogue();
             return;
         }
 
-        string sentence = sentences.Dequeue();
+        var dialoguePart = dialogueParts.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
+        StartCoroutine(TypeSentence(dialoguePart));
     }
 
-    private IEnumerator TypeSentence(string sentence)
+    private IEnumerator TypeSentence(DialogueTrigger.Dialogue dialoguePart)
     {
+        if (dialoguePart.isYesBranch && !_isYesResponse)
+        {
+            HandleResponse(null);
+            yield break;
+        }
+
+        if (dialoguePart.isNoBranch && _isYesResponse)
+        {
+            HandleResponse(null);
+            yield break;
+        }
+
+        talkerName.text = dialoguePart.talkerName;
         dialogueText.text = "";
-        foreach (char letter in sentence.ToCharArray())
+        foreach (char letter in dialoguePart.sentence.ToCharArray())
         {
             dialogueText.text += letter;
             yield return new WaitForSeconds(textSpeed);
         }
+
+        if (dialoguePart.isQuestion)
+        {
+            _yesButton.gameObject.SetActive(true);
+            _noButton.gameObject.SetActive(true);
+            _continueButton.gameObject.SetActive(false);
+
+            _yesButton.onClick.RemoveAllListeners();
+            _noButton.onClick.RemoveAllListeners();
+            _yesButton.onClick.AddListener(() => YesClicked());
+            _noButton.onClick.AddListener(() => NoClicked());
+        }
+        else
+        {
+            _continueButton.gameObject.SetActive(true);
+            _yesButton.gameObject.SetActive(false);
+            _noButton.gameObject.SetActive(false);
+        }
+    }
+
+    private void HandleResponse(DialogueTrigger.Dialogue response)
+    {
+        _yesButton.gameObject.SetActive(false);
+        _noButton.gameObject.SetActive(false);
+        _continueButton.gameObject.SetActive(true);
+        if (response != null)
+        {
+            dialogueParts.Enqueue(response);
+        }
+
+        DisplayNextSentence();
+    }
+
+    void YesClicked()
+    {
+        _isYesResponse = true;
+        DisplayNextSentence();
+    }
+
+    void NoClicked()
+    {
+        _isYesResponse = false;
+        DisplayNextSentence();
     }
 
     private void EndDialogue()
@@ -72,8 +126,6 @@ public class DialogueManager : MonoBehaviour
         PlayerManager.Instance.EnablePlayerInteract();
         Debug.Log("End of conversation.");
         animator.SetBool("IsOpen", false);
-        gameObject.GetComponent<CanvasGroup>().alpha = 0;
-        gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
         GameTimer.Instance.IsPaused = false;
     }
 }

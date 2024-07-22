@@ -87,11 +87,15 @@ public class PlayerInteract : MonoBehaviour
                 SetCustomCursor(cursorType, IsPlayerWithinInteractionRange(targetCollider));
             }
 
-            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && targetCollider.TryGetComponent(out IInteractable interactable))
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && targetCollider != null)
             {
-                if (IsPlayerWithinInteractionRange(targetCollider))
+                var interactables = targetCollider.GetComponents<IInteractable>();
+                if (interactables.Length > 0 && IsPlayerWithinInteractionRange(targetCollider))
                 {
-                    interactable.Interact();
+                    foreach (var interactable in interactables)
+                    {
+                        interactable.Interact();
+                    }
                     return;
                 }
             }

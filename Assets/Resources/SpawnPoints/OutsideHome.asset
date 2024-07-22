@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: OutsideHome
   m_EditorClassIdentifier: 
   sceneName: City
-  spawnPoint: {x: 1.5, y: 1}
+  spawnPoint: {x: 1.31, y: 1.48}
   spawnPointName: OutsideHome

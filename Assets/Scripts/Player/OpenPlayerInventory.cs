@@ -6,6 +6,8 @@ public class OpenPlayerInventory : MonoBehaviour
     private PlayerControls _playerControls;
     private bool _isInventoryOpen;
     private InventoryUI _inventoryUI;
+    private bool _canOpenInventory = true;
+    public bool CanOpenInventory { get => _canOpenInventory; set => _canOpenInventory = value; }
 
     void Awake()
     {
@@ -16,6 +18,8 @@ public class OpenPlayerInventory : MonoBehaviour
 
     void ToggleInventory()
     {
+        if (!_canOpenInventory) return;
+
         if (!_isInventoryOpen)
         {
             _inventoryUI.OpenInventory();

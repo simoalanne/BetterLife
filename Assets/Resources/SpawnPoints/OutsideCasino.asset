@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: OutsideCasino
   m_EditorClassIdentifier: 
   sceneName: City
-  spawnPoint: {x: 12, y: 1}
+  spawnPoint: {x: 14.38, y: 1}
   spawnPointName: OutsideCasino

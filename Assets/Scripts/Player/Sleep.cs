@@ -10,7 +10,7 @@ public class Sleep : MonoBehaviour
     [SerializeField] private Image _sleepUI;
 
     [Header("Sleep Settings")]
-    [SerializeField] private int _hoursToSleep = 8; // Maybe controlled by a player instead of a fixed value.
+    [SerializeField] private int _wakeUpHour = 10; // The hour the player wakes up after sleeping.
     [SerializeField] private float _fadeInDuration = 1f; // How long the fade to black takes.
     [SerializeField] private float _fadeOutDuration = 1f; // How long the fade back from black takes.
     [SerializeField] private float _screenBlackTime = 3f; // How long the screen is black when sleeping.
@@ -72,7 +72,7 @@ public class Sleep : MonoBehaviour
             yield return null;
         }
         _fadeImage.color = Color.black;
-        GameTimer.Instance.AddToGameTime(0, _hoursToSleep, 0); // Add time here so player can't see it being added.
+        GameTimer.Instance.SkipToNexDay(_wakeUpHour);
         yield return new WaitForSecondsRealtime(_screenBlackTime);
 
         float timer2 = 0;

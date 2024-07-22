@@ -51,6 +51,17 @@ public class PlayerHUD : MonoBehaviour
         }
     }
 
+    public void AddToCanvas(GameObject obj)
+    {
+        Instantiate(obj, transform);
+    }
+
+    public void DestroyFromCanvas(GameObject obj)
+    {
+        Debug.Log("Destroying " + obj.name);
+        Destroy(obj);
+    }
+
     void OnDestroy()
     {
         SceneManager.activeSceneChanged -= OnActiveSceneChanged;

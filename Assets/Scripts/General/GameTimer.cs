@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameTimer : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class GameTimer : MonoBehaviour
     private int _fullHours = 0;
     private int _fullDays = 0;
     private bool _isPaused = false;
-    
+
     public float GameMinuteInRealTimeSeconds => _gameMinuteInRealTimeSeconds;
     public int TotalElapsedRealSeconds => Mathf.RoundToInt(_totalElapsedSeconds);
     public int TotalElapsedRealMinutes => Mathf.RoundToInt(_totalElapsedSeconds / 60);
@@ -29,18 +30,24 @@ public class GameTimer : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            AddToGameTime(0, 12, 0); // Game starts at 12am
         }
         else
         {
             Destroy(gameObject);
         }
 
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            Destroy(gameObject);
+        }
         // LoadGameTime();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (!_isPaused)
         {
             _totalElapsedSeconds += Time.deltaTime;
@@ -66,6 +73,16 @@ public class GameTimer : MonoBehaviour
 
         // Add the calculated real-time seconds to the total elapsed seconds
         _totalElapsedSeconds += realTimeSecondsToAdd;
+    }
+
+    public void SkipToNexDay(int wakeUpHour)
+    {
+        if (_fullHours > wakeUpHour) // if clock is more than the wake up hour add a day
+        {
+            _fullDays++;
+        }
+        _fullHours = wakeUpHour; // set the clock to the wake up hour
+        _fullMinutes = 0; // reset minutes
     }
 
     void OnApplicationQuit()

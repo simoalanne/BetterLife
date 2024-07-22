@@ -16,7 +16,7 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
         public bool isYesBranch;
         public bool isNoBranch;
     }
-
+    [SerializeField, Tooltip("Does dialog trigger when interacting with the object")] private bool _dialogTriggersByInteraction = true;
     [SerializeField] private Dialogue[] dialogue;
     [SerializeField] private Sprite _playerSprite;
     [SerializeField] private Sprite _NPCSprite;
@@ -24,13 +24,33 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
 
     void Awake()
     {
+        RemoveTrailingAndLeadingSpaces();
         fullDialogueCopy = new Dialogue[dialogue.Length];
         dialogue.CopyTo(fullDialogueCopy, 0);
+
+    }
+
+    /// <summary>
+    /// Checks for accidental leading and trailing spaces in the dialogue sentences and removes them.
+    /// </summary>
+    private void RemoveTrailingAndLeadingSpaces()
+    {
+        for (int i = 0; i < dialogue.Length; i++)
+        {
+            dialogue[i].sentence = dialogue[i].sentence.Trim();
+        }
     }
 
     public void Interact()
     {
-        TriggerDialogue();
+        if (_dialogTriggersByInteraction)
+        {
+            TriggerDialogue();
+        }
+        else
+        {
+            Debug.Log("Dialogue trigger is set to not trigger by interaction.");
+        }
     }
 
     public void TriggerDialogue()
@@ -59,6 +79,6 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
 
         dialogue = dialogueList.ToArray();
         Debug.Log("Dialogue length: " + dialogue.Length);
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
+        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, _playerSprite, _NPCSprite);
     }
 }

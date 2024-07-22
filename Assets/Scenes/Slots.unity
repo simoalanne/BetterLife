@@ -1712,7 +1712,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 0
   _transitionType: 0
   _loadTriggerType: 2
-  _playerSpawnPoint: Previous Location
+  _playerSpawnPoint: {fileID: 0}
 --- !u!1001 &2085625234
 PrefabInstance:
   m_ObjectHideFlags: 0

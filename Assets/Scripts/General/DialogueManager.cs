@@ -11,10 +11,13 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI dialogueText;
     public float textSpeed;
     private bool _isYesResponse;
-    public Animator animator;
+    [SerializeField] private Animator animator;
     [SerializeField] private Button _continueButton;
     [SerializeField] private Button _yesButton;
     [SerializeField] private Button _noButton;
+    [SerializeField] private Image _talkerImage;
+    private Sprite playerSprite;
+    private Sprite talkerSprite;
     
     private Queue<DialogueTrigger.Dialogue> dialogueParts;
 
@@ -23,8 +26,10 @@ public class DialogueManager : MonoBehaviour
         dialogueParts = new Queue<DialogueTrigger.Dialogue>();
     }
 
-    public void StartDialogue(DialogueTrigger.Dialogue[] dialogue)
+    public void StartDialogue(DialogueTrigger.Dialogue[] dialogue, Sprite playerSprite, Sprite talkerSprite)
     {
+        this.playerSprite = playerSprite;
+        this.talkerSprite = talkerSprite;
         GameTimer.Instance.IsPaused = true;
         PlayerManager.Instance.DisablePlayerMovement();
         PlayerManager.Instance.DisablePlayerInteract();
@@ -67,7 +72,7 @@ public class DialogueManager : MonoBehaviour
             HandleResponse(null);
             yield break;
         }
-
+        _talkerImage.sprite = dialoguePart.isPlayer ? playerSprite : talkerSprite;
         talkerName.text = dialoguePart.talkerName;
         dialogueText.text = "";
         foreach (char letter in dialoguePart.sentence.ToCharArray())

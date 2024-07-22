@@ -12,11 +12,12 @@ namespace Player
 
         private PlayerMovement _playerMovement;
         private PlayerInteract _playerInteract;
+        private OpenPlayerInventory _openPlayerInventory;
         private SpriteRenderer _spriteRenderer;
         private DisplayMoney _displayMoney;
         private float _moneyBeforeGambling;
         private string[] _scenesToDisableHUD = { "MainMenu", "Roulette", "BlackJack", "Slots" };
-        [SerializeField] private float _moneyInBankAccount = 1000f;
+        [SerializeField] private float _moneyInBankAccount = 100f;
         private float _originalMoney;
         public float MoneyInBankAccount
         {
@@ -40,6 +41,7 @@ namespace Player
                 DontDestroyOnLoad(gameObject);
                 _playerMovement = GetComponent<PlayerMovement>();
                 _playerInteract = GetComponent<PlayerInteract>();
+                _openPlayerInventory = FindObjectOfType<OpenPlayerInventory>();
                 _spriteRenderer = GetComponent<SpriteRenderer>();
                 _displayMoney = FindObjectOfType<DisplayMoney>();
                 _moneyBeforeGambling = _moneyInBankAccount;
@@ -90,6 +92,38 @@ namespace Player
             _spriteRenderer.enabled = true;
         }
 
+        public void DisableInventoryOpen()
+        {
+            _openPlayerInventory.CanOpenInventory = false;
+        }
+
+        public void EnableInventoryOpen()
+        {
+            _openPlayerInventory.CanOpenInventory = true;
+        }
+
+        public void DisablePlayer()
+        {
+            DisablePlayerMovement();
+            DisablePlayerInteract();
+            DisableInventoryOpen();
+            DisableSpriteRenderer();
+        }
+
+        public void DisableInputs()
+        {
+            DisablePlayerMovement();
+            DisablePlayerInteract();
+            DisableInventoryOpen();
+        }
+
+        public void EnableInputs()
+        {
+            EnablePlayerMovement();
+            EnablePlayerInteract();
+            EnableInventoryOpen();
+        }
+
         void OnActiveSceneChanged(Scene current, Scene next)
         {
             if (current.name == "MainMenu")
@@ -111,9 +145,25 @@ namespace Player
             }
         }
 
+        void OnEnable()
+        {
+            var spawnPoints = Resources.LoadAll<SpawnPoint>("SpawnPoints");
+            var matchingSpawnPoint = spawnPoints.FirstOrDefault(sp => sp.sceneName == SceneManager.GetActiveScene().name);
+            if (matchingSpawnPoint != null)
+            {
+                Debug.Log($"Found spawn point for scene {SceneManager.GetActiveScene().name}");
+                transform.position = matchingSpawnPoint.spawnPoint;
+            }
+            else
+            {
+                DisablePlayer();
+            }
+        }
+
         void OnDestroy()
         {
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
     }
 }
+

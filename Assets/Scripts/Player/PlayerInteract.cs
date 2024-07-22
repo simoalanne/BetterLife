@@ -137,8 +137,10 @@ public class PlayerInteract : MonoBehaviour
         {
             return true;
         }
+
         float distanceToEdge = Vector2.Distance(_playerCollider.ClosestPoint(targetCollider.bounds.ClosestPoint(_playerCollider.transform.position)),
         targetCollider.bounds.ClosestPoint(_playerCollider.transform.position));
-        return distanceToEdge <= _interactionRange;
+        var interactionDistance = targetCollider.GetComponent<OverrideInteractionRange>(); // Check if the object has a custom interaction range
+        return interactionDistance != null ? distanceToEdge <= interactionDistance.InteractionRange : distanceToEdge <= _interactionRange; // Use custom range if available
     }
 }

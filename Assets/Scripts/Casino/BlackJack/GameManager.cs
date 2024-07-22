@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
         dealButton.onClick.AddListener(() => DealClicked());
         hitButton.onClick.AddListener(() => HitClicked());
         standButton.onClick.AddListener(() => StandClicked());

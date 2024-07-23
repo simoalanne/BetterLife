@@ -4258,7 +4258,7 @@ MonoBehaviour:
   _dialogTriggersByInteraction: 1
   dialogue:
   - talkerName: Shopkeeper
-    sentence: Are you gonna buy something or not?
+    sentence: Are you going to buy something or are you just wasting my time?
     isPlayer: 0
     isQuestion: 0
     isOptionalSentence: 0
@@ -4267,7 +4267,7 @@ MonoBehaviour:
     isNoBranch: 0
   - talkerName: Shopkeeper
     sentence: Do you even have money to buy anything? Go beg on the street you filthy
-      bum
+      bum.
     isPlayer: 0
     isQuestion: 0
     isOptionalSentence: 1
@@ -4275,7 +4275,7 @@ MonoBehaviour:
     isYesBranch: 0
     isNoBranch: 0
   - talkerName: Doyle
-    sentence: Piss off!
+    sentence: Your mom has a filthy bum.
     isPlayer: 1
     isQuestion: 0
     isOptionalSentence: 1

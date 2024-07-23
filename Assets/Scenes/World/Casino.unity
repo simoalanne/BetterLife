@@ -29536,9 +29536,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dialogTriggersByInteraction: 1
-  dialogue: []
-  _playerSprite: {fileID: 0}
-  _NPCSprite: {fileID: 0}
+  dialogue:
+  - talkerName: The Bottle
+    sentence: The bottle just stands there, menacingly.
+    isPlayer: 0
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: Is this some sort of offering to a higher power?
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 21300000, guid: 3e472f0ad570ecb489a01fecd614ddc4, type: 3}
 --- !u!61 &1652174091
 BoxCollider2D:
   m_ObjectHideFlags: 0

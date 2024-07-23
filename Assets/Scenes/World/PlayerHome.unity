@@ -4627,7 +4627,8 @@ GameObject:
   - component: {fileID: 641922542}
   - component: {fileID: 641922541}
   - component: {fileID: 641922543}
-  m_Layer: 0
+  - component: {fileID: 641922544}
+  m_Layer: 3
   m_Name: Tele
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4746,6 +4747,47 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &641922544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641922540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 1
+  dialogue:
+  - talkerName: Doyle
+    sentence: Alright, let's see what's on the wireless.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: The bachelorette season 23? How are they still making more of this
+      shit?
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: I wish they would air Grimblo's Adventure again...
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 21300000, guid: 4a0b9ad077ea8fb418afbd2b63f638fd, type: 3}
 --- !u!1 &671850331
 GameObject:
   m_ObjectHideFlags: 0
@@ -5384,7 +5426,8 @@ GameObject:
   - component: {fileID: 1040271764}
   - component: {fileID: 1040271763}
   - component: {fileID: 1040271765}
-  m_Layer: 0
+  - component: {fileID: 1040271766}
+  m_Layer: 3
   m_Name: Toiler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5503,6 +5546,39 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.0667572, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1040271766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040271762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 1
+  dialogue:
+  - talkerName: Doyle
+    sentence: Yuck, it looks like a disaster happened to this toilet.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: I should stop eating those tacos they serve in the backrooms of the
+      casino.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 0}
 --- !u!1 &1107109955
 GameObject:
   m_ObjectHideFlags: 0
@@ -5513,7 +5589,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1107109957}
   - component: {fileID: 1107109956}
-  m_Layer: 0
+  - component: {fileID: 1107109959}
+  - component: {fileID: 1107109958}
+  m_Layer: 3
   m_Name: Grimblo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5581,12 +5659,81 @@ Transform:
   m_GameObject: {fileID: 1107109955}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.37, y: -9.41, z: -0.09856672}
+  m_LocalPosition: {x: 13.32, y: -9.34, z: -0.09856672}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1678483320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1107109958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107109955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 1
+  dialogue:
+  - talkerName: Grimblo
+    sentence: Me Grimblo.
+    isPlayer: 0
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 21300000, guid: 46f05056e533b7148a46fe2e46104235, type: 3}
+--- !u!61 &1107109959
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107109955}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.08662915, y: 0.3465171}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2.5}
+    newSize: {x: 2, y: 2.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.8267417, y: 1.8069658}
+  m_EdgeRadius: 0
 --- !u!1 &1136520410
 GameObject:
   m_ObjectHideFlags: 0
@@ -12425,7 +12572,15 @@ MonoBehaviour:
   _dialogTriggersByInteraction: 0
   dialogue:
   - talkerName: Doyle
-    sentence: Doyles reaction here
+    sentence: I doubt she even cares, she just wrote this to make herself feel better.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: Good riddance.
     isPlayer: 1
     isQuestion: 0
     isOptionalSentence: 0
@@ -13146,7 +13301,8 @@ GameObject:
   - component: {fileID: 1898344675}
   - component: {fileID: 1898344674}
   - component: {fileID: 1898344676}
-  m_Layer: 0
+  - component: {fileID: 1898344677}
+  m_Layer: 3
   m_Name: Fridge full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13265,6 +13421,47 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &1898344677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1898344672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 1
+  dialogue:
+  - talkerName: Doyle
+    sentence: I don't want to look inside of this fridge.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: Because if there is rotting food inside it, it would become my responsibility
+      to clean it up.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  - talkerName: Doyle
+    sentence: So better just ignore it.
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 0}
 --- !u!1 &2016629730
 GameObject:
   m_ObjectHideFlags: 0
@@ -13478,7 +13675,8 @@ GameObject:
   - component: {fileID: 2079468459}
   - component: {fileID: 2079468460}
   - component: {fileID: 2079468461}
-  m_Layer: 0
+  - component: {fileID: 2079468462}
+  m_Layer: 3
   m_Name: sofa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13597,6 +13795,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &2079468462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2079468458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 1
+  dialogue:
+  - talkerName: Doyle
+    sentence: "This sofa is like a void. \nOnce something goes between the cracks,
+      you can never find it again."
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 0}
 --- !u!1 &2129560175
 GameObject:
   m_ObjectHideFlags: 0

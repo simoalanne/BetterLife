@@ -77,12 +77,19 @@ public class GameTimer : MonoBehaviour
 
     public void SkipToNexDay(int wakeUpHour)
     {
-        if (_fullHours > wakeUpHour) // if clock is more than the wake up hour add a day
-        {
-            _fullDays++;
-        }
-        _fullHours = wakeUpHour; // set the clock to the wake up hour
-        _fullMinutes = 0; // reset minutes
+        // Calculate the total game minutes to add
+        int minutesToAdd = (24 - _fullHours + wakeUpHour) * 60 - _fullMinutes;
+
+        // Convert game minutes to real-time seconds
+        float realTimeSecondsToAdd = minutesToAdd * _gameMinuteInRealTimeSeconds;
+
+        // Add the calculated real-time seconds to the total elapsed seconds
+        _totalElapsedSeconds += realTimeSecondsToAdd;
+
+        // Update the game time
+        _fullDays = Mathf.FloorToInt(_totalElapsedSeconds / (_gameMinuteInRealTimeSeconds * 60 * 24));
+        _fullHours = wakeUpHour;
+        _fullMinutes = 0;
     }
 
     void OnApplicationQuit()

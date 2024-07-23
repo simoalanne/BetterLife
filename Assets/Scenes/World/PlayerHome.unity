@@ -4838,7 +4838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeImage: {fileID: 866306416}
   _sleepUI: {fileID: 297886334}
-  _hoursToSleep: 8
+  _wakeUpHour: 10
   _fadeInDuration: 1
   _fadeOutDuration: 1
   _screenBlackTime: 3
@@ -5369,7 +5369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fadeImage: {fileID: 866306416}
   _sleepUI: {fileID: 297886334}
-  _hoursToSleep: 8
+  _wakeUpHour: 10
   _fadeInDuration: 1
   _fadeOutDuration: 1
   _screenBlackTime: 3
@@ -5680,7 +5680,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1136520415
 RectTransform:

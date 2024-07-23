@@ -32,7 +32,7 @@ public class Sleep : MonoBehaviour
             _sleepUI.gameObject.SetActive(true);
             PlayerManager.Instance.DisablePlayerMovement();
             PlayerManager.Instance.DisablePlayerInteract();
-            Time.timeScale = 0;
+            GameTimer.Instance.IsPaused = true;
         }
     }
 
@@ -42,7 +42,7 @@ public class Sleep : MonoBehaviour
         _sleepCancelled = true;
         PlayerManager.Instance.EnablePlayerMovement();
         PlayerManager.Instance.EnablePlayerInteract();
-        Time.timeScale = 1;
+        GameTimer.Instance.IsPaused = false;
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class Sleep : MonoBehaviour
         StartCoroutine(SleepInBedCoroutine());
     }
 
-    public IEnumerator SleepInBedCoroutine()
+    private IEnumerator SleepInBedCoroutine()
     {
         InitializeSleep();
         float timer = 0;
@@ -73,7 +73,7 @@ public class Sleep : MonoBehaviour
         }
         _fadeImage.color = Color.black;
         GameTimer.Instance.SkipToNexDay(_wakeUpHour);
-        yield return new WaitForSecondsRealtime(_screenBlackTime);
+        yield return new WaitForSeconds(_screenBlackTime);
 
         float timer2 = 0;
         while (timer2 < _fadeOutDuration)
@@ -90,14 +90,13 @@ public class Sleep : MonoBehaviour
     {
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(true);
-        Time.timeScale = 0;
     }
 
     void EndSleep()
     {
-        Time.timeScale = 1;
         PlayerManager.Instance.EnablePlayerMovement();
         PlayerManager.Instance.EnablePlayerInteract();
+        GameTimer.Instance.IsPaused = false;
         _fadeImage.gameObject.SetActive(false);
     }
 }

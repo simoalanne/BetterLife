@@ -8,7 +8,7 @@ public class ShopkeeperInsult : MonoBehaviour, IOptionalSentence
     
     void Start()
     {
-        if (PlayerManager.Instance.MoneyInBankAccount <= 20)
+        if (PlayerManager.Instance.MoneyInBankAccount <= _moneyRequiredForInsult)
         {
             _displayOptionalSentence = true;
         }

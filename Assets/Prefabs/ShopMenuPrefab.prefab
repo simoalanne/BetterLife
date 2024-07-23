@@ -541,8 +541,34 @@ MonoBehaviour:
   _hoverItemName: {fileID: 8064302488355717235}
   _hoverItemDescription: {fileID: 6867257209006121326}
   itemsForSale:
-  - item: {fileID: 11400000, guid: fd5e921f1fe1f5149bf388497a48deef, type: 2}
-    itemPrice: 10000
+  - item: {fileID: 11400000, guid: 1b303f0eeaeea7a4e90b7d6b9adde133, type: 2}
+    itemPrice: 2
+  - item: {fileID: 11400000, guid: 4fb9ebbb3f27b0842984147fea43ce8f, type: 2}
+    itemPrice: 3
+  - item: {fileID: 11400000, guid: 9030c94b671c664488bbb68c2ad7964b, type: 2}
+    itemPrice: 4
+  - item: {fileID: 11400000, guid: f04c4fc8180167245aa9f0ccca5ab0bf, type: 2}
+    itemPrice: 4
+  - item: {fileID: 11400000, guid: 29b45200262b2b64db4c89c39f93b2d5, type: 2}
+    itemPrice: 8
+  - item: {fileID: 11400000, guid: 90471f6817811a74cad87f8d4e58309e, type: 2}
+    itemPrice: 10
+  - item: {fileID: 11400000, guid: dd8751dd6b21d5d40b630c7b4e06b3ae, type: 2}
+    itemPrice: 1
+  - item: {fileID: 11400000, guid: b970153df22591443b39b555c0cfa522, type: 2}
+    itemPrice: 2
+  - item: {fileID: 11400000, guid: df4b7075c479ff947876c5236d216b03, type: 2}
+    itemPrice: 7
+  - item: {fileID: 11400000, guid: 3d81060d3db638a4eabc31e8969b02fd, type: 2}
+    itemPrice: 50
+  - item: {fileID: 11400000, guid: 5ba0c2068c1019f4d8fc55c3bab649d6, type: 2}
+    itemPrice: 6
+  - item: {fileID: 11400000, guid: 0f51b7b05860e2748873a5e73ee96227, type: 2}
+    itemPrice: 5
+  - item: {fileID: 11400000, guid: 8bed458a7add2c24c936e0df10184c03, type: 2}
+    itemPrice: 3
+  - item: {fileID: 11400000, guid: b9afd71bc19a1ef45b609f4a03d6087b, type: 2}
+    itemPrice: 12
 --- !u!114 &307446047924029327
 MonoBehaviour:
   m_ObjectHideFlags: 0

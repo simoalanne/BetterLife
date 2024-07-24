@@ -1,8 +1,8 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Player;
+using System;
 
 public class EndGame : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class EndGame : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button _endGameButton;
     [SerializeField] private Button _cancelButton;
+    public Action OnEndGame;
 
     void Awake()
     {

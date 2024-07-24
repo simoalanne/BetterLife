@@ -37,7 +37,7 @@ public class ShopkeeperBuyMenu : MonoBehaviour
         public InventoryItem item;
         public int itemPrice;
     }
-
+    
     [SerializeField] List<Item> itemsForSale;
 
     private readonly Dictionary<Item, Button> itemButtonMap = new();
@@ -85,7 +85,7 @@ public class ShopkeeperBuyMenu : MonoBehaviour
         {
             RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)_hoverMenu.transform.parent, Input.mousePosition, null, out var position);
             _hoverMenu.transform.localPosition = position +
-            new Vector2(_hoverMenuRectTransform.rect.width / 2, -_hoverMenuRectTransform.rect.height / 2) + new Vector2(32, -32);
+            new Vector2(_hoverMenuRectTransform.rect.width / 2, -_hoverMenuRectTransform.rect.height / 2) + new Vector2(16, -16);
         }
     }
 
@@ -112,7 +112,7 @@ public class ShopkeeperBuyMenu : MonoBehaviour
         if (PlayerManager.Instance.MoneyInBankAccount >= item.itemPrice)
         {
             PlayerManager.Instance.MoneyInBankAccount -= item.itemPrice;
-            _playerMoneyText.text = $"${PlayerManager.Instance.MoneyInBankAccount} €";
+            _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
             PlayerInventory.Instance.AddToInventory(item.item);
             if (item.item.isUnique)
             {

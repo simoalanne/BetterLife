@@ -33,7 +33,22 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     {
         if (_loadTriggerType == LoadTriggerType.OnGameWorldInteract)
         {
-            LoadScene();
+            if (TryGetComponent(out OpeningHours openingHours))
+            {
+                if (openingHours.IsOpen)
+                {
+                    LoadScene();
+                }
+                else
+                {
+                    openingHours.ShowClosedSign();
+                }
+            }
+            else
+            {
+                LoadScene();
+            }
+            
         }
     }
 

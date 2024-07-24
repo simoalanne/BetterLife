@@ -3124,6 +3124,8 @@ GameObject:
   - component: {fileID: 1300205631}
   - component: {fileID: 1300205632}
   - component: {fileID: 1300205633}
+  - component: {fileID: 1300205634}
+  - component: {fileID: 1300205635}
   m_Layer: 3
   m_Name: casino
   m_TagString: Untagged
@@ -3305,6 +3307,45 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5, y: 6.005499}
   m_EdgeRadius: 0
+--- !u!114 &1300205634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300205628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1913f25d74c0704f8e541975b79d65d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _openFrom: 13
+  _openTo: 2
+  _closedSign: {fileID: 4463871520183115512, guid: 21310f98b954eb14191ef4ee07ed5d46, type: 3}
+--- !u!114 &1300205635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300205628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f38a9bcf960ace46969f842283a25df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dialogTriggersByInteraction: 0
+  dialogue:
+  - talkerName: Doyle
+    sentence: Closed?! What the hell am I gonna do now?
+    isPlayer: 1
+    isQuestion: 0
+    isOptionalSentence: 0
+    overwrittenByOptionalSentence: 0
+    isYesBranch: 0
+    isNoBranch: 0
+  _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
+  _NPCSprite: {fileID: 0}
 --- !u!1 &1474106233
 GameObject:
   m_ObjectHideFlags: 0

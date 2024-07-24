@@ -2544,7 +2544,6 @@ GameObject:
   - component: {fileID: 1833395236}
   - component: {fileID: 1833395235}
   - component: {fileID: 1833395237}
-  - component: {fileID: 1833395238}
   - component: {fileID: 1833395239}
   - component: {fileID: 1833395240}
   m_Layer: 3
@@ -2635,46 +2634,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dialogTriggersByInteraction: 1
   dialogue:
-  - talkerName: Shopkeeper
-    sentence: Are you gonna buy something or not?
+  - talkerName: Loan Shark
+    sentence: I'm a happy man as long as you remember to pay your loans back...
     isPlayer: 0
     isQuestion: 0
     isOptionalSentence: 0
-    overwrittenByOptionalSentence: 1
+    overwrittenByOptionalSentence: 0
     isYesBranch: 0
     isNoBranch: 0
-  - talkerName: Shopkeeper
-    sentence: Do you even have money to buy anything? Go beg on the street you filthy
-      bum
+  - talkerName: Loan Shark
+    sentence: But if you don't then you're DEAD, remember that!
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 1
+    isOptionalSentence: 0
     overwrittenByOptionalSentence: 0
     isYesBranch: 0
     isNoBranch: 0
   - talkerName: Doyle
-    sentence: Piss off!
+    sentence: Don't you worry, you can count on me!
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 1
+    isOptionalSentence: 0
     overwrittenByOptionalSentence: 0
     isYesBranch: 0
     isNoBranch: 0
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
-  _NPCSprite: {fileID: 21300000, guid: 2706ab49833dc32469c22b46f89b4f4e, type: 3}
---- !u!114 &1833395238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833395234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8ebdf85df4c3b24cb9e6b4cc355e5e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moneyRequiredForInsult: 20
+  _NPCSprite: {fileID: 21300000, guid: 576a8fac979c99e40911d95136f92c69, type: 3}
 --- !u!61 &1833395239
 BoxCollider2D:
   m_ObjectHideFlags: 0

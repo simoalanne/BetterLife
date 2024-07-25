@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1913f25d74c0704f8e541975b79d65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openFrom: 13
+  _openFrom: 12
   _openTo: 2
   _closedSign: {fileID: 4463871520183115512, guid: 21310f98b954eb14191ef4ee07ed5d46, type: 3}
 --- !u!114 &1300205635
@@ -3340,10 +3340,9 @@ MonoBehaviour:
     sentence: Closed?! What the hell am I gonna do now?
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 0}
 --- !u!1 &1474106233

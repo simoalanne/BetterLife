@@ -28516,153 +28516,85 @@ MonoBehaviour:
     sentence: Hello there sir! First time here, eh?
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: No, I guess you could even call me a regular.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 1
-    isYesBranch: 0
-    isNoBranch: 0
-  - talkerName: Doyle
-    sentence: What do you mean? You asked that just moments ago?
-    isPlayer: 1
-    isQuestion: 0
-    isOptionalSentence: 1
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Cashier
     sentence: I see! I just got hired recently so I don't recognize people that well
       yet.
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 1
-    isYesBranch: 0
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: Apologies, I'm suffering from short-term memory loss.
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 1
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Cashier
     sentence: Would you like a refresher lesson on how our casino works?
     isPlayer: 0
     isQuestion: 1
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: Then allow me to explain!
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: As you can probably see, our casino has the roulette tables, blackjack,
-      and slots!
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: 'You can play any of these games when we''re open. '
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: If you need an explanation on a specific game, you can get it while
-      you're playing it.
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: We also provide our regulars with alcoholic beverages, on the house
-      of course.
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: If you feel like having one, please ask the attendant at the blackjack
-      or roulette table to order one for you.
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: Also, you dont need to exchange your money for chips here, it happens
-      automatically!
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Doyle
-    sentence: ' How does that even work?'
-    isPlayer: 1
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: ' I have no idea. Apparently it''s way above my paygrade.'
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: Anyway that's it for the explanation. Go out there and have fun!
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 1
-    isNoBranch: 0
-  - talkerName: Cashier
-    sentence: ' I see, I guess you must know how everything works already, since
-      you''re a regular and all.'
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 1
-  - talkerName: Cashier
-    sentence: ' But if you ever do need an explanation, just ask! Have fun!'
-    isPlayer: 0
-    isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 1
+    finishesDialogue: 0
+    yesBranch:
+    - talkerName: Cashier
+      sentence: Then allow me to explain!
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: As you can probably see, our casino has the roulette tables, blackjack,
+        and slots!
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: 'You can play any of these games when we''re open. '
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: If you need an explanation on a specific game, you can get it while
+        you're playing it.
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: We also provide our regulars with alcoholic beverages, on the house
+        of course.
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: If you feel like having one, please ask the attendant at the blackjack
+        or roulette table to order one for you.
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: Also, you dont need to exchange your money for chips here, it happens
+        automatically!
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Doyle
+      sentence: ' How does that even work?'
+      isPlayer: 1
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: ' I have no idea. Apparently it''s way above my paygrade.'
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: Anyway that's it for the explanation. Go out there and have fun!
+      isPlayer: 0
+      finishesDialogue: 1
+    noBranch:
+    - talkerName: Cashier
+      sentence: I see, I guess you must know how everything works already, since
+        you're a regular and all.
+      isPlayer: 0
+      finishesDialogue: 0
+    - talkerName: Cashier
+      sentence: But if you ever do need an explanation, just ask! Have fun!
+      isPlayer: 0
+      finishesDialogue: 1
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: e6c1fb4fecb6c644885354dae802eaa9, type: 3}
 --- !u!114 &1272553630
@@ -29541,18 +29473,16 @@ MonoBehaviour:
     sentence: The bottle just stands there, menacingly.
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: Is this some sort of offering to a higher power?
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: 3e472f0ad570ecb489a01fecd614ddc4, type: 3}
 --- !u!61 &1652174091

@@ -4765,27 +4765,24 @@ MonoBehaviour:
     sentence: Alright, let's see what's on the wireless.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: The bachelorette season 23? How are they still making more of this
       shit?
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: I wish they would air Grimblo's Adventure again...
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: 4a0b9ad077ea8fb418afbd2b63f638fd, type: 3}
 --- !u!1 &671850331
@@ -5428,7 +5425,7 @@ GameObject:
   - component: {fileID: 1040271765}
   - component: {fileID: 1040271766}
   m_Layer: 3
-  m_Name: Toiler
+  m_Name: Toilet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5564,19 +5561,17 @@ MonoBehaviour:
     sentence: Yuck, it looks like a disaster happened to this toilet.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: I should stop eating those tacos they serve in the backrooms of the
       casino.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 0}
 --- !u!1 &1107109955
@@ -5683,10 +5678,9 @@ MonoBehaviour:
     sentence: Me Grimblo.
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: 46f05056e533b7148a46fe2e46104235, type: 3}
 --- !u!61 &1107109959
@@ -12575,18 +12569,16 @@ MonoBehaviour:
     sentence: I doubt she even cares, she just wrote this to make herself feel better.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: Good riddance.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 0}
 --- !u!114 &1628874626
@@ -13439,27 +13431,24 @@ MonoBehaviour:
     sentence: I don't want to look inside of this fridge.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: Because if there is rotting food inside it, it would become my responsibility
       to clean it up.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: So better just ignore it.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 0}
 --- !u!1 &2016629730
@@ -13814,10 +13803,9 @@ MonoBehaviour:
       you can never find it again."
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 0}
 --- !u!1 &2129560175

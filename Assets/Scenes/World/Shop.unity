@@ -4261,27 +4261,24 @@ MonoBehaviour:
     sentence: Are you going to buy something or are you just wasting my time?
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 1
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 1
+    yesBranch: []
+    noBranch: []
   - talkerName: Shopkeeper
     sentence: Do you even have money to buy anything? Go beg on the street you filthy
       bum.
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 1
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: Your mom has a filthy bum.
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 1
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: 2706ab49833dc32469c22b46f89b4f4e, type: 3}
 --- !u!114 &1833395238

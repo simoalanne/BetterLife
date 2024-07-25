@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class DialogueTrigger : MonoBehaviour, IInteractable
 {
@@ -9,25 +8,35 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
         public string talkerName;
         [TextArea(3, 10)]
         public string sentence;
-        public bool isPlayer;
+        public bool isPlayer = true;
         public bool isQuestion;
-        public bool isOptionalSentence;
-        public bool overwrittenByOptionalSentence;
-        public bool isYesBranch;
-        public bool isNoBranch;
+        public bool finishesDialogue;
+        [Header("For questions only")]
+        public Branch[] yesBranch;
+        public Branch[] noBranch;
+
     }
+
+    [System.Serializable]
+    public class Branch
+    {
+        public string talkerName;
+        [TextArea(3, 10)]
+        public string sentence;
+        public bool isPlayer = true;
+        public bool finishesDialogue;
+    }
+
+
     [SerializeField, Tooltip("Does dialog trigger when interacting with the object")] private bool _dialogTriggersByInteraction = true;
     [SerializeField] private Dialogue[] dialogue;
+    [Tooltip("Leave empty if don't want to change the default sprite")]
     [SerializeField] private Sprite _playerSprite;
     [SerializeField] private Sprite _NPCSprite;
-    private Dialogue[] fullDialogueCopy;
 
     void Awake()
     {
         RemoveTrailingAndLeadingSpaces();
-        fullDialogueCopy = new Dialogue[dialogue.Length];
-        dialogue.CopyTo(fullDialogueCopy, 0);
-
     }
 
     /// <summary>
@@ -38,6 +47,17 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
         for (int i = 0; i < dialogue.Length; i++)
         {
             dialogue[i].sentence = dialogue[i].sentence.Trim();
+            if (dialogue[i].isQuestion)
+            {
+                foreach (Branch branch in dialogue[i].yesBranch)
+                {
+                    branch.sentence = branch.sentence.Trim();
+                }
+                foreach (Branch branch in dialogue[i].noBranch)
+                {
+                    branch.sentence = branch.sentence.Trim();
+                }
+            }
         }
     }
 
@@ -55,30 +75,6 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
 
     public void TriggerDialogue()
     {
-        dialogue = new Dialogue[fullDialogueCopy.Length];
-        fullDialogueCopy.CopyTo(dialogue, 0);
-
-        TryGetComponent<IOptionalSentence>(out var optionalSentence);
-
-        List<Dialogue> dialogueList = new List<Dialogue>(dialogue);
-
-        for (int i = dialogueList.Count - 1; i >= 0; i--)
-        {
-            var dialoguePart = dialogueList[i];
-            if (dialoguePart.isOptionalSentence && optionalSentence.DisplayOptionalSentence() == false)
-            {
-                Debug.Log("Removed sentence because not to be displayed: " + dialoguePart.sentence);
-                dialogueList.RemoveAt(i);
-            }
-            else if (dialoguePart.overwrittenByOptionalSentence && optionalSentence.DisplayOptionalSentence() == true)
-            {
-                Debug.Log("Removed sentence because overwritten by optional sentence: " + dialoguePart.sentence);
-                dialogueList.RemoveAt(i);
-            }
-        }
-
-        dialogue = dialogueList.ToArray();
-        Debug.Log("Dialogue length: " + dialogue.Length);
         FindObjectOfType<DialogueManager>().StartDialogue(dialogue, _playerSprite, _NPCSprite);
-    }
-}
+    } 
+} 

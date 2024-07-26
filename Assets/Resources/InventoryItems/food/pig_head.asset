@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: pig_head
   m_EditorClassIdentifier: 
   itemName: Pig Head
-  itemDescription: 
+  itemDescription: Roasted pig head, a hearty meal.
   icon: {fileID: -892248648, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

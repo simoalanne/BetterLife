@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: egg
   m_EditorClassIdentifier: 
   itemName: Egg
-  itemDescription: 
+  itemDescription: Farm-fresh egg, versatile and nutritious.
   icon: {fileID: -1203409926, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

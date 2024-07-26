@@ -2517,7 +2517,7 @@ MonoBehaviour:
   _playerVisibilityInNewScene: 0
   _transitionType: 0
   _loadTriggerType: 1
-  _playerSpawnPoint: {fileID: 11400000, guid: d50ef3d492043c149bce7cf1740c9766, type: 2}
+  _playerSpawnPoint: {fileID: 11400000, guid: 603eba525a9a2134da18407592e01db7, type: 2}
 --- !u!4 &1797696833
 Transform:
   m_ObjectHideFlags: 0
@@ -2638,26 +2638,23 @@ MonoBehaviour:
     sentence: I'm a happy man as long as you remember to pay your loans back...
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Loan Shark
     sentence: But if you don't then you're DEAD, remember that!
     isPlayer: 0
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   - talkerName: Doyle
     sentence: Don't you worry, you can count on me!
     isPlayer: 1
     isQuestion: 0
-    isOptionalSentence: 0
-    overwrittenByOptionalSentence: 0
-    isYesBranch: 0
-    isNoBranch: 0
+    finishesDialogue: 0
+    yesBranch: []
+    noBranch: []
   _playerSprite: {fileID: 21300000, guid: 6eb6e3ea141fe0d4491413ac01f317be, type: 3}
   _NPCSprite: {fileID: 21300000, guid: 576a8fac979c99e40911d95136f92c69, type: 3}
 --- !u!61 &1833395239

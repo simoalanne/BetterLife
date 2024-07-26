@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: sardines
   m_EditorClassIdentifier: 
   itemName: Can of Sardines
-  itemDescription: 
+  itemDescription: Canned sardines in olive oil, rich in omega-3.
   icon: {fileID: -2047743937, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

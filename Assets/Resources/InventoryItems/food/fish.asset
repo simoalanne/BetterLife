@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: fish
   m_EditorClassIdentifier: 
   itemName: Fish
-  itemDescription: 
+  itemDescription: Fresh grilled fish fillet with herbs.
   icon: {fileID: 262084150, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

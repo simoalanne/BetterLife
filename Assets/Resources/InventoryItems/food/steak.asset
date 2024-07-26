@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: steak
   m_EditorClassIdentifier: 
   itemName: Steak
-  itemDescription: 
+  itemDescription: Tender, juicy steak cooked to perfection.
   icon: {fileID: 1475497635, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

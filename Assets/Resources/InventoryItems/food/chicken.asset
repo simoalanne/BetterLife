@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: chicken
   m_EditorClassIdentifier: 
   itemName: Chicken
-  itemDescription: 
+  itemDescription: Juicy grilled chicken breast.
   icon: {fileID: -275747449, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

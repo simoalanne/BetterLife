@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: dragon_fruit
   m_EditorClassIdentifier: 
   itemName: Dragon Fruit
-  itemDescription: 
+  itemDescription: Exotic fruit with a vibrant pink flesh.
   icon: {fileID: -976120999, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: avocado
   m_EditorClassIdentifier: 
   itemName: Avocado
-  itemDescription: 
+  itemDescription: Ripe avocado, rich and creamy.
   icon: {fileID: -669376846, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

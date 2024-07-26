@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: beer
   m_EditorClassIdentifier: 
   itemName: Beer
-  itemDescription: 
+  itemDescription: Chilled beer, refreshing and light.
   icon: {fileID: 929244014, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

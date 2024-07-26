@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cheese
   m_EditorClassIdentifier: 
   itemName: Cheese
-  itemDescription: 
+  itemDescription: Creamy cheddar cheese, perfect for snacking.
   icon: {fileID: 662475224, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
   maxAmount: 99
   isStackable: 1

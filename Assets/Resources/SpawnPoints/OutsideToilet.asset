@@ -15,3 +15,4 @@ MonoBehaviour:
   sceneName: City
   spawnPoint: {x: 27.5, y: 5}
   spawnPointName: ToiletExit
+  facingDirection: 1

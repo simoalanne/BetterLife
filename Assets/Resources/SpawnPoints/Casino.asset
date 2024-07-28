@@ -15,3 +15,4 @@ MonoBehaviour:
   sceneName: Casino
   spawnPoint: {x: 4.5, y: -9}
   spawnPointName: CasinoEntry
+  facingDirection: 2

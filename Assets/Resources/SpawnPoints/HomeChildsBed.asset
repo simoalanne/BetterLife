@@ -15,3 +15,4 @@ MonoBehaviour:
   sceneName: PlayerHome
   spawnPoint: {x: 5, y: -8}
   spawnPointName: ChildsBed
+  facingDirection: 0

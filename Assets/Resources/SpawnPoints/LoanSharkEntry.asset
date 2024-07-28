@@ -15,3 +15,4 @@ MonoBehaviour:
   sceneName: LoanSharkOffice
   spawnPoint: {x: 0, y: -2.5}
   spawnPointName: LoanSharkEntry
+  facingDirection: 2

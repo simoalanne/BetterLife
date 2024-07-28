@@ -68,7 +68,7 @@ public class SceneLoader : MonoBehaviour
         _canvasGroup.blocksRaycasts = false; // Make sure the canvas group doesn't block raycasts initially
     }
 
-    public void LoadScene(string sceneName, PlayerVisibility visibility, TransitionType transitionType = TransitionType.Random, Vector2 spawnPoint = default)
+    public void LoadScene(string sceneName, PlayerVisibility visibility, TransitionType transitionType = TransitionType.Random, SpawnPoint spawnPoint = null)
     {
         if (_activeCoroutine != null)
         {
@@ -87,7 +87,7 @@ public class SceneLoader : MonoBehaviour
         _activeCoroutine = StartCoroutine(SceneTransition(sceneName, visibility, transitionType, spawnPoint));
     }
 
-    IEnumerator SceneTransition(string sceneName, PlayerVisibility visibility, TransitionType transitionType, Vector2 spawnPoint)
+    IEnumerator SceneTransition(string sceneName, PlayerVisibility visibility, TransitionType transitionType, SpawnPoint spawnPoint)
     {
         var rectTransform = _transitionImage.rectTransform;
         rectTransform.anchoredPosition = Vector2.zero;
@@ -145,9 +145,10 @@ public class SceneLoader : MonoBehaviour
         else if (visibility == PlayerVisibility.Visible)
         {
             PlayerManager.Instance.EnableSpriteRenderer(); // Enable the player sprite renderer if the player is supposed to be visible in the new scene
-            if (spawnPoint != Vector2.zero)
+            if (spawnPoint != null)
             {
-                PlayerManager.Instance.transform.position = spawnPoint;
+                PlayerManager.Instance.transform.position = spawnPoint.spawnPoint; // Move the player to the spawn point
+                PlayerManager.Instance.SetSpawnSprite(spawnPoint.facingDirection); // Set the player sprite based on the spawn point facing direction
             }
         }
         switch (transitionType)

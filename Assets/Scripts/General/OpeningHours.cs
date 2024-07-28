@@ -17,8 +17,24 @@ public class OpeningHours : MonoBehaviour
     private const float TYPE_SPEED = 0.02f;
     private string OpenFromTwelveHour => _openFrom > 12 ? $"{_openFrom - 12} pm" : $"{_openFrom} am";
     private string OpenToTwelveHour => _openTo > 12 ? $"{_openTo - 12} pm" : $"{_openTo} am";
-
-    public bool IsOpen => GameTimer.Instance.FullHours >= _openFrom && GameTimer.Instance.FullHours < _openTo;
+ 
+    public bool IsOpen // Fix to account for day changing
+    {
+        get
+        {
+            int currentHour = GameTimer.Instance.FullHours;
+            if (_openTo < _openFrom)
+            {
+                // Open past midnight
+                return currentHour >= _openFrom || currentHour < _openTo;
+            }
+            else
+            {
+                // Normal opening hours
+                return currentHour >= _openFrom && currentHour < _openTo;
+            }
+        }
+    }
 
     public void ShowClosedSign()
     {

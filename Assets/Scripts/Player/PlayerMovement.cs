@@ -122,5 +122,26 @@ namespace Player
                 spriteRenderer.sprite = direction.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
             }
         }
+
+        public void ChangeIdleSprite(SpawnPoint.FacingDirection facingDirection)
+        {
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+            switch (facingDirection)
+            {
+                case SpawnPoint.FacingDirection.BackLeft:
+                    spriteRenderer.sprite = _idleSpriteBackLeft;
+                    break;
+                case SpawnPoint.FacingDirection.BackRight:
+                    spriteRenderer.sprite = _idleSpriteBackRight;
+                    break;
+                case SpawnPoint.FacingDirection.Left:
+                    spriteRenderer.sprite = _idleSpriteFrontLeft;
+                    break;
+                case SpawnPoint.FacingDirection.Right:
+                    spriteRenderer.sprite = _idleSpriteFrontRight;
+                    break;
+            }
+        }
     }
 }

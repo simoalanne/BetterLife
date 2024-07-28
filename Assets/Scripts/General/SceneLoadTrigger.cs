@@ -1,8 +1,6 @@
-using Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Linq;
 
 public class SceneLoadTrigger : MonoBehaviour, IInteractable
 {
@@ -56,8 +54,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     {
         if (SceneLoader.Instance != null)
         {
-            Vector2 spawnPointPosition = _playerSpawnPoint != null ? _playerSpawnPoint.spawnPoint : Vector2.zero;
-            SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, spawnPointPosition);
+            SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, _playerSpawnPoint);
         }
         else
         {

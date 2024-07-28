@@ -124,6 +124,11 @@ namespace Player
             EnableInventoryOpen();
         }
 
+        public void SetSpawnSprite(SpawnPoint.FacingDirection facingDirection)
+        {
+            _playerMovement.ChangeIdleSprite(facingDirection);
+        }
+
         void OnActiveSceneChanged(Scene current, Scene next)
         {
             if (current.name == "MainMenu")

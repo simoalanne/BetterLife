@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Extensions;
 
 namespace Casino
 {
@@ -9,6 +10,7 @@ namespace Casino
         [SerializeField] private List<float> _betSizes = new() { 1, 5, 10, 20, 25, 50, 100, 250, 500, 1000, 2500, 5000 };
         [SerializeField] private Sprite[] _chipSprites; // Array to store the chip sprites. Stored in the order of increasing value.
         [SerializeField] private Image _activeChipImage; // Image to display the active chip.
+        [SerializeField] private float _flipDuration = 0.1f; // Duration of the flip animation.
         private int _currentChipIndex;
         private int _maxIndex;
         [SerializeField] private Button _increaseBetSizeButton; // Button to increase the bet size.
@@ -32,9 +34,8 @@ namespace Casino
             if (_currentChipIndex < _maxIndex) // disable the increase bet size button when the bet size will be at the maximum
             {
                 _currentChipIndex++;
-                _activeChipImage.sprite = _chipSprites[_currentChipIndex];
                 _currentBetSize = _betSizes[_currentChipIndex];
-
+                FlipChip();
                 if (_currentChipIndex == _maxIndex)
                 {
                     _increaseBetSizeButton.interactable = false;
@@ -49,9 +50,8 @@ namespace Casino
             if (_currentChipIndex > 0) // disable the decrease bet size button when the bet size will be at the minimum.
             {
                 _currentChipIndex--;
-                _activeChipImage.sprite = _chipSprites[_currentChipIndex];
                 _currentBetSize = _betSizes[_currentChipIndex];
-
+                FlipChip();
                 if (_currentChipIndex == 0)
                 {
                     _decreaseBetSizeButton.interactable = false;
@@ -59,6 +59,12 @@ namespace Casino
             }
 
             _increaseBetSizeButton.interactable = true;
+        }
+
+        void FlipChip()
+        {
+            StopAllCoroutines();
+            StartCoroutine(UIAnimations.FlipObjectHorizontally(_activeChipImage.rectTransform, _chipSprites[_currentChipIndex], _flipDuration));
         }
     }
 }

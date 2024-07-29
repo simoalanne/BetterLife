@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Extensions;
 
 public class GameOverCutscene : MonoBehaviour
 {
@@ -12,7 +11,9 @@ public class GameOverCutscene : MonoBehaviour
     [SerializeField] public AudioClip[] audioClips; // Kaikki soundeffectit
     [SerializeField] private float _transitionInDuration = 0.5f; // Kauanko fade in
     [SerializeField] private float _transitionOutDuration = 0.25f; // Kauanko fade out
-    [SerializeField] public Image waterImage;
+    [SerializeField] private Image waterImage;
+    [SerializeField] private Image characterImage;
+    [SerializeField] private float _waterAnimationLength = 7.5f;
 
     private void Start()
     {
@@ -23,8 +24,8 @@ public class GameOverCutscene : MonoBehaviour
     {
         var timer = 0f;
         animator.SetBool("Kidnapped", true); // Soitetaan kidnappaus-animaatio
-        audioSource.clip = audioClips[0]; 
-        audioSource.Play(); // Ensimmäinen ääniefekti soitetaan
+        audioSource.clip = audioClips[0];
+        audioSource.Play(); // Ensimmï¿½inen ï¿½ï¿½niefekti soitetaan
         yield return new WaitForSeconds(audioSource.clip.length);
 
         while (timer < _transitionInDuration) // Fade in
@@ -36,14 +37,18 @@ public class GameOverCutscene : MonoBehaviour
         canvasGroup.alpha = 1;
         animator.SetBool("Kidnapped", false);
 
-        for(int i = 1; i < audioClips.Length; i++) // Soitetaan sound effectit
+        for (int i = 1; i < audioClips.Length - 1; i++) // Soitetaan sound effectit
         {
             audioSource.clip = audioClips[i];
             audioSource.Play();
             yield return new WaitForSeconds(audioSource.clip.length);
         }
-        
+
         waterImage.enabled = true;
+        characterImage.enabled = true;
+        audioSource.clip = audioClips[audioClips.Length - 1];
+        audioSource.Play();
+        audioSource.loop = true;
         timer = 0f;
         while (timer < _transitionOutDuration) // Fade out
         {
@@ -52,5 +57,8 @@ public class GameOverCutscene : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0;
+        StartCoroutine(UIAnimations.MoveObject(waterImage.rectTransform, new Vector2(0, 0), _waterAnimationLength));
+        StartCoroutine(UIAnimations.MoveObject(characterImage.rectTransform,
+        new Vector2(0, -waterImage.rectTransform.sizeDelta.y + characterImage.rectTransform.sizeDelta.y), _waterAnimationLength));
     }
 }

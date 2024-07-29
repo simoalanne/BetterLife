@@ -48,9 +48,6 @@ public class MoneyLender : MonoBehaviour, IInteractable
     public void ExitLoanUI()
     {
         _loanUICanvas.gameObject.SetActive(false);
-        PlayerManager.Instance.EnablePlayerMovement();
-        PlayerManager.Instance.EnablePlayerInteract();
-        Time.timeScale = 1;
     }
 
     private void SetPresetLoanAmounts()

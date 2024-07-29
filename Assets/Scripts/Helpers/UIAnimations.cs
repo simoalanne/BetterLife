@@ -131,6 +131,21 @@ namespace UI.Extensions
             rectTransform.localScale = originalScale;
         }
 
+        public static IEnumerator ScaleFromOriginalToZero(RectTransform rectTransform, float scaleDuration)
+        {
+            float elapsed = 0f;
+            Vector3 originalScale = rectTransform.localScale;
+
+            while (elapsed < scaleDuration)
+            {
+                elapsed += Time.deltaTime;
+                float progress = elapsed / scaleDuration;
+                rectTransform.localScale = Vector3.Lerp(originalScale, Vector3.zero, progress);
+                yield return null;
+            }
+            rectTransform.localScale = Vector3.zero;
+        }
+
         public static IEnumerator TypeMessage(TMP_Text text, string message, float typeSpeed)
         {
             text.maxVisibleCharacters = 0;
@@ -141,6 +156,19 @@ namespace UI.Extensions
                 text.maxVisibleCharacters++;
                 yield return new WaitForSeconds(typeSpeed);
             }
+        }
+
+        public static IEnumerator ObjectPopup(GameObject obj, float timeVisible)
+        {
+            obj.SetActive(true);
+            yield return new WaitForSeconds(timeVisible);
+            obj.SetActive(false);
+        }
+
+        public static IEnumerator ScaleToZeroAndDestroy(RectTransform rectTransform, float scaleDuration)
+        {
+            yield return ScaleFromOriginalToZero(rectTransform, scaleDuration);
+            Object.Destroy(rectTransform.gameObject);
         }
     }
 }

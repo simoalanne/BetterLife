@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Makes calling the players inventory easier.
 /// </summary>
-public class PlayerInventory : MonoBehaviour 
+public class PlayerInventory : MonoBehaviour
 {
     private Inventory _inventory;
     public static PlayerInventory Instance { get; private set; }
@@ -31,5 +31,10 @@ public class PlayerInventory : MonoBehaviour
     public void RemoveFromInventory(InventoryItem item, int amount = 1)
     {
         _inventory.RemoveFromInventory(item);
+    }
+
+    public Loan[] GetLoans()
+    {
+        return _inventory.GetLoans();
     }
 }

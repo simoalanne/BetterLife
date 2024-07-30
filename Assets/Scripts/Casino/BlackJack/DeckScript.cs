@@ -1,69 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DeckScript : MonoBehaviour
 {
-    public Sprite[] cardSprites;
-    private int[] cardValues = new int[53];
-    private int currentIndex;
+    [SerializeField] private bool includeJokers = true;
+    private const int DeckSize = 52;
+    private Sprite[] cardSprites;
+    private Dictionary<Sprite, int> cardValueDict = new();
+    private List<Sprite> cardSpritesCopy = new();
 
-    private void Start()
+    void Awake()
     {
-        GetCardValues();
+        cardSprites = CardGameHelper.LoadCardSprites(includeJokers);
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        GetCardValues();
+        Shuffle();
+    }
+
     private void GetCardValues()
     {
-        int num = 0;
-        // Loop to assign values to the cards
+        int valueIndex = 1;
+        int valueCap = 10;
         for (int i = 0; i < cardSprites.Length; i++)
         {
-            num = i;
-            // Count up to the amount of cards, 52
-            num %= 13;
-            // If there is a remainder after x/13, then use the remainder
-            // Is used as the value, unless over 10, then use 10
-            if (num > 10 || num == 0)
+            if (i >= DeckSize)
             {
-                num = 10;
+                valueIndex = -1; // Jokers
             }
-            cardValues[i] = num++;
+            cardValueDict.Add(cardSprites[i], valueIndex);
+            if ((i + 1) % 4 == 0 && valueIndex < valueCap)
+            {
+                valueIndex++;
+            }
         }
-        currentIndex = 1;
+        cardSpritesCopy = new List<Sprite>(cardSprites);
     }
 
     public void Shuffle()
     {
-        // Standard array data swapping technique
-        for (int i = cardSprites.Length - 1; i > 0; i--)
-        {
-            int j = Mathf.FloorToInt(Random.Range(0.0f, 1.0f) * (cardSprites.Length - 1)) + 1;
-            Sprite face = cardSprites[i];
-            cardSprites[i] = cardSprites[j];
-            cardSprites[j] = face;
-
-            int value = cardValues[i];
-            cardValues[i] = cardValues[j];
-            cardValues[j] = value;
-        }
+        CardGameHelper.Shuffle(cardSprites);
+        cardSpritesCopy = new List<Sprite>(cardSprites);
     }
 
-    public int DealCard(CardScript cardScript)
+    public void DealCard(CardScript cardScript)
     {
-        if (currentIndex >= 53)
-        {
-            currentIndex = 1;
-        }
-        cardScript.SetSprite(cardSprites[currentIndex]);
-        cardScript.SetValue(cardValues[currentIndex]);
-        currentIndex++;
-        return cardScript.GetValueOfCard();
-    }
-
-    public Sprite GetCardBack()
-    {
-        return cardSprites[0];
+        int randomIndex = Random.Range(0, cardSpritesCopy.Count);
+        Sprite dealtCard = cardSpritesCopy[randomIndex];
+        cardScript.SetSprite(dealtCard);
+        cardScript.Value = cardValueDict[dealtCard];
+        cardSpritesCopy.RemoveAt(randomIndex);
     }
 }

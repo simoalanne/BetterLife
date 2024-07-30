@@ -1,36 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CardScript : MonoBehaviour
 {
-    // Value of card
-    public int value = 0;
+    [SerializeField] private int value = 0;
+    private Sprite sprite;
 
-    public int GetValueOfCard()
-    {
-        return value;
-    }
+    private Sprite back;
 
-    public void SetValue(int newValue)
-    {
-        value = newValue;
-    }
+    public int Value { get => value; set => this.value = value; }
 
-    public void SetSprite(Sprite newSprite)
+    void Awake()
     {
-        gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
-    }
-
-    public string GetSpriteName()
-    {
-        return GetComponent<SpriteRenderer>().sprite.name;
+        back = GetComponent<SpriteRenderer>().sprite;
     }
 
     public void ResetCard()
     {
-        Sprite back = GameObject.Find("Deck").GetComponent<DeckScript>().GetCardBack();
         gameObject.GetComponent<SpriteRenderer>().sprite = back;
         value = 0;
     }
+
+    public void SetSprite(Sprite sprite) => gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
 }

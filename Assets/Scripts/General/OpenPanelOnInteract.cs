@@ -12,8 +12,7 @@ public class OpenPanelOnInteract : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        PlayerManager.Instance.DisablePlayerMovement();
-        PlayerManager.Instance.DisablePlayerInteract();
+        PlayerManager.Instance.DisableInputs();
         GameTimer.Instance.IsPaused = true;
         Instantiate(_panelToOpen, _playerHUD.transform); // Instantiate the panel as a child of the player HUD. Position is the same as set in the prefab
     }

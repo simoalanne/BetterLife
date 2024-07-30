@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -11,15 +12,17 @@ public class GameManager : MonoBehaviour
     public Button standButton;
     public Button betButton;
     public Button backButton;
-
+    public GameObject hideCard;
     public Sprite[] chipSprites;
     public GameObject[] chipObjects;
-
+    [SerializeField] private GameObject flyingCardPrefab;
+    [SerializeField] private float cardTravelTime = 2f;
+    private int playerCardIndex = 0;
+    private int dealerCardIndex = 0;
     // Access the player and dealers script
     public PlayerScript playerScript;
     public PlayerScript dealerScript;
-
-    private int standClicks = 0;
+    private bool standClicked = false;
 
     // Public text to modify hud texts
     public TextMeshProUGUI scoreText;
@@ -29,9 +32,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI mainText; // Will alert the player: running out of money, round over etc.
 
     // Card hiding dealers 2nd card
-    public GameObject hideCard;
     // How much is the bet
-    int pot = 0;
+    int totalBet = 0;
     int placedChips = 0;
     private SoundEffectPlayer _soundEffectPlayer;
 
@@ -49,7 +51,7 @@ public class GameManager : MonoBehaviour
     }
     private void DealClicked()
     {
-        if (pot == 0)
+        if (totalBet == 0)
         {
             return;
         }
@@ -59,14 +61,12 @@ public class GameManager : MonoBehaviour
         // Hide dealer hand score at the start of dealing 
         mainText.gameObject.SetActive(false);
         dealerScoreText.gameObject.SetActive(false);
-        GameObject.Find("Deck").GetComponent<DeckScript>().Shuffle();
-        playerScript.StartHand();
-        dealerScript.StartHand();
+        FindObjectOfType<DeckScript>().Shuffle();
+        StartCoroutine(DealCardAnimation(2, true));
+        StartCoroutine(DealCardAnimation(2, false));
         // Update the score displayed
         scoreText.text = "Hand: " + playerScript.handValue.ToString();
-        dealerScoreText.text = "Hand: " + dealerScript.handValue.ToString();
         // Enable to hide one of the dealers cards
-        hideCard.GetComponent<Renderer>().enabled = true;
         // Adjust buttons visibility to not allow button presses during dealing
         dealButton.gameObject.SetActive(false);
         hitButton.gameObject.SetActive(true);
@@ -77,26 +77,69 @@ public class GameManager : MonoBehaviour
 
     private void HitClicked()
     {
-        if (playerScript.cardIndex <= 8)
-        {
-            playerScript.GetCard();
-            scoreText.text = "Hand: " + playerScript.handValue.ToString();
-            if (playerScript.handValue > 20)
-            {
-                RoundOver();
-            }
-        }
+        StartCoroutine(DealCardAnimation(1, true));
     }
 
     private void StandClicked()
     {
-        standClicks++;
-        if (standClicks > 1)
-        {
-            RoundOver();
-        }
-        HitDealer();
+        standClicked = true;
+        standButton.gameObject.SetActive(false);
+        hitButton.gameObject.SetActive(false);
+        hideCard.SetActive(false);
+        StartCoroutine(HitDealer());
     }
+
+    IEnumerator DealCardAnimation(int amountToDealAtOnce, bool isPlayer, float delayBetweenCards = 0.1f)
+    {
+        hitButton.interactable = false;
+        for (int i = 0; i < amountToDealAtOnce; i++)
+        {
+            Debug.Log("Dealing card");
+            yield return new WaitForSeconds(delayBetweenCards);
+            float timer = 0;
+            var targetTransform = isPlayer ? playerScript.hand[playerCardIndex].transform : dealerScript.hand[dealerCardIndex].transform;
+            var currentTransform = transform;
+            if (isPlayer)
+            {
+                playerCardIndex++;
+            }
+            else
+            {
+                dealerCardIndex++;
+            }
+            var card = Instantiate(flyingCardPrefab, transform.position, Quaternion.identity);
+            while (timer < cardTravelTime)
+            {
+                timer += Time.deltaTime;
+                card.transform.position = Vector3.Lerp(currentTransform.position, targetTransform.position, timer / cardTravelTime);
+                yield return null;
+            }
+            card.transform.position = targetTransform.position;
+            Destroy(card);
+            if (isPlayer)
+            {
+                playerScript.GetCard();
+                scoreText.text = "Hand: " + playerScript.handValue.ToString();
+            }
+            else
+            {
+                if (amountToDealAtOnce > 1)
+                {
+                    hideCard.SetActive(true);
+                }
+                dealerScript.GetCard();
+                dealerScoreText.gameObject.SetActive(true);
+                var handValue = hideCard.activeSelf ? dealerScript.handValue - dealerScript.hand[0].GetComponent<CardScript>().Value : dealerScript.handValue;
+                dealerScoreText.text = "Dealer: " + handValue.ToString();
+            }
+            if (playerScript.handValue >= 21 || dealerScript.handValue >= 21) // check for bust or blackjack
+            {
+                RoundOver();
+            }
+            hitButton.interactable = true;
+        }
+    }
+
 
     private void BetClicked()
     {
@@ -114,8 +157,8 @@ public class GameManager : MonoBehaviour
         }
         _soundEffectPlayer.PlaySoundEffect(Random.Range(0, _soundEffectPlayer.AudioClipCount));
         backButton.gameObject.SetActive(false);
-        pot += (int)(incomingBet * 2);
-        betsText.text = "Bets: " + (pot / 2).ToString() + "€";
+        totalBet += (int)incomingBet;
+        betsText.text = "Bet: " + totalBet.ToString() + "€";
         playerScript.AdjustMoney((int)-incomingBet);
         cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
         chipObjects[placedChips].GetComponent<SpriteRenderer>().sprite = chipSprites[chipIndex];
@@ -124,80 +167,61 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void HitDealer()
+    private IEnumerator HitDealer()
     {
-        while (dealerScript.handValue < 16 && dealerScript.cardIndex < 10)
+        while (dealerScript.handValue < 17 && dealerScript.cardIndex < 10)
         {
-            dealerScript.GetCard();
-            dealerScoreText.text = "Hand: " + dealerScript.handValue.ToString();
-            if (dealerScript.handValue > 20)
-            {
-                RoundOver();
-            }
+            yield return StartCoroutine(DealCardAnimation(1, false));
         }
+        RoundOver();
     }
 
     // Check for winner and loser, hand is over
     private void RoundOver()
     {
+
         // Booleans for bust and blackjack/21
         bool playerBust = playerScript.handValue > 21;
         bool dealerBust = dealerScript.handValue > 21;
         bool player21 = playerScript.handValue == 21;
         bool dealer21 = dealerScript.handValue == 21;
-        // If stand has been clicked less than twice, no 21s or busts, quit function
-        if (standClicks < 2 && !playerBust && !dealerBust && !player21 && !dealer21)
+
+        hideCard.SetActive(false);
+        // Check for winner
+        if (dealerBust || (player21 && !dealer21) || (!playerBust && playerScript.handValue > dealerScript.handValue))
         {
-            return;
+            mainText.text = "You win!";
+            playerScript.AdjustMoney(totalBet * 2);
         }
-        bool roundOver = true;
-        // All bust, bets returned
-        if (playerBust && dealerBust)
+        else if (playerBust || dealer21 || dealerScript.handValue > playerScript.handValue)
         {
-            mainText.text = "All Bust: Bets Returned.";
-            playerScript.AdjustMoney(pot / 2);
-        }
-        // Check for dealer win
-        else if (playerBust || (!dealerBust && dealerScript.handValue > playerScript.handValue))
-        {
-            mainText.text = "The House Wins.";
-        }
-        // Chack for player win
-        else if (dealerBust || playerScript.handValue > dealerScript.handValue)
-        {
-            mainText.text = "The Player Wins.";
-            playerScript.AdjustMoney(pot);
-        }
-        // Check for tie
-        else if (playerScript.handValue == dealerScript.handValue)
-        {
-            mainText.text = "Push: Bets Returned.";
-            playerScript.AdjustMoney(pot / 2);
+            mainText.text = "You lose!";
         }
         else
         {
-            roundOver = false;
+            mainText.text = "Push!";
+            playerScript.AdjustMoney(totalBet);
         }
-        // Set up ui for next move/hand/turn
-        if (roundOver)
+
+        hitButton.gameObject.SetActive(false);
+        standButton.gameObject.SetActive(false);
+        dealButton.gameObject.SetActive(true);
+        betButton.gameObject.SetActive(true);
+        mainText.gameObject.SetActive(true);
+        dealerScoreText.gameObject.SetActive(true);
+        dealerScoreText.text = "Dealer: " + dealerScript.handValue.ToString();
+        cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+        standClicked = false;
+        totalBet = 0;
+        betsText.text = "Bets: " + totalBet.ToString() + "€";
+        placedChips = 0;
+
+        backButton.gameObject.SetActive(true);
+        playerCardIndex = 0;
+        dealerCardIndex = 0;
+        for (int i = 0; i < chipObjects.Length; i++)
         {
-            hitButton.gameObject.SetActive(false);
-            standButton.gameObject.SetActive(false);
-            dealButton.gameObject.SetActive(true);
-            betButton.gameObject.SetActive(true);
-            mainText.gameObject.SetActive(true);
-            dealerScoreText.gameObject.SetActive(true);
-            hideCard.GetComponent<Renderer>().enabled = false;
-            cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
-            standClicks = 0;
-            pot = 0;
-            betsText.text = "Bets: " + pot.ToString() + "€";
-            placedChips = 0;
-            backButton.gameObject.SetActive(true);
-            for (int i = 0; i < chipObjects.Length; i++)
-            {
-                chipObjects[i].GetComponent<SpriteRenderer>().enabled = false;
-            }
+            chipObjects[i].GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }

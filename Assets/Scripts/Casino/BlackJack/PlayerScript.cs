@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
@@ -6,7 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     // --- This script is for BOTH dealer and player.
-
+    [SerializeField] private bool isPlayer; // Dealer cant get jokers so this is needed
     // Get other scripts
     public CardScript cardScript;
     public DeckScript deckScript;
@@ -23,58 +22,71 @@ public class PlayerScript : MonoBehaviour
     // Index of next card to be turned over
     public int cardIndex = 0;
 
-    // Tracking aces for 1 to 11 conversions
-    List<CardScript> aceList = new List<CardScript>();
-
     void Awake()
     {
         money = (int)PlayerManager.Instance.MoneyInBankAccount;
     }
 
-    public void StartHand()
-    {
-        GetCard();
-        GetCard();
-    }
-
     // Add a hand to the player/dealer's hand
-    public int GetCard()
+    public void GetCard()
     {
-        // Get a card, use DealCard to assign sprite and value to the card on the table
-        int cardValue = deckScript.DealCard(hand[cardIndex].GetComponent<CardScript>());
-        // Show card on game screen
-        hand[cardIndex].GetComponent<Renderer>().enabled = true;
-        // Add the cards value to the hand total value
-        handValue += cardValue;
-        // if value is 1, then the card is an ace
-        if (cardValue == 1)
+        var cardToUse = hand[cardIndex].GetComponent<CardScript>();
+        deckScript.DealCard(cardToUse);
+        while (cardToUse.Value == -1 && !isPlayer) // Dealer cant get jokers so the game is more fair
         {
-            aceList.Add(hand[cardIndex].GetComponent<CardScript>());
+            deckScript.DealCard(cardToUse);
         }
-        AceCheck();
+        hand[cardIndex].GetComponent<SpriteRenderer>().enabled = true;
+
+        CalculateHandValue();
+
         cardIndex++;
-        return handValue;
     }
 
-    // Needed for ace conversion, 1 to 11 or vice versa
-    public void AceCheck()
+    void CalculateHandValue()
     {
-        // For each ace in the acelist check
-        foreach (CardScript ace in aceList)
+        int tempHandValue = 0;
+        int aceCount = 0;
+        int jokerCount = 0;
+
+        // First pass: calculate initial hand value and count aces and jokers
+        foreach (GameObject card in hand)
         {
-            if (handValue + 10 < 22 && ace.GetValueOfCard() == 1)
+            int value = card.GetComponent<CardScript>().Value;
+            if (value == 1)
             {
-                // if converting, adjust ace value and hand
-                ace.SetValue(11);
-                handValue += 10;
+                aceCount++;
             }
-            else if (handValue > 21 && ace.GetValueOfCard() == 11)
+            else if (value == -1)
             {
-                // if converting, adjust ace value and hand
-                ace.SetValue(1);
-                handValue -= 10;
+                jokerCount++;
+            }
+            else
+            {
+                tempHandValue += value;
             }
         }
+
+        // Adjust for aces
+        for (int i = 0; i < aceCount; i++)
+        {
+            if (tempHandValue + 11 <= 21)
+            {
+                tempHandValue += 11;
+            }
+            else
+            {
+                tempHandValue += 1;
+            }
+        }
+
+        // Adjust for jokers
+        for (int i = 0; i < jokerCount; i++)
+        {
+            tempHandValue += Mathf.Clamp(21 - tempHandValue, 1, 12); // Joker is a free win for player pretty much
+        }
+
+        handValue = tempHandValue;
     }
 
     // Add or subtract money, for bets
@@ -86,7 +98,7 @@ public class PlayerScript : MonoBehaviour
     // Get function for money
     public int GetMoney()
     {
-        PlayerManager.Instance.MoneyInBankAccount = money; 
+        PlayerManager.Instance.MoneyInBankAccount = money; // Update the money in bank account
         return money;
     }
 
@@ -101,6 +113,5 @@ public class PlayerScript : MonoBehaviour
         }
         cardIndex = 0;
         handValue = 0;
-        aceList = new List<CardScript>();
     }
 }

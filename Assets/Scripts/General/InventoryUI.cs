@@ -11,6 +11,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GridLayoutGroup _inventoryGrid;
     [SerializeField] private Button itemSlotPrefab;
     [SerializeField] private TMP_Text _itemDetails;
+    [SerializeField] private GridLayoutGroup _loanGrid;
+    [SerializeField] private Button _loanSlotPrefab;
     private readonly List<KeyValuePair<InventoryItem, GameObject>> _itemSlots = new();
     private Inventory _inventory;
 

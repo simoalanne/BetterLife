@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
             Debug.Log("Adding item to inventory: " + entry.item.itemName + " with amount: " + entry.amount);
             AddToInventory(entry.item, entry.amount);
         }
-        
+
         //OnInventoryLoaded?.Invoke(); 
     }
 
@@ -113,5 +113,18 @@ public class Inventory : MonoBehaviour
             Debug.Log("Removed item from inventory.");
         }
         OnInventoryChanged?.Invoke();
+    }
+
+    public Loan[] GetLoans()
+    {
+        var loans = new List<Loan>();
+        foreach (var entry in _inventory)
+        {
+            if (entry.Key is Loan loan)
+            {
+                loans.Add(loan);
+            }
+        }
+        return loans.ToArray();
     }
 }

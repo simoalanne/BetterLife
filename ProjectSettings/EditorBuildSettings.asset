@@ -38,4 +38,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World/LoanSharkOffice.unity
     guid: 7f1b9cd4119b2c24080294230b904f31
+  - enabled: 1
+    path: Assets/Scenes/GameOverCutscene.unity
+    guid: a84c226009c1fa144b97e13ced90e481
   m_configObjects: {}

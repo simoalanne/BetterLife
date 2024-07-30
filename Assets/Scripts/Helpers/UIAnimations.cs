@@ -100,6 +100,7 @@ namespace UI.Extensions
         /// </summary>
         public static IEnumerator MoveObject(RectTransform rectTransform, Vector2 endPos, float moveDuration = 0.1f)
         {
+            Debug.Log("Moving object");
             Vector2 startPos = rectTransform.anchoredPosition;
             float elapsed = 0f;
 
@@ -146,7 +147,7 @@ namespace UI.Extensions
             rectTransform.localScale = Vector3.zero;
         }
 
-        public static IEnumerator TypeMessage(TMP_Text text, string message, float typeSpeed)
+        public static IEnumerator TypeMessage(TMP_Text text, string message, float typeSpeed = 0.02f)
         {
             text.maxVisibleCharacters = 0;
             text.text = message;
@@ -169,6 +170,20 @@ namespace UI.Extensions
         {
             yield return ScaleFromOriginalToZero(rectTransform, scaleDuration);
             Object.Destroy(rectTransform.gameObject);
+        }
+
+        public static IEnumerator IncreaseValue(TMP_Text valueText, string followedText, float startValue, float endValue, float duration = 1f)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float progress = elapsed / duration;
+                valueText.text = Mathf.RoundToInt(Mathf.Lerp(startValue, endValue, progress)).ToString() + followedText;
+                yield return null;
+            }
+            valueText.text = endValue + followedText;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Player
     public class PlayerManager : MonoBehaviour
     {
         public static PlayerManager Instance { get; private set; }
-
+        [SerializeField] private SceneLoadTrigger _loadToPlayerBed;
         private PlayerMovement _playerMovement;
         private PlayerInteract _playerInteract;
         private OpenPlayerInventory _openPlayerInventory;
@@ -19,6 +19,10 @@ namespace Player
         private string[] _scenesToDisableHUD = { "MainMenu", "Roulette", "BlackJack", "Slots" };
         [SerializeField] private float _moneyInBankAccount = 100f;
         private float _originalMoney;
+        private bool _hasTalkedToLoanShark; // Shouln't be in this script but it's what it is.
+        private bool _hasPlayerPassedOut;
+        public bool HasTalkedToLoanShark { get => _hasTalkedToLoanShark; set => _hasTalkedToLoanShark = value; }
+        public bool HasPlayerPassedOut { get => _hasPlayerPassedOut; set => _hasPlayerPassedOut = value; }
         public float MoneyInBankAccount
         {
             get => _moneyInBankAccount;
@@ -148,6 +152,17 @@ namespace Player
                     _displayMoney.UpdateMoneyText(_moneyBeforeGambling, _moneyInBankAccount);
                 }
             }
+        }
+
+        public void LoadToPlayerBed()
+        {
+            if (SceneManager.GetActiveScene().name == "PlayerHome")
+            {
+                Debug.Log("Player is already in the player house.");
+                FindObjectOfType<Sleep>().SleepInBed();
+                return;
+            }
+            _loadToPlayerBed.Interact();
         }
 
         void OnEnable()

@@ -3,9 +3,11 @@ using TMPro;
 using UnityEngine;
 using Player;
 using UnityEngine.UI;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager Instance { get; private set; }
     public TextMeshProUGUI talkerName;
     public TextMeshProUGUI dialogueText;
     public float textSpeed;
@@ -18,16 +20,29 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Sprite defaultPlayerSprite;
     private Sprite playerSprite;
     private Sprite talkerSprite;
+    private bool _clickedYesDuringDialogue;
+    private bool _clickedNoDuringDialogue;
     private DialogueTrigger.Dialogue[] _dialogue;
     private int _mainBranchIndex = 0; // Index for the main branch
     private int _questionBranchIndex = 0; // Index for the question branch
     private bool _inYesBranch, _inNoBranch;
+    public Action OnYesClicked;
+    public Action OnNoClicked;
+    public Action OnDialogueEnd;
 
     void Awake()
     {
-        _continueButton.gameObject.SetActive(false);
-        _yesButton.gameObject.SetActive(false);
-        _noButton.gameObject.SetActive(false);
+        if (Instance == null)
+        {
+            Instance = this;
+            _continueButton.gameObject.SetActive(false);
+            _yesButton.gameObject.SetActive(false);
+            _noButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void StartDialogue(DialogueTrigger.Dialogue[] dialogue, Sprite playerSprite, Sprite talkerSprite)
@@ -112,12 +127,14 @@ public class DialogueManager : MonoBehaviour
 
     void YesClicked()
     {
+        _clickedYesDuringDialogue = true;
         _inYesBranch = true;
         HandlePart();
     }
 
     void NoClicked()
     {
+        _clickedNoDuringDialogue = true;
         _inNoBranch = true;
         HandlePart();
     }
@@ -165,5 +182,17 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("End of conversation.");
         animator.SetBool("IsOpen", false);
         GameTimer.Instance.IsPaused = false;
+        if (_clickedYesDuringDialogue)
+        {
+            OnYesClicked?.Invoke();
+            _clickedYesDuringDialogue = false;
+        }
+        else if (_clickedNoDuringDialogue)
+        {
+            OnNoClicked?.Invoke();
+            _clickedNoDuringDialogue = false;
+        }
+        Debug.Log("Invoking OnDialogueEnd");
+        OnDialogueEnd?.Invoke();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Player;
 
 public class Needs : MonoBehaviour
 {
@@ -13,13 +14,12 @@ public class Needs : MonoBehaviour
     [SerializeField] private float _increaseAnimTime = 0.5f;
 
     [Header("Energy Settings")]
-    [SerializeField] private float energy100To0TimeInGameHours = 12f;
+    [SerializeField] private float energy100To0TimeInGameHours = 14f;
     [SerializeField] private float maxEnergy = 500f;
     [SerializeField] private Image energyBar;
     [SerializeField] private TMP_Text energyAmount;
     [SerializeField] private TMP_Text passOutWarning;
-    [SerializeField, Tooltip("How long to wait before invoking the event when energy is depleted ")] private float _timeBeforeEnergyDepletedInvoked = 30f;
-    private Coroutine energyDepletedCoroutine;
+    [SerializeField] private DialogueTrigger passOutDialogue; // Dialogue to trigger when energy is depleted.
 
     private readonly bool increasingEnergy = false;
     private float energy100to0Time;
@@ -80,31 +80,21 @@ public class Needs : MonoBehaviour
             energyBar.fillAmount = currentEnergy / maxEnergy;
             energyAmount.text = $"{Mathf.RoundToInt(currentEnergy)} / {maxEnergy}";
 
-            if (currentEnergy <= 0)
+            if (currentEnergy <= 0 && !PlayerManager.Instance.HasPlayerPassedOut)
             {
-                energyDepletedCoroutine = StartCoroutine(OnEnergyDepletedCoroutine());
+                DialogueManager.Instance.OnDialogueEnd += TeleportToPlayerBed;
+                passOutDialogue.TriggerDialogue();
             }
         }
     }
 
-    IEnumerator OnEnergyDepletedCoroutine()
+    void TeleportToPlayerBed()
     {
-        passOutWarning.gameObject.SetActive(true);
-        float timeElapsed = 0;
-        while (timeElapsed < _timeBeforeEnergyDepletedInvoked)
-        {
-            if (GameTimer.Instance.IsPaused)
-            {
-                yield return null;
-                continue;
-            }
-
-            timeElapsed += Time.deltaTime;
-            passOutWarning.text = $"Pass out: {Mathf.RoundToInt(_timeBeforeEnergyDepletedInvoked - timeElapsed)}s";
-            yield return null;
-        }
-
-        OnEnergyDepleted?.Invoke();
+        Debug.Log("Teleporting to bed");
+        PlayerManager.Instance.DisableInputs();
+        PlayerManager.Instance.HasPlayerPassedOut = true;
+        PlayerManager.Instance.LoadToPlayerBed();
+        DialogueManager.Instance.OnDialogueEnd -= TeleportToPlayerBed;
     }
 
     void UpdateHunger()
@@ -143,19 +133,14 @@ public class Needs : MonoBehaviour
         OnHungerDepleted?.Invoke();
     }
 
-    public void IncreaseEnergy(float amount)
+    public void MaxOutEnergy()
     {
-        if (energyDepletedCoroutine != null)
-        {
-            StopCoroutine(energyDepletedCoroutine);
-            passOutWarning.gameObject.SetActive(false);
-        }
-        if (amount < 0) amount = 0;
-        else if (amount > maxEnergy) amount = maxEnergy;
-        else if (currentEnergy + amount > maxEnergy) amount = maxEnergy - currentEnergy;
-
-        StartCoroutine(IncreaseEnergyAnimation(amount));
+        Debug.Log("Maxing out energy");
+        currentEnergy = maxEnergy;
+        Debug.Log(currentEnergy);
+        energyBar.fillAmount = 1;
     }
+
 
     private IEnumerator IncreaseEnergyAnimation(float amount)
     {

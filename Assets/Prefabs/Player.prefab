@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5679934023048850623}
   - component: {fileID: 5026060733981935215}
   - component: {fileID: 7738292490357794626}
+  - component: {fileID: 856654049330056351}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -152,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29eeb1d62b0e84242a27e273f14ca2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadToPlayerBed: {fileID: 856654049330056351}
   _moneyInBankAccount: 100
 --- !u!114 &1824148447043211714
 MonoBehaviour:
@@ -256,3 +258,20 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.40031523}
   m_Size: {x: 0.5715753, y: 0.5715753}
   m_Direction: 0
+--- !u!114 &856654049330056351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7734174458997083086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToLoad: PlayerHome
+  _playerVisibilityInNewScene: 0
+  _transitionType: 0
+  _loadTriggerType: 0
+  _playerSpawnPoint: {fileID: 11400000, guid: da05016cccb30bc4dbb7a37fd67044d0, type: 2}

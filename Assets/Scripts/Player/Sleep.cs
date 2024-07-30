@@ -14,7 +14,12 @@ public class Sleep : MonoBehaviour
     [SerializeField] private float _fadeInDuration = 1f; // How long the fade to black takes.
     [SerializeField] private float _fadeOutDuration = 1f; // How long the fade back from black takes.
     [SerializeField] private float _screenBlackTime = 3f; // How long the screen is black when sleeping.
-
+    [SerializeField] private Collider2D _homeExitNormalCollider; // Totally belongs to this script.
+    [SerializeField] private Collider2D _homeExitGameOverCollider; // Totally belongs to this script. Changes the scene that player loads to when they exit the house.
+    [SerializeField] private DialogueTrigger _dialogueTrigger; // when game about to be over trigger dialogue.
+    [SerializeField] private DialogueTrigger _afterPassOutDialogueTrigger; // when player passes out trigger dialogue.
+    [SerializeField] private SpawnPoint _childsBedSpawnPoint;
+    private bool _isGameOver = false;
     private bool _sleepCancelled = false;
 
     void Awake()
@@ -22,6 +27,14 @@ public class Sleep : MonoBehaviour
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(false);
         _fadeImage.color = Color.clear;
+    }
+
+    void Start()
+    {
+        if (PlayerManager.Instance.HasPlayerPassedOut == true)
+        {
+            SleepInBed();
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -72,7 +85,10 @@ public class Sleep : MonoBehaviour
             yield return null;
         }
         _fadeImage.color = Color.black;
+        _isGameOver = PlayerHUD.Instance.ReduceLoanDaysLeft(); // Reduce the days left on the loan.
+        Needs.Instance.MaxOutEnergy();
         GameTimer.Instance.SkipToNexDay(_wakeUpHour);
+        PlayerManager.Instance.transform.position = _childsBedSpawnPoint.spawnPoint;
         yield return new WaitForSeconds(_screenBlackTime);
 
         float timer2 = 0;
@@ -84,18 +100,31 @@ public class Sleep : MonoBehaviour
         }
         _fadeImage.color = Color.clear;
         EndSleep();
+        if (_isGameOver)
+        {
+            _homeExitNormalCollider.enabled = false;
+            _homeExitGameOverCollider.enabled = true;
+            _dialogueTrigger.TriggerDialogue();
+        }
+        else
+        {
+            _homeExitNormalCollider.enabled = true;
+            _homeExitGameOverCollider.enabled = false;
+        }
     }
 
     void InitializeSleep()
     {
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(true);
+        GameTimer.Instance.IsPaused = true;
     }
 
     void EndSleep()
     {
         PlayerManager.Instance.EnablePlayerMovement();
         PlayerManager.Instance.EnablePlayerInteract();
+        PlayerManager.Instance.HasPlayerPassedOut = false;
         GameTimer.Instance.IsPaused = false;
         _fadeImage.gameObject.SetActive(false);
     }

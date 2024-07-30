@@ -114,17 +114,4 @@ public class Inventory : MonoBehaviour
         }
         OnInventoryChanged?.Invoke();
     }
-
-    public Loan[] GetLoans()
-    {
-        var loans = new List<Loan>();
-        foreach (var entry in _inventory)
-        {
-            if (entry.Key is Loan loan)
-            {
-                loans.Add(loan);
-            }
-        }
-        return loans.ToArray();
-    }
 }

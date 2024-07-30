@@ -1,103 +1,116 @@
 using UnityEngine;
 using Player;
 using UnityEngine.UI;
+using System.Linq;
 using TMPro;
 using UI.Extensions;
 
-/// <summary>
-/// Should be instantiated to player HUD as a child when player interacts with the loan shark.
-/// Contains options take a loan or pay back a loan.
-/// Is destroyed when the player closes the menu.
-/// </summary>
-public class LoanSharkMenu : MonoBehaviour
+public class LoanSharkMenu : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject _takeLoanMenu;
     [SerializeField] private GameObject _payBackLoanMenu;
-    [SerializeField] private TMP_Text _notEnoughMoneyText;
-    [SerializeField] private Button _payAllLoansButton;
+    [SerializeField] private GridLayoutGroup _loansGrid;
+    [SerializeField] private DialogueTrigger _notEnoughMoneyToPayBackLoanDialogue;
+    [SerializeField] private DialogueTrigger _loanSharkFirstTimeDialogue;
+    [SerializeField] private float _panelMoveDuration = 0.25f;
+    private Vector2 _panelsOffScreenPos = new(-1250, -100);
+    private Vector2 _panelsOnScreenPos = new(100, -100);
+
+    [SerializeField] private Loan[] _loansToDisplay;
 
     void Awake()
     {
-        gameObject.SetActive(true);
-        CheckForLoans();
-
+        InitializeLoans();
     }
 
-    void CheckForLoans()
+    public void Interact()
     {
-        var Loans = PlayerInventory.Instance.GetLoans();
+        DialogueManager.Instance.OnYesClicked += OpenTakeLoanMenu;
 
-        int allLoansSum = 0;
-        foreach (var loan in PlayerInventory.Instance.GetLoans())
+        if (PlayerManager.Instance.HasTalkedToLoanShark == false)
         {
-            allLoansSum += loan.loanAmount;
+            PlayerManager.Instance.HasTalkedToLoanShark = true;
+            _loanSharkFirstTimeDialogue.TriggerDialogue();
+            return;
         }
 
-        if (allLoansSum > PlayerManager.Instance.MoneyInBankAccount)
+        Debug.Log("Interacting with LoanSharkMenu");
+        if (PlayerHUD.Instance.ActiveLoan != null)
         {
-            _payAllLoansButton.interactable = false;
+            if (PlayerManager.Instance.MoneyInBankAccount >= PlayerHUD.Instance.ActiveLoan.ActualAmount)
+            {
+                OpenPayBackLoanMenu();
+            }
+            else
+            {
+                Debug.Log("Not enough money to pay back loan");
+                _notEnoughMoneyToPayBackLoanDialogue.TriggerDialogue();
+            }
+        }
+        else
+        {
+            Debug.Log("Opening take loan menu");
+            OpenTakeLoanMenu();
+        }
+
+        DialogueManager.Instance.OnYesClicked -= OpenTakeLoanMenu;
+    }
+
+    void InitializeLoans()
+    {
+        // sort loans by amount
+        _loansToDisplay = _loansToDisplay.OrderBy(loan => loan.loanAmount).ToArray();
+        // set loan stats for each item in the grid
+        var gridItems = _loansGrid.GetComponentsInChildren<Button>();
+        for (int i = 0; i < gridItems.Length; i++)
+        {
+            var loan = _loansToDisplay[i];
+            gridItems[i].transform.Find("LoanAmount").GetComponent<TMP_Text>().text = loan.loanAmount + "€";
+            gridItems[i].transform.Find("InterestRate").GetComponent<TMP_Text>().text = loan.interestRate + "%";
+            string dayString = loan.daysToRepay > 1 ? " days" : " day";
+            gridItems[i].transform.Find("DaysToRepay").GetComponent<TMP_Text>().text = loan.daysToRepay + dayString;
+            gridItems[i].onClick.AddListener(() => TakeOutLoan(loan));
         }
     }
 
-    public void TakeLoanOptionClicked()
+    void TakeOutLoan(Loan loan)
     {
-        _takeLoanMenu.SetActive(true);
-        gameObject.SetActive(false);
+        PlayerManager.Instance.MoneyInBankAccount += loan.loanAmount;
+        PlayerHUD.Instance.EnableActiveLoanPanel(loan);
+        CloseTakeLoanMenu();
     }
 
-    public void PayBackLoanOptionClicked()
+    public void PayBackLoan()
     {
-        _payBackLoanMenu.SetActive(true);
-        gameObject.SetActive(false);
+        PlayerManager.Instance.MoneyInBankAccount -= PlayerHUD.Instance.ActiveLoan.ActualAmount;
+        PlayerHUD.Instance.DisableActiveLoanPanel();
+        ClosePayBackLoanMenu();
     }
 
-    public void TakeLoanMenuClosed()
+    public void OpenTakeLoanMenu()
     {
-        gameObject.SetActive(true);
+        StartCoroutine(UIAnimations.MoveObject(_takeLoanMenu.GetComponent<RectTransform>(), _panelsOnScreenPos, _panelMoveDuration));
+        PlayerManager.Instance.DisableInputs();
+        GameTimer.Instance.IsPaused = true;
     }
 
-    public void CloseMainMenu()
+    public void OpenPayBackLoanMenu()
     {
-        Destroy(gameObject);
+        StartCoroutine(UIAnimations.MoveObject(_payBackLoanMenu.GetComponent<RectTransform>(), _panelsOnScreenPos, _panelMoveDuration));
+        PlayerManager.Instance.DisableInputs();
+        GameTimer.Instance.IsPaused = true;
     }
 
     public void CloseTakeLoanMenu()
     {
-        _takeLoanMenu.SetActive(false);
-        gameObject.SetActive(true);
+        StartCoroutine(UIAnimations.MoveObject(_takeLoanMenu.GetComponent<RectTransform>(), _panelsOffScreenPos, _panelMoveDuration));
+        PlayerManager.Instance.EnableInputs();
+        GameTimer.Instance.IsPaused = false;
     }
-
     public void ClosePayBackLoanMenu()
     {
-        _payBackLoanMenu.SetActive(false);
-        gameObject.SetActive(true);
-    }
-
-    public void PayBackLoan(Loan loan)
-    {
-        StopAllCoroutines();
-        if (PlayerManager.Instance.MoneyInBankAccount < loan.loanAmount)
-        {
-            UIAnimations.ObjectPopup(_notEnoughMoneyText.gameObject, 0.1f);
-            return;
-        }
-
-        PlayerManager.Instance.MoneyInBankAccount -= loan.loanAmount;
-        PlayerInventory.Instance.RemoveFromInventory(loan);
-    }
-
-    public void PayAllLoans()
-    {
-        foreach (var loan in PlayerInventory.Instance.GetLoans())
-        {
-            PayBackLoan(loan);
-
-        }
-    }
-
-    public void TakeOutLoan(Loan loan)
-    {
-        PlayerManager.Instance.MoneyInBankAccount += loan.loanAmount;
-        PlayerInventory.Instance.AddToInventory(loan);
+        StartCoroutine(UIAnimations.MoveObject(_payBackLoanMenu.GetComponent<RectTransform>(), _panelsOffScreenPos, _panelMoveDuration));
+        PlayerManager.Instance.EnableInputs();
+        GameTimer.Instance.IsPaused = false;
     }
 }

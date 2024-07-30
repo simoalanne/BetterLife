@@ -24,7 +24,7 @@ public class EndGame : MonoBehaviour
 
     void OnEnable()
     {
-        _endGameButton.interactable = PlayerManager.Instance.MoneyInBankAccount >= _moneyToPay;
+        _endGameButton.interactable = PlayerManager.Instance.MoneyInBankAccount >= _moneyToPay && PlayerHUD.Instance.ActiveLoan == null; 
     }
 
     public void PayMoneyAndEndGame()

@@ -33,8 +33,4 @@ public class PlayerInventory : MonoBehaviour
         _inventory.RemoveFromInventory(item);
     }
 
-    public Loan[] GetLoans()
-    {
-        return _inventory.GetLoans();
-    }
 }

@@ -1,19 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+using UI.Extensions;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class PlayerHUD : MonoBehaviour
 {
     public static PlayerHUD Instance { get; private set; }
 
+    [SerializeField] private GameObject _activeLoanHUD;
+    [SerializeField] private TMP_Text _loanPaybackAmount;
+    [SerializeField] private TMP_Text _loanDaysLeft;
+    private int _firstLoanDay = 1; // The first day of the loan. This is reduced first before reducing the days to repay.
+    public Loan ActiveLoan { get; private set; }
     private CanvasGroup _hudCanvasGroup;
+
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -65,5 +73,59 @@ public class PlayerHUD : MonoBehaviour
     void OnDestroy()
     {
         SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+    }
+
+    public void EnableActiveLoanPanel(Loan loan) => StartCoroutine(EnableOrDisableLoanPanel(loan, true));
+
+    public void DisableActiveLoanPanel() => StartCoroutine(EnableOrDisableLoanPanel(null, false));
+
+    IEnumerator EnableOrDisableLoanPanel(Loan loan, bool enable)
+    {
+        var rect = _activeLoanHUD.GetComponent<RectTransform>();
+        var pos = rect.anchoredPosition;
+        _loanPaybackAmount.text = "";
+        _loanDaysLeft.text = "";
+
+        if (enable)
+        {
+            _firstLoanDay = 1;
+            var endPos = new Vector2(-25, pos.y);
+            _loanPaybackAmount.text = $"-{loan.ActualAmount} €";
+            Debug.Log(loan.interestRate / 100);
+            _loanDaysLeft.text = loan.daysToRepay == 1 ? $"{loan.daysToRepay} day" : $"{loan.daysToRepay} days";
+            yield return StartCoroutine(UIAnimations.MoveObject(rect, endPos));
+            ActiveLoan = loan;
+        }
+        else
+        {
+            ActiveLoan = null;
+            var endPos = new Vector2(rect.sizeDelta.x, pos.y);
+            yield return StartCoroutine(UIAnimations.MoveObject(rect, endPos));
+        }
+    }
+
+    public bool ReduceLoanDaysLeft()
+    {
+        if (ActiveLoan == null) return false;
+        
+        bool isGameOver = false;
+
+        if (_firstLoanDay == 1)
+        {
+            Debug.Log("First loan day, dont reduce days to repay");
+            _firstLoanDay--;
+        }
+        else
+        {
+
+            ActiveLoan.daysToRepay--;
+            _loanDaysLeft.text = ActiveLoan.daysToRepay == 1 ? $"{ActiveLoan.daysToRepay} day" : $"{ActiveLoan.daysToRepay} days";
+            if (ActiveLoan.daysToRepay == 0)
+            {
+                isGameOver = true;
+                _loanDaysLeft.text = "DL missed";
+            }
+        }
+        return isGameOver;
     }
 }

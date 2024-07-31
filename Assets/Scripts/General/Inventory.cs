@@ -11,7 +11,8 @@ public class Inventory : MonoBehaviour
         public InventoryItem item;
         public int amount;
     }
-
+    [SerializeField] private int _totalItemSlots = 8; // The total amount of item slots in the inventory.
+    private int _usedItemSlots = 0; // The amount of item slots currently in use.
     public List<StartingInventory> startingInventory;
     private readonly Dictionary<InventoryItem, int> _inventory = new();
     public Dictionary<InventoryItem, int> GetInventory => _inventory;
@@ -62,6 +63,12 @@ public class Inventory : MonoBehaviour
             return;
         }
 
+        if (_usedItemSlots >= _totalItemSlots)
+        {
+            Debug.Log("Inventory full.");
+            return;
+        }
+
         if (_inventory.ContainsKey(item)) // If the item is already in the inventory
         {
             if (_inventory[item] < item.maxAmount) // If the max amount of the item hasn't been reached.
@@ -76,10 +83,11 @@ public class Inventory : MonoBehaviour
         }
         else if (_inventory.ContainsKey(item) == false) // If the item isn't in the inventory
         {
-            _inventory.Add(item, amount); // Add new item to inventory dictionary. 
+            _inventory.Add(item, amount); // Add new item to inventory dictionary.
+            _usedItemSlots++;
             Debug.Log("Added item to inventory, value." + amount);
         }
-        //OnInventoryChanged?.Invoke();
+        OnInventoryChanged?.Invoke();
     }
 
     public void RemoveFromInventory(InventoryItem item, int amount = 1)
@@ -109,6 +117,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
+            _usedItemSlots--;
             _inventory.Remove(item);
             Debug.Log("Removed item from inventory.");
         }

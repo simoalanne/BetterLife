@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Steak
   itemDescription: Tender, juicy steak cooked to perfection.
   icon: {fileID: 1475497635, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 2
   hungerRestored: 30
   energyRestored: 0

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Consumable : InventoryItem
 {
     [Header("Consumable settings")]
+    [Range(-100, 100)]
     public float hungerRestored;
+    [Range(-100, 100)]
     public float energyRestored;
 }

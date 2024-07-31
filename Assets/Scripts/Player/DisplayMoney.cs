@@ -17,7 +17,6 @@ public class DisplayMoney : MonoBehaviour
 
     private IEnumerator UpdateMoneyAnimation(float previousMoney, float newMoney)
     {
-        Debug.Log("Method called" + previousMoney + " " + newMoney);
         while (SceneLoader.Instance.IsLoading)
         {
             yield return null;

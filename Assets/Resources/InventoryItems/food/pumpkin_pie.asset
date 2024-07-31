@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Pumpkin Pie
   itemDescription: Sweet, spiced pumpkin pie with a flaky crust.
   icon: {fileID: -1443168939, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 4
   hungerRestored: 15
   energyRestored: 0

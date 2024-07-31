@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Eggplant
   itemDescription: A tender, grilled eggplant.
   icon: {fileID: 1868196610, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 8
   hungerRestored: 5
   energyRestored: 0

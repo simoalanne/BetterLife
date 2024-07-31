@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Beer
   itemDescription: Chilled beer, refreshing and light.
   icon: {fileID: 929244014, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 5
   hungerRestored: 2
   energyRestored: 0

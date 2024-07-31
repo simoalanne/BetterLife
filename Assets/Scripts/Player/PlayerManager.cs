@@ -20,9 +20,11 @@ namespace Player
         [SerializeField] private float _moneyInBankAccount = 100f;
         private float _originalMoney;
         private bool _hasTalkedToLoanShark; // Shouln't be in this script but it's what it is.
+        private bool _hasTalkedToShopkeeper;
         private bool _hasPlayerPassedOut;
         public bool HasTalkedToLoanShark { get => _hasTalkedToLoanShark; set => _hasTalkedToLoanShark = value; }
         public bool HasPlayerPassedOut { get => _hasPlayerPassedOut; set => _hasPlayerPassedOut = value; }
+        public bool HasTalkedToShopkeeper { get => _hasTalkedToShopkeeper; set => _hasTalkedToShopkeeper = value; }
         public float MoneyInBankAccount
         {
             get => _moneyInBankAccount;

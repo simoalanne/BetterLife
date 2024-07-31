@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Fish
   itemDescription: Fresh grilled fish fillet with herbs.
   icon: {fileID: 262084150, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 3
   hungerRestored: 15
   energyRestored: 0

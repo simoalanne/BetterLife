@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Egg
   itemDescription: Farm-fresh egg, versatile and nutritious.
   icon: {fileID: -1203409926, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 10
   hungerRestored: 3
   energyRestored: 0

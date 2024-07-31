@@ -9,9 +9,8 @@ public class Needs : MonoBehaviour
 {
     public static Needs Instance { get; private set; }
 
-    [SerializeField] private float timeScaleDebug = 1f;
     [Header("Animation Settings")]
-    [SerializeField] private float _increaseAnimTime = 0.5f;
+    [SerializeField] private float _increaseAnimTime = 2f;
 
     [Header("Energy Settings")]
     [SerializeField] private float energy100To0TimeInGameHours = 14f;
@@ -34,6 +33,7 @@ public class Needs : MonoBehaviour
     [SerializeField] private TMP_Text eatWarning;
     [SerializeField] private float _timeBeforeHungerDepletedInvoked = 90f;
     private Coroutine hungerDepletedCoroutine;
+    private bool increasingHunger = false;
     private float hunger100to0Time;
     public Action OnHungerDepleted;
     private float currentHunger;
@@ -67,7 +67,6 @@ public class Needs : MonoBehaviour
 
     void Update()
     {
-        Time.timeScale = timeScaleDebug;
         UpdateEnergy();
         UpdateHunger();
     }
@@ -99,7 +98,7 @@ public class Needs : MonoBehaviour
 
     void UpdateHunger()
     {
-        if (!GameTimer.Instance.IsPaused && currentHunger > 0)
+        if (!GameTimer.Instance.IsPaused && currentHunger > 0 && !increasingHunger)
         {
             currentHunger -= Time.deltaTime / hunger100to0Time * maxHunger;
             hungerBar.fillAmount = currentHunger / maxHunger;
@@ -124,7 +123,6 @@ public class Needs : MonoBehaviour
                 yield return null;
                 continue;
             }
-
             timeElapsed += Time.deltaTime;
             eatWarning.text = $"Dying in: {Mathf.RoundToInt(_timeBeforeHungerDepletedInvoked - timeElapsed)}s";
             yield return null;
@@ -160,27 +158,26 @@ public class Needs : MonoBehaviour
         energyBar.fillAmount = currentEnergy / maxEnergy;
     }
 
-    public void IncreaseHungerBar(float amount)
+    public void IncreaseHungerBar(float amountPercentage)
     {
         if (hungerDepletedCoroutine != null)
         {
             StopCoroutine(hungerDepletedCoroutine);
             eatWarning.gameObject.SetActive(false);
         }
-        if (amount < 0) amount = 0;
-        else if (amount > maxHunger) amount = maxHunger;
-        else if (currentHunger + amount > maxHunger) amount = maxHunger - currentHunger;
-
-        StartCoroutine(IncreaseHungerAnimation(amount));
+        StartCoroutine(IncreaseHungerAnimation(amountPercentage / 100 * maxHunger));
     }
 
 
     IEnumerator IncreaseHungerAnimation(float amount)
     {
+        Debug.Log("Increasing hunger bar by: " + amount);
         float startHunger = currentHunger;
-        float endHunger = amount;
+        increasingHunger = true;
+        float endHunger = currentHunger + amount;
+        endHunger = Mathf.Clamp(endHunger, 0, maxHunger);
+        Debug.Log("After clamping the hunger bar will fill to: " + endHunger);
         float timeElapsed = 0;
-
         while (timeElapsed < _increaseAnimTime)
         {
             timeElapsed += Time.deltaTime;
@@ -189,8 +186,10 @@ public class Needs : MonoBehaviour
             yield return null;
         }
 
-        currentHunger = amount;
+        currentHunger = endHunger; // Set to exact amount
         hungerBar.fillAmount = currentHunger / maxHunger;
+        increasingHunger = false;
+        hungerAmount.text = $"{Mathf.RoundToInt(currentHunger)} / {maxHunger}";
     }
 
     public void ShowEnergyAmount() => energyAmount.gameObject.SetActive(true);

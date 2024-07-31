@@ -106,7 +106,12 @@ namespace Player
         void FixedUpdate()
         {
             // Use normalized to prevent diagonal movement from being faster than horizontal or vertical movement.
-            _rigidbody2D.velocity = _movement.normalized * _movementSpeed;
+            var speedMultiplier = PowerUpsInInventory.HasPowerUp(PowerUpsInInventory.PowerUpType.MovementSpeedBoost) ? 1.5f : 1f;
+            if (speedMultiplier > 1f)
+            {
+                GetComponent<AnimationSpeedController>().SetAnimationSpeed(1.5f);
+            }
+            _rigidbody2D.velocity = _movement.normalized * _movementSpeed * speedMultiplier;
         }
 
         private void SetFacingDirection(Vector2 direction)

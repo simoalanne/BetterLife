@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class AnimationSpeedController : MonoBehaviour
 {   
-    [Range(0.1f, 10f)]
-    [SerializeField] private float _animSpeed = 1f;
-    void Update()
+    public void SetAnimationSpeed(float newSpeed)
     {
-        GetComponent<Animator>().speed = _animSpeed;
+        GetComponent<Animator>().speed = newSpeed;
     }
 }

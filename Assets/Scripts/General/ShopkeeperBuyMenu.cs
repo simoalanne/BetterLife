@@ -5,23 +5,20 @@ using UnityEngine.UI;
 using TMPro;
 using Player;
 using UnityEngine.EventSystems;
+using UI.Extensions;
 
-
-/// <summary>
-/// This class is used to handle the shopkeeper's buy menu.
-/// Should be instantiated to players HUD when the player interacts with the shopkeeper
-/// and should be destroyed when the player is done interacting with the shopkeeper.
-/// Create a prefab gameobject with this script attached and set the itemButtonPrefab and itemGrid in the inspector.
-/// </summary>
-public class ShopkeeperBuyMenu : MonoBehaviour
+public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
 {
 
     [Header("Shop variables")]
+    [SerializeField] private GameObject _shopMenu;
     [SerializeField] private Button _itemButtonPrefab;
-    [SerializeField] private Button _exitButton;
     [SerializeField] private GridLayoutGroup _itemGrid;
     [SerializeField] private TMP_Text _noMoneyText;
     [SerializeField] private TMP_Text _playerMoneyText;
+
+    [Header("Dialogue")]
+    [SerializeField] private DialogueTrigger _firstTimeDialogue;
 
     [Header("Hover menu")]
     [SerializeField] private GameObject _hoverMenu;
@@ -30,6 +27,8 @@ public class ShopkeeperBuyMenu : MonoBehaviour
     private RectTransform _hoverMenuRectTransform;
     private Coroutine _noMoneyTextCoroutine;
     private GameObject _shopCopy;
+    private Vector2 _menuOriginalPosition;
+
 
     [System.Serializable]
     public class Item
@@ -37,46 +36,60 @@ public class ShopkeeperBuyMenu : MonoBehaviour
         public InventoryItem item;
         public int itemPrice;
     }
-    
+
     [SerializeField] List<Item> itemsForSale;
 
     private readonly Dictionary<Item, Button> itemButtonMap = new();
 
-    void OnEnable() // This method is called when the object becomes enabled and active
-    {
-        PlayerManager.Instance.DisableInputs();
-        gameObject.SetActive(true);
-
-    }
-
-    void OnDestroy() // This method is called when the object is being destroyed
-    {
-        PlayerManager.Instance.EnableInputs();
-    }
-
     void Awake() // Runs when the objects is being instantiated
     {
-        _exitButton.onClick.AddListener(ExitShop);
+        _menuOriginalPosition = _shopMenu.GetComponent<RectTransform>().anchoredPosition;
         _hoverMenu.SetActive(false);
         _hoverMenuRectTransform = _hoverMenu.GetComponent<RectTransform>();
         _noMoneyText.gameObject.SetActive(false);
-        _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
-
+        //sort items by price
+        itemsForSale.Sort((a, b) => a.itemPrice.CompareTo(b.itemPrice));
         foreach (var item in itemsForSale)
         {
             Button itemButton = Instantiate(_itemButtonPrefab, _itemGrid.transform);
             itemButton.onClick.AddListener(() => BuyItem(item));
             itemButton.transform.Find("Icon").GetComponent<Image>().sprite = item.item.icon;
-            itemButton.transform.Find("Price").GetComponent<TMP_Text>().text = $"{item.itemPrice}€";
-            itemButton.transform.Find("Amount").GetComponent<TMP_Text>().text = item.item.isUnique ? "1" : "∞";
+            itemButton.transform.Find("Price").GetComponent<TMP_Text>().text = $"{item.itemPrice} €";
             itemButtonMap.Add(item, itemButton);
             AddHoverEvents(itemButton.gameObject, item);
         }
     }
 
-    void ExitShop()
+    public void Interact()
     {
-        Destroy(gameObject);
+        _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
+
+        if (PlayerManager.Instance.HasTalkedToShopkeeper == true)
+        {
+            OpenShopMenu();
+        }
+        else
+        {
+            DialogueManager.Instance.OnYesClicked += OpenShopMenu;
+            _firstTimeDialogue.TriggerDialogue();
+            PlayerManager.Instance.HasTalkedToShopkeeper = true;
+        }
+    }
+
+    void OpenShopMenu()
+    {
+        PlayerManager.Instance.DisableInputs();
+        GameTimer.Instance.IsPaused = true;
+        StartCoroutine(UIAnimations.MoveObject(_shopMenu.GetComponent<RectTransform>(), new Vector2(100, _menuOriginalPosition.y)));
+        FindObjectOfType<PlayerInventoryUI>().OpenInventory(); // Open the inventory to the side so the player can see what they have
+    }
+
+    public void CloseShopMenu()
+    {
+        PlayerManager.Instance.EnableInputs();
+        GameTimer.Instance.IsPaused = false;
+        StartCoroutine(UIAnimations.MoveObject(_shopMenu.GetComponent<RectTransform>(), _menuOriginalPosition));
+        FindObjectOfType<PlayerInventoryUI>().CloseInventory();
     }
 
     void Update()
@@ -111,17 +124,20 @@ public class ShopkeeperBuyMenu : MonoBehaviour
     {
         if (PlayerManager.Instance.MoneyInBankAccount >= item.itemPrice)
         {
+            Debug.Log("Buying + " + item.item.itemName);
+            bool successfullyAdded = PlayerInventory.Instance.AddToInventory(item.item);
+
+            if (!successfullyAdded) return; // if couldn't add to inventory, return and don't subtract money
+            Debug.Log("Successfully bought " + item.item.itemName);
             PlayerManager.Instance.MoneyInBankAccount -= item.itemPrice;
             _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
-            PlayerInventory.Instance.AddToInventory(item.item);
-            if (item.item.isUnique)
+            if (item.item is PowerUp)
             {
                 itemsForSale.Remove(item);
                 if (itemButtonMap.TryGetValue(item, out var buttonToDisable))
                 {
                     buttonToDisable.interactable = false;
                     buttonToDisable.transform.Find("Price").GetComponent<TMP_Text>().text = "Sold out";
-                    buttonToDisable.transform.Find("Amount").GetComponent<TMP_Text>().text = "<color=red>0</color>";
                 }
             }
         }

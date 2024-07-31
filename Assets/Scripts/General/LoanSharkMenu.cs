@@ -89,6 +89,7 @@ public class LoanSharkMenu : MonoBehaviour, IInteractable
 
     public void OpenTakeLoanMenu()
     {
+        StopAllCoroutines();
         StartCoroutine(UIAnimations.MoveObject(_takeLoanMenu.GetComponent<RectTransform>(), _panelsOnScreenPos, _panelMoveDuration));
         PlayerManager.Instance.DisableInputs();
         GameTimer.Instance.IsPaused = true;
@@ -96,6 +97,7 @@ public class LoanSharkMenu : MonoBehaviour, IInteractable
 
     public void OpenPayBackLoanMenu()
     {
+        StopAllCoroutines();
         StartCoroutine(UIAnimations.MoveObject(_payBackLoanMenu.GetComponent<RectTransform>(), _panelsOnScreenPos, _panelMoveDuration));
         PlayerManager.Instance.DisableInputs();
         GameTimer.Instance.IsPaused = true;
@@ -103,14 +105,21 @@ public class LoanSharkMenu : MonoBehaviour, IInteractable
 
     public void CloseTakeLoanMenu()
     {
+        StopAllCoroutines();
         StartCoroutine(UIAnimations.MoveObject(_takeLoanMenu.GetComponent<RectTransform>(), _panelsOffScreenPos, _panelMoveDuration));
         PlayerManager.Instance.EnableInputs();
         GameTimer.Instance.IsPaused = false;
     }
     public void ClosePayBackLoanMenu()
     {
+        StopAllCoroutines();
         StartCoroutine(UIAnimations.MoveObject(_payBackLoanMenu.GetComponent<RectTransform>(), _panelsOffScreenPos, _panelMoveDuration));
         PlayerManager.Instance.EnableInputs();
         GameTimer.Instance.IsPaused = false;
+    }
+
+    void OnDestroy()
+    {
+        DialogueManager.Instance.OnYesClicked -= OpenTakeLoanMenu;
     }
 }

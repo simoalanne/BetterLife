@@ -5,7 +5,7 @@ public class OpenPlayerInventory : MonoBehaviour
 {
     private PlayerControls _playerControls;
     private bool _isInventoryOpen;
-    private InventoryUI _inventoryUI;
+    private PlayerInventoryUI _inventoryUI;
     private bool _canOpenInventory = true;
     public bool CanOpenInventory { get => _canOpenInventory; set => _canOpenInventory = value; }
 
@@ -13,21 +13,22 @@ public class OpenPlayerInventory : MonoBehaviour
     {
         _playerControls = new PlayerControls();
         _playerControls.Player.OpenInventory.performed += ctx => ToggleInventory();
-        _inventoryUI = GetComponent<InventoryUI>();
+        _inventoryUI = GetComponent<PlayerInventoryUI>();
     }
 
     void ToggleInventory()
     {
-        if (!_canOpenInventory) return;
+        if (_canOpenInventory == false) return;
 
-        if (!_isInventoryOpen)
+        if (_isInventoryOpen == false)
         {
             _inventoryUI.OpenInventory();
         }
-        else
+        else if (_isInventoryOpen == true)
         {
             _inventoryUI.CloseInventory();
         }
+
         _isInventoryOpen = !_isInventoryOpen;
     }
 

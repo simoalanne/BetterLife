@@ -1,9 +1,10 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameTimer : MonoBehaviour
 {
     public static GameTimer Instance { get; private set; }
+    [Header("Debugging")]
+    [SerializeField] private float _timeScale = 1f;
 
     [Header("Game Timer Settings")]
     [SerializeField] private float _gameMinuteInRealTimeSeconds = 0.6f;
@@ -30,7 +31,6 @@ public class GameTimer : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            Debug.Log("Setting game time to 10am");
             AddToGameTime(0, 10, 0); // Game starts at 12am
         }
         else
@@ -41,7 +41,9 @@ public class GameTimer : MonoBehaviour
 
     void Update()
     {
-
+#if UNITY_EDITOR
+        Time.timeScale = _timeScale;
+#endif
         if (!_isPaused)
         {
             _totalElapsedSeconds += Time.deltaTime;
@@ -59,7 +61,6 @@ public class GameTimer : MonoBehaviour
     /// or when a new game is started etc.
     public void AddToGameTime(int minutes, int hours, int days)
     {
-        Debug.Log("Adding time to game time: " + days + " days, " + hours + " hours, " + minutes + " minutes.");
         // Convert days and hours to minutes, then sum up all minutes
         int totalGameMinutes = days * 24 * 60 + hours * 60 + minutes;
 
@@ -72,7 +73,6 @@ public class GameTimer : MonoBehaviour
 
     public void SkipToNexDay(int wakeUpHour)
     {
-        Debug.Log("Skipping to next day at " + wakeUpHour + "am");
         // Calculate the total game minutes to add
         int minutesToAdd = (24 - _fullHours + wakeUpHour) * 60 - _fullMinutes;
 
@@ -86,16 +86,5 @@ public class GameTimer : MonoBehaviour
         _fullDays = Mathf.FloorToInt(_totalElapsedSeconds / (_gameMinuteInRealTimeSeconds * 60 * 24));
         _fullHours = wakeUpHour;
         _fullMinutes = 0;
-    }
-
-    void OnApplicationQuit()
-    {
-        // SaveGameTime();
-    }
-
-    void SaveGameTime()
-    {
-        // Save the game time to a file
-        Destroy(gameObject);
     }
 }

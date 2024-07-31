@@ -15,8 +15,6 @@ MonoBehaviour:
   itemName: Pig Head
   itemDescription: Roasted pig head, a hearty meal.
   icon: {fileID: -892248648, guid: b3a2694dde8289a4ba9568866129c60e, type: 3}
-  maxAmount: 99
-  isStackable: 1
-  isUnique: 0
+  maxAmount: 1
   hungerRestored: 50
   energyRestored: 0

@@ -5906,8 +5906,8 @@ MonoBehaviour:
   _dialogTriggersByInteraction: 0
   dialogue:
   - talkerName: Loan Shark
-    sentence: Hello! Haven't seen you here before? You must have heard good things
-      about my little loan business.
+    sentence: Hello! I Haven't seen you in here before? You must have heard good
+      things about my little loan business.
     isPlayer: 0
     isQuestion: 0
     finishesDialogue: 0

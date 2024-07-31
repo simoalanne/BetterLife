@@ -129,6 +129,12 @@ public class DialogueManager : MonoBehaviour
     {
         _clickedYesDuringDialogue = true;
         _inYesBranch = true;
+        var part = _dialogue[_mainBranchIndex];
+        if (part.yesBranch.Length == 0)
+        {
+            EndDialogue();
+            return;
+        }
         HandlePart();
     }
 
@@ -136,6 +142,12 @@ public class DialogueManager : MonoBehaviour
     {
         _clickedNoDuringDialogue = true;
         _inNoBranch = true;
+        var part = _dialogue[_mainBranchIndex];
+        if (part.noBranch.Length == 0)
+        {
+            EndDialogue();
+            return;
+        }
         HandlePart();
     }
 
@@ -179,7 +191,6 @@ public class DialogueManager : MonoBehaviour
         _mainBranchIndex = 0;
         StopAllCoroutines();
         PlayerManager.Instance.EnableInputs();
-        Debug.Log("End of conversation.");
         animator.SetBool("IsOpen", false);
         GameTimer.Instance.IsPaused = false;
         if (_clickedYesDuringDialogue)
@@ -192,7 +203,7 @@ public class DialogueManager : MonoBehaviour
             OnNoClicked?.Invoke();
             _clickedNoDuringDialogue = false;
         }
-        Debug.Log("Invoking OnDialogueEnd");
+        Debug.Log("Dialogue ended");
         OnDialogueEnd?.Invoke();
     }
 }

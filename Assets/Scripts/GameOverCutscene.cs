@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UI.Extensions;
+using TMPro;
 
 public class GameOverCutscene : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameOverCutscene : MonoBehaviour
     [SerializeField] private Image characterImage;
     [SerializeField] private float _waterAnimationLength = 7.5f;
     [SerializeField] private ParticleSystem _particleSystem;
+    [SerializeField] public TextMeshProUGUI gameOverText;
+    [SerializeField] public Button quitButton;
 
     private void Start()
     {
@@ -69,5 +72,7 @@ public class GameOverCutscene : MonoBehaviour
         yield return StartCoroutine(UIAnimations.MoveObject(characterImage.rectTransform,
         new Vector2(0, -waterImage.rectTransform.sizeDelta.y + characterImage.rectTransform.sizeDelta.y), _waterAnimationLength));
         _particleSystem.Stop();
+        gameOverText.enabled = true;
+        quitButton.gameObject.SetActive(true);
     }
 }

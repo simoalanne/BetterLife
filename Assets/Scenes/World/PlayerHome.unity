@@ -4796,7 +4796,7 @@ GameObject:
   - component: {fileID: 671850333}
   - component: {fileID: 671850332}
   - component: {fileID: 671850334}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bed2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4835,7 +4835,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.00000011920929, y: 0.01964438}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -4846,7 +4846,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.9775426, y: 1.0392888}
   m_EdgeRadius: 0
 --- !u!4 &671850333
 Transform:
@@ -4879,9 +4879,9 @@ MonoBehaviour:
   dialogue:
   - talkerName: Doyle
     sentence: I can't sleep here. It brings back bad memories and breaks the simulation.
-    isPlayer: 0
+    isPlayer: 1
     isQuestion: 0
-    finishesDialogue: 0
+    finishesDialogue: 1
     yesBranch: []
     noBranch: []
   _playerSprite: {fileID: 0}

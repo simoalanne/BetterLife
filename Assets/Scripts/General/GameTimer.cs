@@ -30,7 +30,7 @@ public class GameTimer : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            AddToGameTime(0, 12, 0); // Game starts at 12am
+            AddToGameTime(0, 10, 0); // Game starts at 12am
         }
         else
         {

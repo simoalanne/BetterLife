@@ -27,6 +27,7 @@ public class Sleep : MonoBehaviour
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(false);
         _fadeImage.color = Color.clear;
+        GameTimer.Instance.IsPaused = false;
     }
 
     void Start()

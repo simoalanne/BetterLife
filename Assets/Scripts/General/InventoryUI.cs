@@ -20,8 +20,7 @@ public class InventoryUI : MonoBehaviour
     {
         _inventoryPanel.SetActive(false);
         _inventory = GetComponent<Inventory>();
-        _inventory.OnInventoryLoaded += PopulateInventory;
-        _inventory.OnInventoryChanged += UpdateUI;
+        _inventory.OnInventoryChanged += PopulateInventory;
     }
 
     void PopulateInventory()
@@ -101,37 +100,6 @@ public class InventoryUI : MonoBehaviour
     {
         _itemDetails.text = "";
         Debug.Log("Exiting item slot");
-    }
-
-    void UpdateUI()
-    {
-        Debug.Log("UpdateUI called");
-        foreach (Transform child in _inventoryGrid.transform)
-        {
-            Destroy(child.gameObject);
-        }
-        _itemSlots.Clear();
-        var inventory = _inventory.GetInventory;
-        foreach (var item in inventory)
-        {
-            if (item.Value > 0)
-            {
-                Debug.Log("Item amount: " + item.Value + " " + item.Key.itemName);
-            }
-        }
-        PopulateInventory();
-    }
-
-    void CheckItemType(InventoryItem item)
-    {
-        if (item is Loan)
-        {
-            Debug.Log("This is a loan");
-        }
-        else
-        {
-            Debug.Log("This is not a loan");
-        }
     }
 
     public void OpenInventory()

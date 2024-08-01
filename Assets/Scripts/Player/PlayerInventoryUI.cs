@@ -8,7 +8,9 @@ public class PlayerInventoryUI : MonoBehaviour
 {
     [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private GridLayoutGroup _standardItemsGrid;
-    [SerializeField] private TMP_Text _itemDetails;
+    [SerializeField] private TMP_Text _itemName;
+    [SerializeField] private TMP_Text _itemSubText;
+    [SerializeField] private TMP_Text _itemDescription;
     private Button[] _standardItemSlots;
     private PlayerInventory _inventory;
 
@@ -24,7 +26,9 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         var inventory = _inventory.GetInventory();
         int index = 0;
-        _itemDetails.text = "";
+        _itemName.text = "";
+        _itemSubText.text = "";
+        _itemDescription.text = "";
         foreach (var itemSlot in _standardItemSlots)
         {
             itemSlot.onClick.RemoveAllListeners(); // Remove all listeners so that button doesnt try to use the same item multiple times
@@ -97,12 +101,15 @@ public class PlayerInventoryUI : MonoBehaviour
 
     public void OnItemSlotHover(InventoryItem item)
     {
-        _itemDetails.text = $"Name: {item.itemName}";
+        _itemName.text = item.itemName;
+        _itemDescription.text = item.itemDescription;
     }
 
     public void OnItemSlotExit()
     {
-        _itemDetails.text = "";
+        _itemName.text = "";
+        _itemSubText.text = "";
+        _itemDescription.text = "";
     }
 
     public void OpenInventory()

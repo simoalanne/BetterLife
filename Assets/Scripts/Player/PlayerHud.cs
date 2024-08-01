@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UI.Extensions;
 
-[RequireComponent(typeof(CanvasGroup))]
 public class PlayerHUD : MonoBehaviour
 {
     public static PlayerHUD Instance { get; private set; }
@@ -14,8 +13,8 @@ public class PlayerHUD : MonoBehaviour
     [SerializeField] private TMP_Text _loanDaysLeft;
     private int _firstLoanDay = 1; // The first day of the loan. This is reduced first before reducing the days to repay.
     public Loan ActiveLoan { get; private set; }
-    private CanvasGroup _hudCanvasGroup;
-
+    [SerializeField] private CanvasGroup _hudCanvasGroup; // Canvas group that contains elements that should be hidden when the player is not in the game scene.
+    [SerializeField] private GameObject _casinoClosingText; // this text is shown when player is playing a casino game so they can see when the casino is closing.
 
     private void Awake()
     {

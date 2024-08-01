@@ -159,4 +159,9 @@ public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(0.5f);
         _noMoneyText.gameObject.SetActive(false);
     }
+
+    void OnDestroy()
+    {
+        DialogueManager.Instance.OnYesClicked -= OpenShopMenu;
+    }
 }

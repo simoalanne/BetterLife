@@ -103,6 +103,12 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         _itemName.text = item.itemName;
         _itemDescription.text = item.itemDescription;
+        if (item is Consumable) // only show subtext for consumable items.
+        {
+            // 500 is the max value of the hunger bar. divide by 100 to get the "points" restored. e.g. a pighead restores 50% of the hunger bar = 50 * 500 / 100 = 250 
+            string text = $"Hunger restored: {(item as Consumable).hungerRestored * 500 / 100}";
+            _itemSubText.text = text;
+        }
     }
 
     public void OnItemSlotExit()

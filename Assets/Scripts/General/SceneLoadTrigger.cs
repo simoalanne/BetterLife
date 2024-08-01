@@ -52,6 +52,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
 
     private void LoadScene()
     {
+        Debug.Log("Loading scene: " + _sceneToLoad);
         if (SceneLoader.Instance != null)
         {
             SceneLoader.Instance.LoadScene(_sceneToLoad, _playerVisibilityInNewScene, _transitionType, _playerSpawnPoint);

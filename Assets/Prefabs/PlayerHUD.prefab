@@ -5357,6 +5357,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSlot (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5458,6 +5470,18 @@ PrefabInstance:
     - target: {fileID: 3028126016889636241, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
       propertyPath: m_Name
       value: ItemSlot (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5561,6 +5585,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSlot (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5662,6 +5698,18 @@ PrefabInstance:
     - target: {fileID: 3028126016889636241, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
       propertyPath: m_Name
       value: ItemSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5765,6 +5813,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSlot (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5866,6 +5926,18 @@ PrefabInstance:
     - target: {fileID: 3028126016889636241, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
       propertyPath: m_Name
       value: ItemSlot (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5969,6 +6041,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemSlot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6070,6 +6154,18 @@ PrefabInstance:
     - target: {fileID: 3028126016889636241, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
       propertyPath: m_Name
       value: ItemSlot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514442010887071108, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601903447769669555, guid: 258cd3c7210c9f246afb6afc26e5a286, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

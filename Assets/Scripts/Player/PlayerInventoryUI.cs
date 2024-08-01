@@ -24,9 +24,15 @@ public class PlayerInventoryUI : MonoBehaviour
     {
         var inventory = _inventory.GetInventory();
         int index = 0;
+        _itemDetails.text = "";
         foreach (var itemSlot in _standardItemSlots)
         {
             itemSlot.onClick.RemoveAllListeners(); // Remove all listeners so that button doesnt try to use the same item multiple times
+            if (itemSlot.TryGetComponent<EventTrigger>(out var eventTrigger))
+            {
+                Debug.Log("Removing event trigger");
+                Destroy(eventTrigger);
+            }
         }
 
         foreach (var item in inventory)
@@ -104,6 +110,7 @@ public class PlayerInventoryUI : MonoBehaviour
         _inventoryPanel.SetActive(true);
         PlayerManager.Instance.DisablePlayerMovement();
         PlayerManager.Instance.DisablePlayerInteract();
+        GameTimer.Instance.IsPaused = true;
     }
 
     public void CloseInventory()
@@ -111,5 +118,6 @@ public class PlayerInventoryUI : MonoBehaviour
         _inventoryPanel.SetActive(false);
         PlayerManager.Instance.EnablePlayerMovement();
         PlayerManager.Instance.EnablePlayerInteract();
+        GameTimer.Instance.IsPaused = false;
     }
 }

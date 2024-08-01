@@ -2143,7 +2143,10 @@ MonoBehaviour:
   _dialogTriggersByInteraction: 0
   dialogue:
   - talkerName: Doyle
-    sentence: "Weird... \nThat loan shark guy looked like he doesn't sleep."
+    sentence: 'I guess he''s sleeping.
+
+      He''s probably dreaming of being a
+      shark and eating people alive.'
     isPlayer: 1
     isQuestion: 0
     finishesDialogue: 1
@@ -2163,7 +2166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1913f25d74c0704f8e541975b79d65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openFrom: 16
+  _openFrom: 14
   _openTo: 1
   _closedSign: {fileID: 4463871520183115512, guid: 21310f98b954eb14191ef4ee07ed5d46, type: 3}
 --- !u!1 &987170907
@@ -4509,7 +4512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1913f25d74c0704f8e541975b79d65d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openFrom: 13
+  _openFrom: 11
   _openTo: 2
   _closedSign: {fileID: 4463871520183115512, guid: 21310f98b954eb14191ef4ee07ed5d46, type: 3}
 --- !u!114 &1300205635

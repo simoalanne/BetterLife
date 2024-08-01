@@ -4437,7 +4437,7 @@ MonoBehaviour:
     noBranch: []
   - talkerName: Shopkeeper
     sentence: I haven't been able to test them yet but apparently they grant their
-      posessor some really useful skills.
+      possessor some really useful skills.
     isPlayer: 0
     isQuestion: 0
     finishesDialogue: 0
@@ -4456,7 +4456,7 @@ MonoBehaviour:
     yesBranch: []
     noBranch: []
   - talkerName: Doyle
-    sentence: Let me guess? It's because the simulation would break, innit?
+    sentence: Let me guess? It's because the simulation would break?
     isPlayer: 1
     isQuestion: 0
     finishesDialogue: 0

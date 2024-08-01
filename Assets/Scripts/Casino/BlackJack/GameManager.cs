@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
         hitButton.interactable = false;
         for (int i = 0; i < amountToDealAtOnce; i++)
         {
-            Debug.Log("Dealing card");
             yield return new WaitForSeconds(delayBetweenCards);
             float timer = 0;
             var targetTransform = isPlayer ? playerScript.hand[playerCardIndex].transform : dealerScript.hand[dealerCardIndex].transform;
@@ -188,19 +187,18 @@ public class GameManager : MonoBehaviour
 
         hideCard.SetActive(false);
         // Check for winner
+        if (player21 && dealer21 || playerBust && dealerBust || playerScript.handValue == dealerScript.handValue)
+        {
+            mainText.text = "Push!";
+        }
         if (dealerBust || (player21 && !dealer21) || (!playerBust && playerScript.handValue > dealerScript.handValue))
         {
             mainText.text = "You win!";
             playerScript.AdjustMoney(totalBet * 2);
         }
-        else if (playerBust || dealer21 || dealerScript.handValue > playerScript.handValue)
+        else if (playerBust || (dealer21 && !player21) || dealerScript.handValue > playerScript.handValue)
         {
             mainText.text = "You lose!";
-        }
-        else
-        {
-            mainText.text = "Push!";
-            playerScript.AdjustMoney(totalBet);
         }
 
         hitButton.gameObject.SetActive(false);

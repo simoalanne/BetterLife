@@ -5914,7 +5914,7 @@ MonoBehaviour:
     yesBranch: []
     noBranch: []
   - talkerName: Loan Shark
-    sentence: There are only two rules you need to know before i can help you...
+    sentence: There are only two things you need to know before i can help you...
     isPlayer: 0
     isQuestion: 0
     finishesDialogue: 0
@@ -5922,7 +5922,7 @@ MonoBehaviour:
     noBranch: []
   - talkerName: Loan Shark
     sentence: 'Rule one: You can only get a new loan once the previous one is paid
-      out. Rule two: I highly recommend that you pay out your loan in time or else...'
+      out. Rule two: I highly recommend that you pay out your loan in time...'
     isPlayer: 0
     isQuestion: 0
     finishesDialogue: 0
@@ -5944,7 +5944,7 @@ MonoBehaviour:
     yesBranch: []
     noBranch: []
   - talkerName: Doyle
-    sentence: 'A simulation, really?! That smells bullshit. There must be another
+    sentence: 'A simulation, really?! That sounds like bullshit. There must be another
       reason. '
     isPlayer: 1
     isQuestion: 0
@@ -5963,7 +5963,7 @@ MonoBehaviour:
       finishesDialogue: 1
     noBranch:
     - talkerName: Loan Shark
-      sentence: Okay. till another time then. I'm sure you'll need money later on
+      sentence: Okay. Until another time then. I'm sure you'll need money later on
         regardless.
       isPlayer: 0
       finishesDialogue: 1

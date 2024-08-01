@@ -34,6 +34,7 @@ public class PlayerScript : MonoBehaviour
         deckScript.DealCard(cardToUse);
         while (cardToUse.Value == -1 && !isPlayer) // Dealer cant get jokers so the game is more fair
         {
+            Debug.Log("Dealer got a joker, drawing again");
             deckScript.DealCard(cardToUse);
         }
         hand[cardIndex].GetComponent<SpriteRenderer>().enabled = true;

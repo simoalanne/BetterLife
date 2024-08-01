@@ -4437,7 +4437,7 @@ MonoBehaviour:
     noBranch: []
   - talkerName: Shopkeeper
     sentence: I haven't been able to test them yet but apparently they grant their
-      posessor some really useful skills.
+      possessor some really useful skills.
     isPlayer: 0
     isQuestion: 0
     finishesDialogue: 0
@@ -4456,7 +4456,7 @@ MonoBehaviour:
     yesBranch: []
     noBranch: []
   - talkerName: Doyle
-    sentence: Let me guess? It's because the simulation would break, innit?
+    sentence: Let me guess? It's because the simulation would break?
     isPlayer: 1
     isQuestion: 0
     finishesDialogue: 0
@@ -6537,7 +6537,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -810, y: 0}
+  m_AnchoredPosition: {x: -810, y: -200}
   m_SizeDelta: {x: 685, y: 600}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6867257209560650592

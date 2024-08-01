@@ -644,7 +644,7 @@ GameObject:
   - component: {fileID: 1546727434252870785}
   - component: {fileID: 4852876907012956466}
   - component: {fileID: 8668791190561620556}
-  - component: {fileID: 7217327443415428849}
+  - component: {fileID: 329827702812186207}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -766,7 +766,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7217327443415428849
+--- !u!114 &329827702812186207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -778,8 +778,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneToLoad: MainMenu
+  _sceneToLoad: EndGameCutscene
   _playerVisibilityInNewScene: 1
   _transitionType: 0
   _loadTriggerType: 2
-  _playerSpawnPoint: 
+  _playerSpawnPoint: {fileID: 0}

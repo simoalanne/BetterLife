@@ -70,6 +70,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName, PlayerVisibility visibility, TransitionType transitionType = TransitionType.Random, SpawnPoint spawnPoint = null)
     {
+        Debug.Log("Loading scene: " + sceneName);
         if (_activeCoroutine != null)
         {
             return;
@@ -142,7 +143,7 @@ public class SceneLoader : MonoBehaviour
         yield return unloadOperation; // Wait for the old scene to be fully unloaded
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName)); // Set the newly loaded scene as the active scene
         // Change the the player visibility once the screen is fully black to prevent player from being suddenly visible or invisible in the old scene.
-        if (visibility == PlayerVisibility.Invisible)
+        if (visibility == PlayerVisibility.Invisible && PlayerManager.Instance != null)
         {
             PlayerManager.Instance.DisableSpriteRenderer(); // Disable the player sprite renderer if the player is not supposed to be visible in the new scene
         }

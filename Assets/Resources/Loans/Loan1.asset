@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Loan1
   m_EditorClassIdentifier: 
   loanAmount: 100
-  daysToRepay: 1
-  interestRate: 5
+  daysToRepay: 2
+  interestRate: 10

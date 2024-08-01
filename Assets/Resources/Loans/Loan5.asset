@@ -12,12 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 650b7d3a8d4535e45b3fce5a077a76bf, type: 3}
   m_Name: Loan5
   m_EditorClassIdentifier: 
-  itemName: Loan50000
-  itemDescription: 
-  icon: {fileID: 0}
-  maxAmount: 1
-  isStackable: 0
-  isUnique: 1
-  loanAmount: 50000
-  daysToRepay: 3
-  interestRate: 40
+  loanAmount: 2500
+  daysToRepay: 6
+  interestRate: 20

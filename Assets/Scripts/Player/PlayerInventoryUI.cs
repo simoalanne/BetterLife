@@ -12,7 +12,7 @@ public class PlayerInventoryUI : MonoBehaviour
     private Button[] _standardItemSlots;
     private PlayerInventory _inventory;
 
-    void Awake()
+    void Start()
     {
         _inventoryPanel.SetActive(false);
         _inventory = GetComponent<PlayerInventory>();

@@ -70,7 +70,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadScene(string sceneName, PlayerVisibility visibility, TransitionType transitionType = TransitionType.Random, SpawnPoint spawnPoint = null)
     {
-        Debug.Log("Loading scene: " + sceneName);
         if (_activeCoroutine != null)
         {
             return;

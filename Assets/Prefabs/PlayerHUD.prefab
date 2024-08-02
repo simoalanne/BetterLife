@@ -3072,11 +3072,11 @@ GameObject:
   - component: {fileID: 7763535451092729258}
   - component: {fileID: 8161659880149885427}
   - component: {fileID: 3038827410559043695}
-  - component: {fileID: 2725192157713827108}
   - component: {fileID: 7168457452493980386}
   - component: {fileID: 3437032557926535737}
   - component: {fileID: 941617149531661226}
-  - component: {fileID: 2957832613318193865}
+  - component: {fileID: 197217921566977345}
+  - component: {fileID: 4221767497806019209}
   m_Layer: 5
   m_Name: PlayerHUD
   m_TagString: Untagged
@@ -3126,7 +3126,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -3200,21 +3200,6 @@ MonoBehaviour:
   _currentDayText: {fileID: 1914456652946470892}
   _currentTimeText: {fileID: 8692162939605200411}
   _minutesUpdateRate: 1
---- !u!114 &2725192157713827108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017092575399857528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a126dca3d93144468cd19d714583105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activeLoanHUD: {fileID: 7849187950441279090}
-  _loanPaybackAmount: {fileID: 2797779903202043194}
-  _loanDaysLeft: {fileID: 2679164088731709911}
 --- !u!114 &7168457452493980386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3258,7 +3243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90f662238c37f6845915f84484e4f3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2957832613318193865
+--- !u!114 &197217921566977345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3267,11 +3252,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 5017092575399857528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a2c9a0873fbe164e87eeea0c6136866, type: 3}
+  m_Script: {fileID: 11500000, guid: 17d9a001fdfa5454ab78f51286fc1ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _totalItemSlots: 8
   startingInventory: []
+--- !u!114 &4221767497806019209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017092575399857528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a126dca3d93144468cd19d714583105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activeLoanHUD: {fileID: 7849187950441279090}
+  _loanPaybackAmount: {fileID: 2797779903202043194}
+  _loanDaysLeft: {fileID: 2679164088731709911}
+  _hudCanvasGroup: {fileID: 0}
+  _casinoClosingText: {fileID: 0}
 --- !u!1 &5259218823161047773
 GameObject:
   m_ObjectHideFlags: 0
@@ -5109,7 +5111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _increaseAnimTime: 0.5
-  energy100To0TimeInGameHours: 14
+  energy100To0TimeInGameHours: 16
   maxEnergy: 500
   energyBar: {fileID: 2445407781237474908}
   energyAmount: {fileID: 3721585917395241659}

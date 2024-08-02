@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneName: PlayerHome
   spawnPoint: {x: 5, y: -8}
-  spawnPointName: ChildsBed
+  spawnPointName: HomeChildsBed
   facingDirection: 0

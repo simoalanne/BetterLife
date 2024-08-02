@@ -88,7 +88,7 @@ public class Sleep : MonoBehaviour
         _fadeImage.color = Color.black;
         _isGameOver = PlayerHUD.Instance.ReduceLoanDaysLeft(); // Reduce the days left on the loan.
         Needs.Instance.MaxOutEnergy();
-        GameTimer.Instance.SkipToNexDay(_wakeUpHour);
+        GameTimer.Instance.SkipToNextDay(_wakeUpHour);
         PlayerManager.Instance.transform.position = _childsBedSpawnPoint.spawnPoint;
         yield return new WaitForSeconds(_screenBlackTime);
 

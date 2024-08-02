@@ -46,3 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeScale: 1
   _gameMinuteInRealTimeSeconds: 0.35
+  _maxGlobalLightIntensity: 0.8
+  _minGlobalLightIntensity: 0.05
+  _startDecreasingIntensityHour: 14
+  _minIntensityReachedHour: 20

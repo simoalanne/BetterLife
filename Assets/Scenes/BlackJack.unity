@@ -1424,6 +1424,7 @@ MonoBehaviour:
   dealButton: {fileID: 2033768217}
   hitButton: {fileID: 135482629}
   standButton: {fileID: 746007537}
+  undoButton: {fileID: 495209537}
   betButton: {fileID: 445000194}
   backButton: {fileID: 776905709}
   hideCard: {fileID: 1424933815}
@@ -1502,11 +1503,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 946191779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -830.7, y: -480}
-  m_SizeDelta: {x: 200, y: 70}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 25, y: 25}
+  m_SizeDelta: {x: 70, y: 70}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &495209537
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Player;
 using UnityEngine;
 
@@ -24,7 +23,7 @@ public class PlayerScript : MonoBehaviour
 
     void Awake()
     {
-        money = (int)PlayerManager.Instance.MoneyInBankAccount;
+        money = PlayerManager.Instance != null ? (int)PlayerManager.Instance.MoneyInBankAccount : 100000;
     }
 
     // Add a hand to the player/dealer's hand
@@ -99,7 +98,10 @@ public class PlayerScript : MonoBehaviour
     // Get function for money
     public int GetMoney()
     {
-        PlayerManager.Instance.MoneyInBankAccount = money; // Update the money in bank account
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.MoneyInBankAccount = money; 
+        }
         return money;
     }
 

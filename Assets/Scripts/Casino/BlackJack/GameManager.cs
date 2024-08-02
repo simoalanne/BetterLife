@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public Button dealButton;
     public Button hitButton;
     public Button standButton;
+    public Button undoButton; // Undo the last bet
     public Button betButton;
     public Button backButton;
     public GameObject hideCard;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI betsText;
     public TextMeshProUGUI cashText;
     public TextMeshProUGUI mainText; // Will alert the player: running out of money, round over etc.
+    private int[] lastBets = new int[20]; // Array to store the last 20 bets
 
     // Card hiding dealers 2nd card
     // How much is the bet
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
         hitButton.onClick.AddListener(() => HitClicked());
         standButton.onClick.AddListener(() => StandClicked());
         betButton.onClick.AddListener(() => BetClicked());
+        undoButton.onClick.AddListener(() => UndoBet());
         hitButton.gameObject.SetActive(false);
         standButton.gameObject.SetActive(false);
         _soundEffectPlayer = FindObjectOfType<SoundEffectPlayer>();
@@ -71,6 +74,7 @@ public class GameManager : MonoBehaviour
         dealButton.gameObject.SetActive(false);
         hitButton.gameObject.SetActive(true);
         standButton.gameObject.SetActive(true);
+        undoButton.gameObject.SetActive(false);
         betButton.gameObject.SetActive(false);
         backButton.gameObject.SetActive(false);
     }
@@ -154,6 +158,7 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
+        lastBets[placedChips] = (int)incomingBet;
         _soundEffectPlayer.PlaySoundEffect(Random.Range(0, _soundEffectPlayer.AudioClipCount));
         backButton.gameObject.SetActive(false);
         totalBet += (int)incomingBet;
@@ -164,6 +169,21 @@ public class GameManager : MonoBehaviour
         chipObjects[placedChips].GetComponent<SpriteRenderer>().enabled = true;
         placedChips++;
 
+    }
+
+    void UndoBet()
+    {
+        if (placedChips == 0) // If no chips are placed, return
+        {
+            return;
+        }
+        playerScript.AdjustMoney(lastBets[placedChips - 1]);
+        cashText.text = "Money: " + playerScript.GetMoney().ToString() + "€";
+        totalBet -= lastBets[placedChips - 1];
+        betsText.text = "Bet: " + totalBet.ToString() + "€";
+        chipObjects[placedChips - 1].GetComponent<SpriteRenderer>().enabled = false;
+        lastBets[placedChips - 1] = 0;
+        placedChips--;
     }
 
     private IEnumerator HitDealer()
@@ -213,7 +233,7 @@ public class GameManager : MonoBehaviour
         totalBet = 0;
         betsText.text = "Bets: " + totalBet.ToString() + "€";
         placedChips = 0;
-
+        undoButton.gameObject.SetActive(true);
         backButton.gameObject.SetActive(true);
         playerCardIndex = 0;
         dealerCardIndex = 0;

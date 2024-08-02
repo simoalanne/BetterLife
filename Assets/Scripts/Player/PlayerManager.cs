@@ -176,10 +176,6 @@ namespace Player
                 Debug.Log($"Found spawn point for scene {SceneManager.GetActiveScene().name}");
                 transform.position = matchingSpawnPoint.spawnPoint;
             }
-            else
-            {
-                DisablePlayer();
-            }
         }
 
         void OnDestroy()

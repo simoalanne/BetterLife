@@ -30,6 +30,8 @@ public class DialogueManager : MonoBehaviour
     public Action OnNoClicked;
     public Action OnDialogueEnd;
 
+    private Action storedOnDialogueFinishedCb;
+
     void Awake()
     {
         if (Instance == null)
@@ -45,17 +47,18 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void StartDialogue(DialogueTrigger.Dialogue[] dialogue, Sprite playerSprite, Sprite talkerSprite)
+    public void StartDialogue(DialogueTrigger.Dialogue[] dialogue, Sprite inPlayerSprite, Sprite inTalkerSprite, Action onDialogueFinished)
     {
+        storedOnDialogueFinishedCb = onDialogueFinished;
         _dialogue = dialogue;
         InitializeDialogue(playerSprite, talkerSprite);
         HandlePart();
     }
 
-    void InitializeDialogue(Sprite playerSprite, Sprite talkerSprite)
+    void InitializeDialogue(Sprite inPlayerSprite, Sprite inTalkerSprite)
     {
-        this.playerSprite = playerSprite != null ? playerSprite : defaultPlayerSprite;
-        this.talkerSprite = talkerSprite;
+        playerSprite = inPlayerSprite ? inPlayerSprite : defaultPlayerSprite;
+        talkerSprite = inTalkerSprite;
         GameTimer.Instance.IsPaused = true;
         PlayerManager.Instance.DisableInputs();
 
@@ -205,5 +208,6 @@ public class DialogueManager : MonoBehaviour
         }
         Debug.Log("Dialogue ended");
         OnDialogueEnd?.Invoke();
+        storedOnDialogueFinishedCb?.Invoke();
     }
 }

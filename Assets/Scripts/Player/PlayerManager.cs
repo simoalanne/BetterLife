@@ -22,9 +22,11 @@ namespace Player
         private bool _hasTalkedToLoanShark; // Shouln't be in this script but it's what it is.
         private bool _hasTalkedToShopkeeper;
         private bool _hasPlayerPassedOut;
+        private bool _hasReadGoodbyeNote;
         public bool HasTalkedToLoanShark { get => _hasTalkedToLoanShark; set => _hasTalkedToLoanShark = value; }
         public bool HasPlayerPassedOut { get => _hasPlayerPassedOut; set => _hasPlayerPassedOut = value; }
         public bool HasTalkedToShopkeeper { get => _hasTalkedToShopkeeper; set => _hasTalkedToShopkeeper = value; }
+        public bool HasReadGoodbyeNote { get => _hasReadGoodbyeNote; set => _hasReadGoodbyeNote = value; }
         public float MoneyInBankAccount
         {
             get => _moneyInBankAccount;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class DialogueTrigger : MonoBehaviour, IInteractable
 {
@@ -33,6 +34,10 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
     [Tooltip("Leave empty if don't want to change the default sprite")]
     [SerializeField] private Sprite _playerSprite;
     [SerializeField] private Sprite _NPCSprite;
+    
+    public event Action onDialogueTrigger;
+    
+    public bool CanInteract { get; set; } = true;
 
     void Awake()
     {
@@ -73,8 +78,9 @@ public class DialogueTrigger : MonoBehaviour, IInteractable
         }
     }
 
-    public void TriggerDialogue()
+    public void TriggerDialogue(Action onDialogueFinished = null)
     {
-        FindObjectOfType<DialogueManager>().StartDialogue(dialogue, _playerSprite, _NPCSprite);
+        onDialogueTrigger?.Invoke();
+        DialogueManager.Instance.StartDialogue(dialogue, _playerSprite, _NPCSprite, onDialogueFinished);
     } 
 } 

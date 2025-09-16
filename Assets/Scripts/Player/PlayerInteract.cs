@@ -94,6 +94,7 @@ public class PlayerInteract : MonoBehaviour
                 {
                     foreach (var interactable in interactables)
                     {
+                        if (!interactable.CanInteract) continue;
                         interactable.Interact();
                     }
                     return;

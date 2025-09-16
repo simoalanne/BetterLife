@@ -4,6 +4,8 @@ public class OpenPanelOnInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private GameObject _panelToOpen; // A prefab of the panel to open
     private Canvas _playerHUD;
+    
+    public bool CanInteract { get; set; } = true;
 
     void Start()
     {

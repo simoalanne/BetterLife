@@ -9,6 +9,8 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     [SerializeField] private SceneLoader.TransitionType _transitionType;
     [SerializeField] private LoadTriggerType _loadTriggerType;
     [SerializeField, Tooltip("Leave empty if doesnt apply")] private SpawnPoint _playerSpawnPoint;
+    
+    public bool CanInteract { get; set; } = true;
 
     public enum LoadTriggerType
     {

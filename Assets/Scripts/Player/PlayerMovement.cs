@@ -62,7 +62,7 @@ namespace Player
                 _isPlayingStepSound = false;
                 _soundEffectPlayer.StopSoundEffect();
                 _movement = Vector2.zero;
-                _rigidbody2D.velocity = Vector2.zero;
+                _rigidbody2D.linearVelocity = Vector2.zero;
                 _animator.enabled = false;
                 return;
             }
@@ -111,7 +111,7 @@ namespace Player
             {
                 GetComponent<AnimationSpeedController>().SetAnimationSpeed(1.5f);
             }
-            _rigidbody2D.velocity = _movement.normalized * _movementSpeed * speedMultiplier;
+            _rigidbody2D.linearVelocity = _movement.normalized * _movementSpeed * speedMultiplier;
         }
 
         private void SetFacingDirection(Vector2 direction)

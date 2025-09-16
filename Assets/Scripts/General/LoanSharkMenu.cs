@@ -17,6 +17,8 @@ public class LoanSharkMenu : MonoBehaviour, IInteractable
     private Vector2 _panelsOnScreenPos = new(100, -100);
 
     [SerializeField] private Loan[] _loansToDisplay;
+    
+    public bool CanInteract { get; set; } = true;
 
     void Awake()
     {

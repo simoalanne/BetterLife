@@ -28,6 +28,8 @@ public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
     private Coroutine _noMoneyTextCoroutine;
     private GameObject _shopCopy;
     private Vector2 _menuOriginalPosition;
+    
+    public bool CanInteract { get; set; } = true;
 
 
     [System.Serializable]

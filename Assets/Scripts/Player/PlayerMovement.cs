@@ -1,152 +1,111 @@
-using Audio;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Player
 {
+    [RequireComponent(typeof(Animator), typeof(Rigidbody2D))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private float _movementSpeed = 5f;
-        private bool _isPlayingStepSound = false;
-        private SoundEffectPlayer _soundEffectPlayer;
+        private enum MovementState
+        {
+            Stopped,
+            Performed
+        }
+
+        [SerializeField] private float movementSpeed = 5f;
+        [SerializeField] private string movementXParam = "MovementX";
+        [SerializeField] private string movementYParam = "MovementY";
+        [SerializeField] private string isMovingParam = "IsMoving";
+
         private Animator _animator;
-        private Rigidbody2D _rigidbody2D;
-        private Vector2 _movement;
-        private Vector2 _lastMovement;
-        private bool _canMove = true;
-        public bool CanMove { get => _canMove; set => _canMove = value; }
+        private Rigidbody2D _rb2D;
+        private Vector2 _direction;
 
-        [SerializeField] private Sprite _idleSpriteFrontLeft;
-        [SerializeField] private Sprite _idleSpriteBackLeft;
-        [SerializeField] private Sprite _idleSpriteFrontRight;
-        [SerializeField] private Sprite _idleSpriteBackRight;
+        [SerializeField] private UnityEvent onMovementStarted;
+        [SerializeField] private UnityEvent onMovementPerformed;
+        [SerializeField] private UnityEvent onMovementStopped;
 
-        private PlayerControls _playerControls;
+        private MovementState _state = MovementState.Performed;
+        private InputAction _moveAction;
 
-        void OnEnable()
+        private void Awake()
         {
-            _playerControls.Player.Enable();
-        }
-
-        void OnDisable()
-        {
-            _playerControls.Player.Disable();
-        }
-
-        void Awake()
-        {
-            _soundEffectPlayer = GetComponent<SoundEffectPlayer>();
-            _playerControls = new PlayerControls();
-            _playerControls.Player.Move.performed += OnMovePerformed;
-            _playerControls.Player.Move.canceled += OnMoveCanceled;
-
             _animator = GetComponent<Animator>();
-            _rigidbody2D = GetComponent<Rigidbody2D>();
-            _animator.enabled = false;
+            _rb2D = GetComponent<Rigidbody2D>();
+            SetAnimParams(Vector2.zero, false);
         }
 
-        private void OnMovePerformed(InputAction.CallbackContext context)
-        {
-            _movement = context.ReadValue<Vector2>();
-        }
 
-        private void OnMoveCanceled(InputAction.CallbackContext context)
+        private void FixedUpdate()
         {
-            _movement = Vector2.zero;
-        }
-
-        void Update()
-        {
-            if (!_canMove)
+            _moveAction ??= Services.InputManager.Controls.Player.Move;
+            var input = _moveAction.ReadValue<Vector2>();
+            if (input == Vector2.zero && _state is not MovementState.Stopped)
             {
-                _isPlayingStepSound = false;
-                _soundEffectPlayer.StopSoundEffect();
-                _movement = Vector2.zero;
-                _rigidbody2D.linearVelocity = Vector2.zero;
-                _animator.enabled = false;
+                HandleStopped();
                 return;
             }
 
-            if (_movement != Vector2.zero)
-            {
-                _animator.enabled = true;
-                if (!_isPlayingStepSound)
-                {
-                    _isPlayingStepSound = true;
-                    _soundEffectPlayer.PlaySoundEffect(0);
-                }
+            if (input == Vector2.zero) return;
 
-                // Determine the animation based on movement direction, using last movement direction for purely vertical movement
-                if (_movement.x == 0 && _movement.y != 0) // Moving purely vertically
-                {
-                    // Use _lastMovement.x to determine the horizontal direction for the animation
-                    _animator.Play(_lastMovement.x > 0 ? _movement.y <= 0 ? "FrontRunRight" : "BackRunRight" : _movement.y <= 0 ? "FrontRunLeft" : "BackRunLeft");
-                }
-                else
-                {
-                    // Normal movement handling
-                    _animator.Play(_movement.x > 0 ? _movement.y <= 0 ? "FrontRunRight" : "BackRunRight" : _movement.y <= 0 ? "FrontRunLeft" : "BackRunLeft");
-                }
-
-                // Update last movement direction
-                _lastMovement = _movement;
-            }
-            else
+            if (_state is MovementState.Stopped)
             {
-                _animator.enabled = false;
-                if (_isPlayingStepSound)
-                {
-                    _isPlayingStepSound = false;
-                    _soundEffectPlayer.StopSoundEffect();
-                    SetFacingDirection(_lastMovement);
-                }
+                onMovementStarted?.Invoke();
+                _state = MovementState.Performed;
             }
+
+            onMovementPerformed?.Invoke();
+            MoveCharacter(input);
         }
 
-        void FixedUpdate()
+        public void SetFacingDirection(Vector2 facingDirection)
         {
-            // Use normalized to prevent diagonal movement from being faster than horizontal or vertical movement.
-            var speedMultiplier = PowerUpsInInventory.HasPowerUp(PowerUpsInInventory.PowerUpType.MovementSpeedBoost) ? 1.5f : 1f;
-            if (speedMultiplier > 1f)
-            {
-                GetComponent<AnimationSpeedController>().SetAnimationSpeed(1.5f);
-            }
-            _rigidbody2D.linearVelocity = _movement.normalized * _movementSpeed * speedMultiplier;
+            MoveCharacter(facingDirection, forceStooped: true);
         }
 
-        private void SetFacingDirection(Vector2 direction)
+        private void MoveCharacter(Vector2 input, bool forceStooped = false)
         {
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            var x = Mathf.RoundToInt(input.x);
+            var y = Mathf.RoundToInt(input.y);
 
-            if (direction.x > 0)
+            // Because non-diagonal animations are missing purely horizontal or vertical movement is converted to diagonal
+            _direction = (x, y) switch
             {
-                spriteRenderer.sprite = direction.y <= 0 ? _idleSpriteFrontRight : _idleSpriteBackRight;
-            }
-            else
-            {
-                spriteRenderer.sprite = direction.y <= 0 ? _idleSpriteFrontLeft : _idleSpriteBackLeft;
-            }
+                // So character keeps same horizontal direction when going up or down
+                (0, 1) => new Vector2(_direction.x != 0 ? _direction.x : 1, 1),
+                (0, -1) => new Vector2(_direction.x != 0 ? _direction.x : 1, -1),
+                // Use down diagonals for purely horizontal movement
+                (1, 0) => new Vector2(1, -1),
+                (-1, 0) => new Vector2(-1, -1),
+                (1, 1) => new Vector2(1, 1),
+                (-1, 1) => new Vector2(-1, 1),
+                (1, -1) => new Vector2(1, -1),
+                (-1, -1) => new Vector2(-1, -1),
+                _ => _direction
+            };
+
+            SetAnimParams(_direction, input != Vector2.zero && !forceStooped);
+
+            if (forceStooped) return;
+            _rb2D.MovePosition(
+                _rb2D.position + input.normalized * (movementSpeed * Time.fixedDeltaTime)
+            );
         }
 
-        public void ChangeIdleSprite(SpawnPoint.FacingDirection facingDirection)
-        {
-            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-            switch (facingDirection)
-            {
-                case SpawnPoint.FacingDirection.BackLeft:
-                    spriteRenderer.sprite = _idleSpriteBackLeft;
-                    break;
-                case SpawnPoint.FacingDirection.BackRight:
-                    spriteRenderer.sprite = _idleSpriteBackRight;
-                    break;
-                case SpawnPoint.FacingDirection.Left:
-                    spriteRenderer.sprite = _idleSpriteFrontLeft;
-                    break;
-                case SpawnPoint.FacingDirection.Right:
-                    spriteRenderer.sprite = _idleSpriteFrontRight;
-                    break;
-            }
+        private void SetAnimParams(Vector2 direction, bool isMoving = true)
+        {
+            _animator.SetFloat(movementXParam, direction.x);
+            _animator.SetFloat(movementYParam, direction.y);
+            _animator.SetBool(isMovingParam, isMoving);
+        }
+
+        private void HandleStopped()
+        {
+            _state = MovementState.Stopped;
+            onMovementStopped?.Invoke();
+            MoveCharacter(Vector2.zero);
         }
     }
 }

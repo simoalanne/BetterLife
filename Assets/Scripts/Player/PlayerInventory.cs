@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -120,19 +120,6 @@ public class PlayerInventory : MonoBehaviour
             Debug.Log($"Removed {item.itemName} from inventory altogether.");
         }
         OnInventoryChanged?.Invoke();
-    }
-
-    public List<PowerUp> GetPowerUps()
-    {
-        var powerUps = new List<PowerUp>();
-        foreach (var item in _inventory)
-        {
-            if (item.Key is PowerUp powerUp) // if type is PowerUp
-            {
-                powerUps.Add(powerUp);
-            }
-        }
-        return powerUps;
     }
 
     public Dictionary<InventoryItem, int> GetInventory(bool sortByName = false)

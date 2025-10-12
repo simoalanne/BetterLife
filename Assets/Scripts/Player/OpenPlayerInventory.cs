@@ -1,5 +1,5 @@
-using UnityEngine;
 using Player;
+using UnityEngine;
 
 public class OpenPlayerInventory : MonoBehaviour
 {

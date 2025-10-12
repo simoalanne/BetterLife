@@ -111,6 +111,24 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""cd648955-cd86-48f2-a607-942f2af07f03"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenPauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""df6fbf78-ec5c-406c-b8d9-1ef53f733d45"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -300,6 +318,39 @@ namespace Player
                     ""action"": ""OpenInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0275573-49ae-46e4-9bb1-84c98da28e07"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36f4aa10-fc67-40df-9bbf-496e7a448504"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenPauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78adc5a3-0443-4654-8682-205c246fc19b"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenPauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -310,6 +361,8 @@ namespace Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
+            m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+            m_Player_OpenPauseMenu = m_Player.FindAction("OpenPauseMenu", throwIfNotFound: true);
         }
 
         ~@PlayerControls()
@@ -392,6 +445,8 @@ namespace Player
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_OpenInventory;
+        private readonly InputAction m_Player_Click;
+        private readonly InputAction m_Player_OpenPauseMenu;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -411,6 +466,14 @@ namespace Player
             /// Provides access to the underlying input action "Player/OpenInventory".
             /// </summary>
             public InputAction @OpenInventory => m_Wrapper.m_Player_OpenInventory;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Click".
+            /// </summary>
+            public InputAction @Click => m_Wrapper.m_Player_Click;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/OpenPauseMenu".
+            /// </summary>
+            public InputAction @OpenPauseMenu => m_Wrapper.m_Player_OpenPauseMenu;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -443,6 +506,12 @@ namespace Player
                 @OpenInventory.started += instance.OnOpenInventory;
                 @OpenInventory.performed += instance.OnOpenInventory;
                 @OpenInventory.canceled += instance.OnOpenInventory;
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
+                @OpenPauseMenu.started += instance.OnOpenPauseMenu;
+                @OpenPauseMenu.performed += instance.OnOpenPauseMenu;
+                @OpenPauseMenu.canceled += instance.OnOpenPauseMenu;
             }
 
             /// <summary>
@@ -460,6 +529,12 @@ namespace Player
                 @OpenInventory.started -= instance.OnOpenInventory;
                 @OpenInventory.performed -= instance.OnOpenInventory;
                 @OpenInventory.canceled -= instance.OnOpenInventory;
+                @Click.started -= instance.OnClick;
+                @Click.performed -= instance.OnClick;
+                @Click.canceled -= instance.OnClick;
+                @OpenPauseMenu.started -= instance.OnOpenPauseMenu;
+                @OpenPauseMenu.performed -= instance.OnOpenPauseMenu;
+                @OpenPauseMenu.canceled -= instance.OnOpenPauseMenu;
             }
 
             /// <summary>
@@ -514,6 +589,20 @@ namespace Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnOpenInventory(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnClick(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "OpenPauseMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnOpenPauseMenu(InputAction.CallbackContext context);
         }
     }
 }

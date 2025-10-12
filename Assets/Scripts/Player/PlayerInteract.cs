@@ -1,147 +1,103 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 /// <summary>
-/// Handles player interaction with interactable objects using raycasting.
-/// Also handles switching cursor to appropriate icon when hovering over interactable objects.
-/// Uses object's only collider or the trigger collider if there are multiple colliders on the object.
-/// This makes it easier to have a specific area for interaction like a door instead of the whole building.
+/// Handles player interaction with interactable objects. Supports displaying custom cursors based on object tags.
 /// </summary>
 public class PlayerInteract : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public struct CursorType
     {
-        public Texture2D cursorTexture;
-        public Texture2D cursorTextureHalfTransparent;
+        public Texture2D texture;
+        private Texture2D _halfTransparent;
+
+        public Texture2D GetCursorTexture(bool asHalfTransparent)
+        {
+            if (texture is null) return null;
+            _halfTransparent ??= CreateHalfTransparentTexture(texture);
+            return asHalfTransparent ? _halfTransparent : texture;
+        }
+
+        private static Texture2D CreateHalfTransparentTexture(Texture2D original)
+        {
+            var copy = new Texture2D(original.width, original.height, TextureFormat.RGBA32, mipChain: false);
+            var adjusted = original.GetPixels().Select(c => new Color(c.r, c.g, c.b, c.a * 0.5f)).ToArray();
+            copy.SetPixels(adjusted);
+            copy.Apply();
+            return copy;
+        }
     }
 
     [Header("Interaction settings")]
-    [SerializeField, Tooltip("How far the player can interact with objects."), Range(0, 1)] private float _interactionRange = 0.25f;
+    [SerializeField, Tooltip("Base interact range. Interactable can override this value")]
+    private float interactionRange = 2.5f;
 
     [Header("Cursor types")]
-    [SerializeField] private CursorType _generalInteractCursor;
-    [SerializeField] private CursorType _NPCTalkCursor;
-    [SerializeField] private CursorType _magnifyingGlassCursor;
+    [SerializedDictionary("Tag", "Cursor Type")]
+    public SerializedDictionary<string, CursorType> customCursors = new();
+    [SerializeField] private CursorType generalInteractCursor;
     private int _interactableLayer;
-    private Vector2 _mousePosition;
     public bool CanInteract { get; set; } = true;
     private Camera _mainCamera;
-    private readonly CursorMode cursorMode = CursorMode.Auto;
-    private Collider2D _playerCollider;
+    private InputAction _clickAction;
 
-    void Start()
+    private void Awake()
     {
         _interactableLayer = LayerMask.GetMask("Interactable");
-        _playerCollider = GetComponent<Collider2D>();
+        _clickAction = Services.InputManager.Controls.Player.Click;
     }
 
-    void Update()
+    private void Update()
     {
-        if (!CanInteract)
+        if (_mainCamera == null || _clickAction is null || !CanInteract)
         {
-            SetDefaultCursor();
+            _mainCamera = Camera.main;
+            SetCursor();
             return;
         }
 
-        if (_mainCamera == null)
+        var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var col = Physics2D.OverlapPoint(mousePos, _interactableLayer);
+        var cols = col?.GetComponents<Collider2D>() ?? Array.Empty<Collider2D>();
+        var target = cols.Length is 1 ? cols.First() : cols.FirstOrDefault(c => c.isTrigger && c == col);
+
+        if (target is null)
         {
-            _mainCamera = Camera.main;
+            SetCursor();
+            return;
         }
 
-        _mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePosition, Vector2.zero, Mathf.Infinity, _interactableLayer);
+        var inRange = IsPlayerWithinInteractionRange(target);
+        var customCursor = customCursors.GetValueOrDefault(target.tag);
+        var texture = customCursor.GetCursorTexture(!inRange) ?? generalInteractCursor.GetCursorTexture(!inRange);
+        SetCursor(texture);
 
-        Collider2D targetCollider = null;
+        if (!_clickAction.WasPressedThisFrame() || !inRange) return;
 
-        foreach (var hit in hits)
+        var interactables = target.GetComponents<IInteractable>().ToList();
+        interactables.ForEach(i =>
         {
-            if (hit.collider != null)
+            if (i.CanInteract)
             {
-                var colliders = hit.collider.GetComponents<Collider2D>();
-                if (colliders.Length == 1 || hit.collider.isTrigger)
-                {
-                    targetCollider = hit.collider;
-                    break;
-                }
+                i.Interact();
             }
-        }
-
-        if (targetCollider != null)
-        {
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                Cursor.SetCursor(null, Vector2.zero, cursorMode);
-                return;
-            }
-
-            if (BoundsIntersect2D(targetCollider.bounds, _mousePosition)) // If the mouse is within the bounds of the target collider
-            {
-                var cursorType = targetCollider.tag switch
-                {
-                    "NPC" => _NPCTalkCursor,
-                    "Inspectable" => _magnifyingGlassCursor,
-                    _ => _generalInteractCursor
-                };
-
-                SetCustomCursor(cursorType, IsPlayerWithinInteractionRange(targetCollider));
-            }
-
-            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) && targetCollider != null)
-            {
-                var interactables = targetCollider.GetComponents<IInteractable>();
-                if (interactables.Length > 0 && IsPlayerWithinInteractionRange(targetCollider))
-                {
-                    foreach (var interactable in interactables)
-                    {
-                        if (!interactable.CanInteract) continue;
-                        interactable.Interact();
-                    }
-                    return;
-                }
-            }
-        }
-        else
-        {
-            SetDefaultCursor();
-        }
+        });
     }
 
-    void SetDefaultCursor()
+
+    private static void SetCursor(Texture2D cursorTexture = null)
     {
-        Cursor.SetCursor(null, Vector2.zero, cursorMode);
+        Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
     }
 
-    void SetCustomCursor(CursorType cursorType, bool isWithinInteractionRange)
+    private bool IsPlayerWithinInteractionRange(Collider2D target)
     {
-        Cursor.SetCursor(isWithinInteractionRange ? cursorType.cursorTexture : cursorType.cursorTextureHalfTransparent, Vector2.zero, cursorMode);
-    }
-
-    /// <summary>
-    /// Checks if mouse position is within the bounds of the collider.
-    /// </summary>
-    /// <returns>True if collider's bounds contain the point, false otherwise.</returns>
-    bool BoundsIntersect2D(Bounds bounds, Vector2 mousePosition)
-    {
-        return bounds.min.x <= mousePosition.x && bounds.max.x >= mousePosition.x &&
-               bounds.min.y <= mousePosition.y && bounds.max.y >= mousePosition.y;
-    }
-
-    /// <summary>
-    /// Checks if the player is within the interaction range of the target collider.
-    /// </summary>
-    /// <param name="targetCollider">The collider of the object the cursor is hovering over.</param>
-    /// <returns>True if the player is in collider's bounds or within the interaction range, false otherwise.</returns>
-    bool IsPlayerWithinInteractionRange(Collider2D targetCollider)
-    {
-        if (BoundsIntersect2D(targetCollider.bounds, _playerCollider.transform.position))
-        {
-            return true;
-        }
-
-        float distanceToEdge = Vector2.Distance(_playerCollider.ClosestPoint(targetCollider.bounds.ClosestPoint(_playerCollider.transform.position)),
-        targetCollider.bounds.ClosestPoint(_playerCollider.transform.position));
-        var interactionDistance = targetCollider.GetComponent<OverrideInteractionRange>(); // Check if the object has a custom interaction range
-        return interactionDistance != null ? distanceToEdge <= interactionDistance.InteractionRange : distanceToEdge <= _interactionRange; // Use custom range if available
+        var range = target.GetComponent<OverrideInteractionRange>()?.InteractionRange ?? interactionRange;
+        return Physics2D.OverlapCircleAll(transform.position, range, _interactableLayer).Contains(target);
     }
 }

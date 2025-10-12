@@ -1,8 +1,8 @@
+using System;
+using Player;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Player;
-using System;
 
 public class EndGame : MonoBehaviour
 {
@@ -24,20 +24,19 @@ public class EndGame : MonoBehaviour
 
     void OnEnable()
     {
-        _endGameButton.interactable = PlayerManager.Instance.MoneyInBankAccount >= _moneyToPay && PlayerHUD.Instance.ActiveLoan == null; 
+        _endGameButton.interactable = Services.PlayerManager.MoneyInBankAccount >= _moneyToPay && Services.PlayerHUD.ActiveLoan == null; 
     }
 
     public void PayMoneyAndEndGame()
     {
-        PlayerManager.Instance.ResetMoney(); // Reset the money to the original amount.
+        Services.PlayerManager.ResetMoney(); // Reset the money to the original amount.
         Destroy(gameObject);
         Debug.Log("End game.");
     }
 
     public void CancelEndGame()
     {
-        PlayerManager.Instance.EnablePlayerMovement();
-        PlayerManager.Instance.EnablePlayerInteract();
+        Services.PlayerManager.EnablePlayerMovement();
         Time.timeScale = 1;
         Destroy(gameObject);
     }

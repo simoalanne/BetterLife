@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using TMPro;
 using Player;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PlayerInventoryUI : MonoBehaviour
 {
@@ -121,16 +121,14 @@ public class PlayerInventoryUI : MonoBehaviour
     public void OpenInventory()
     {
         _inventoryPanel.SetActive(true);
-        PlayerManager.Instance.DisablePlayerMovement();
-        PlayerManager.Instance.DisablePlayerInteract();
-        GameTimer.Instance.IsPaused = true;
+        Services.PlayerManager.DisablePlayerMovement();
+        Services.GameTimer.IsPaused = true;
     }
 
     public void CloseInventory()
     {
         _inventoryPanel.SetActive(false);
-        PlayerManager.Instance.EnablePlayerMovement();
-        PlayerManager.Instance.EnablePlayerInteract();
-        GameTimer.Instance.IsPaused = false;
+        Services.PlayerManager.EnablePlayerMovement();
+        Services.GameTimer.IsPaused = false;
     }
 }

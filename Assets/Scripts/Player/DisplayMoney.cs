@@ -1,34 +1,28 @@
 using System.Collections;
-using UnityEngine;
+using Helpers;
 using TMPro;
+using UnityEngine;
 
 public class DisplayMoney : MonoBehaviour
 {
-    [Header("UI")]
-    [SerializeField] private TMP_Text _moneyText;
+    [SerializeField] private TMP_Text moneyText;
+    [SerializeField] private float updateDuration = 1.5f;
 
-    [Header("Animation")]
-    [SerializeField] private float _updateDuration = 1.5f; // How long the animation takes to update the money amount.
-
-    public void UpdateMoneyText(float previousMoney, float newmoney)
+    public void UpdateMoneyText(float previousMoney, float newMoney)
     {
-        StartCoroutine(UpdateMoneyAnimation(previousMoney, newmoney));
+        StartCoroutine(UpdateMoneyAnimation(previousMoney, newMoney));
     }
 
     private IEnumerator UpdateMoneyAnimation(float previousMoney, float newMoney)
     {
-        while (SceneLoader.Instance.IsLoading)
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => !Services.SceneLoader.IsLoading);
 
-        float elapsedTime = 0;
-        while (elapsedTime < _updateDuration)
+        yield return FunctionLibrary.DoOverTime(updateDuration, progress =>
         {
-            _moneyText.text = Mathf.RoundToInt(Mathf.Lerp(previousMoney, newMoney, elapsedTime / _updateDuration)) + " €";
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        _moneyText.text = $"{newMoney} €";
+            var currentMoney = Mathf.Lerp(previousMoney, newMoney, progress);
+            moneyText.text = $"{Mathf.RoundToInt(currentMoney)} €";
+        });
+
+        moneyText.text = $"{newMoney} €";
     }
 }

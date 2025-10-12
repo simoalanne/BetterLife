@@ -1,7 +1,8 @@
 using System.Collections;
+using DialogueSystem;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.UI;
-using Player;
 
 public class Sleep : MonoBehaviour
 {
@@ -27,12 +28,12 @@ public class Sleep : MonoBehaviour
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(false);
         _fadeImage.color = Color.clear;
-        GameTimer.Instance.IsPaused = false;
+        Services.GameTimer.IsPaused = false;
     }
 
     void Start()
     {
-        if (PlayerManager.Instance.HasPlayerPassedOut == true)
+        if (Services.PlayerManager.HasPlayerPassedOut == true)
         {
             SleepInBed();
         }
@@ -44,9 +45,8 @@ public class Sleep : MonoBehaviour
         if (other.CompareTag("Player") && !_sleepCancelled)
         {
             _sleepUI.gameObject.SetActive(true);
-            PlayerManager.Instance.DisablePlayerMovement();
-            PlayerManager.Instance.DisablePlayerInteract();
-            GameTimer.Instance.IsPaused = true;
+            Services.PlayerManager.DisablePlayerMovement();
+            Services.GameTimer.IsPaused = true;
         }
     }
 
@@ -54,9 +54,8 @@ public class Sleep : MonoBehaviour
     {
         _sleepUI.gameObject.SetActive(false);
         _sleepCancelled = true;
-        PlayerManager.Instance.EnablePlayerMovement();
-        PlayerManager.Instance.EnablePlayerInteract();
-        GameTimer.Instance.IsPaused = false;
+        Services.PlayerManager.EnablePlayerMovement();
+        Services.GameTimer.IsPaused = false;
     }
 
     /// <summary>
@@ -86,10 +85,10 @@ public class Sleep : MonoBehaviour
             yield return null;
         }
         _fadeImage.color = Color.black;
-        _isGameOver = PlayerHUD.Instance.ReduceLoanDaysLeft(); // Reduce the days left on the loan.
+        _isGameOver = Services.PlayerHUD.ReduceLoanDaysLeft(); // Reduce the days left on the loan.
         Needs.Instance.MaxOutEnergy();
-        GameTimer.Instance.SkipToNextDay(_wakeUpHour);
-        PlayerManager.Instance.transform.position = _childsBedSpawnPoint.spawnPoint;
+        Services.GameTimer.SkipToNextDayAtHour(_wakeUpHour);
+        Services.PlayerManager.transform.position = _childsBedSpawnPoint.spawnPoint;
         yield return new WaitForSeconds(_screenBlackTime);
 
         float timer2 = 0;
@@ -118,15 +117,14 @@ public class Sleep : MonoBehaviour
     {
         _sleepUI.gameObject.SetActive(false);
         _fadeImage.gameObject.SetActive(true);
-        GameTimer.Instance.IsPaused = true;
+        Services.GameTimer.IsPaused = true;
     }
 
     void EndSleep()
     {
-        PlayerManager.Instance.EnablePlayerMovement();
-        PlayerManager.Instance.EnablePlayerInteract();
-        PlayerManager.Instance.HasPlayerPassedOut = false;
-        GameTimer.Instance.IsPaused = false;
+        Services.PlayerManager.EnablePlayerMovement();
+        Services.PlayerManager.HasPlayerPassedOut = false;
+        Services.GameTimer.IsPaused = false;
         _fadeImage.gameObject.SetActive(false);
     }
 }

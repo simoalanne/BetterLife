@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
+using DialogueSystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using Player;
 
 public class Needs : MonoBehaviour
 {
@@ -56,13 +56,6 @@ public class Needs : MonoBehaviour
 
     void Start()
     {
-        energy100to0Time = GameTimer.Instance.GameMinuteInRealTimeSeconds * 60 * energy100To0TimeInGameHours;
-        currentEnergy = maxEnergy;
-        energyBar.fillAmount = 1;
-
-        hunger100to0Time = GameTimer.Instance.GameMinuteInRealTimeSeconds * 60 * hunger100To0TimeInGameHours;
-        currentHunger = maxHunger;
-        hungerBar.fillAmount = 1;
     }
 
     void Update()
@@ -73,62 +66,26 @@ public class Needs : MonoBehaviour
 
     void UpdateEnergy()
     {
-        if (!GameTimer.Instance.IsPaused && currentEnergy > 0 && !increasingEnergy)
-        {
-            currentEnergy -= Time.deltaTime / energy100to0Time * maxEnergy;
-            energyBar.fillAmount = currentEnergy / maxEnergy;
-            energyAmount.text = $"{Mathf.RoundToInt(currentEnergy)} / {maxEnergy}";
-
-            if (currentEnergy <= 0 && !PlayerManager.Instance.HasPlayerPassedOut)
-            {
-                DialogueManager.Instance.OnDialogueEnd += TeleportToPlayerBed;
-                passOutDialogue.TriggerDialogue();
-            }
-        }
     }
 
     void TeleportToPlayerBed()
     {
         Debug.Log("Teleporting to bed");
-        PlayerManager.Instance.DisableInputs();
-        PlayerManager.Instance.HasPlayerPassedOut = true;
-        PlayerManager.Instance.LoadToPlayerBed();
-        DialogueManager.Instance.OnDialogueEnd -= TeleportToPlayerBed;
+        Services.PlayerManager.DisableInputs();
+        Services.PlayerManager.HasPlayerPassedOut = true;
+        Services.PlayerManager.LoadToPlayerBed();
+        Services.DialogueHandler.OnDialogueEnd -= TeleportToPlayerBed;
     }
 
     void UpdateHunger()
     {
-        if (!GameTimer.Instance.IsPaused && currentHunger > 0 && !increasingHunger)
-        {
-            currentHunger -= Time.deltaTime / hunger100to0Time * maxHunger;
-            hungerBar.fillAmount = currentHunger / maxHunger;
-            hungerAmount.text = $"{Mathf.RoundToInt(currentHunger)} / {maxHunger}";
-
-            if (currentHunger <= 0)
-            {
-                hungerDepletedCoroutine = StartCoroutine(OnHungerDepletedCoroutine());
-            }
-        }
     }
 
 
     IEnumerator OnHungerDepletedCoroutine()
     {
-        eatWarning.gameObject.SetActive(true);
-        float timeElapsed = 0;
-        while (timeElapsed < _timeBeforeHungerDepletedInvoked)
-        {
-            if (GameTimer.Instance.IsPaused)
-            {
-                yield return null;
-                continue;
-            }
-            timeElapsed += Time.deltaTime;
-            eatWarning.text = $"Dying in: {Mathf.RoundToInt(_timeBeforeHungerDepletedInvoked - timeElapsed)}s";
-            yield return null;
-        }
 
-        OnHungerDepleted?.Invoke();
+        yield return null;
     }
 
     public void MaxOutEnergy()

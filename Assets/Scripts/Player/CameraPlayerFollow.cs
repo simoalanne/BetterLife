@@ -1,3 +1,4 @@
+using Helpers;
 using Player;
 using UnityEngine;
 
@@ -7,16 +8,10 @@ public class CameraPlayerFollow : MonoBehaviour
     [SerializeField] private float _minX, maxX, _minY, _maxY;
 
     private Transform _playerTransform;
-    // Start is called before the first frame update
-    void Start()
-    {
-        _playerTransform = PlayerManager.Instance.transform;
-    }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        if (_playerTransform == null) return;
-
+        _playerTransform ??= Services.PlayerManager.transform;
         var targetPos = new Vector3(Mathf.Clamp(_playerTransform.position.x, _minX, maxX),
         Mathf.Clamp(_playerTransform.position.y, _minY, _maxY), transform.position.z);
         transform.position = targetPos;

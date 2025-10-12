@@ -1,70 +1,111 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
-using UI.Extensions;
 
 namespace Casino
 {
     public class BetSizeManager : MonoBehaviour
     {
-        [SerializeField] private List<float> _betSizes = new() { 1, 5, 10, 20, 25, 50, 100, 250, 500, 1000, 2500, 5000 };
-        [SerializeField] private Sprite[] _chipSprites; // Array to store the chip sprites. Stored in the order of increasing value.
-        [SerializeField] private Image _activeChipImage; // Image to display the active chip.
-        [SerializeField] private float _flipDuration = 0.1f; // Duration of the flip animation.
+        [Serializable]
+        private struct BetSizeSpritePair
+        {
+            public float betSize;
+            public Sprite chipSprite;
+
+            public BetSizeSpritePair(float betSize, Sprite chipSprite = null)
+            {
+                this.betSize = betSize;
+                this.chipSprite = chipSprite;
+            }
+        }
+
+        [SerializeField] private List<BetSizeSpritePair> betSizeSprites = new()
+        {
+            new BetSizeSpritePair(1),
+            new BetSizeSpritePair(2),
+            new BetSizeSpritePair(5),
+            new BetSizeSpritePair(10),
+            new BetSizeSpritePair(25),
+            new BetSizeSpritePair(50),
+            new BetSizeSpritePair(100),
+            new BetSizeSpritePair(250),
+            new BetSizeSpritePair(500),
+            new BetSizeSpritePair(1000),
+            new BetSizeSpritePair(2500),
+            new BetSizeSpritePair(5000)
+        };
+
+        [SerializeField] private float flipDuration = 0.1f;
+
+        [Header("References")]
+        [SerializeField] private Image chipImage;
+        [SerializeField] private Button increaseBetSizeButton;
+        [SerializeField] private Button decreaseBetSizeButton;
+
         private int _currentChipIndex;
-        private int _maxIndex;
-        [SerializeField] private Button _increaseBetSizeButton; // Button to increase the bet size.
-        [SerializeField] private Button _decreaseBetSizeButton; // Button to decrease the bet size.
-        private float _currentBetSize;
-        public float CurrentBetSize => _currentBetSize;
-        public Sprite[] ChipSprites => _chipSprites;
-        public int CurrentChipIndex => _currentChipIndex;
-        public List<float> BetSizes => _betSizes;
+        public float CurrentBetSize { get; private set; }
+        private Sprite CurrentChipSprite => betSizeSprites[_currentChipIndex].chipSprite;
+        public float MinBetSize => betSizeSprites.First().betSize;
 
-        void Awake()
-        {
-            _betSizes.Sort(); // Sort the bet sizes in ascending order if they are not already sorted.
-            _maxIndex = _chipSprites.Length - 1;
-            _currentChipIndex = _maxIndex / 2; // Set the current chip index to the middle of the array.
-            _currentBetSize = _betSizes[_currentChipIndex];
-            _activeChipImage.sprite = _chipSprites[_currentChipIndex];
-        }
-        public void IncreaseBetSize()
-        {
-            if (_currentChipIndex < _maxIndex) // disable the increase bet size button when the bet size will be at the maximum
-            {
-                _currentChipIndex++;
-                _currentBetSize = _betSizes[_currentChipIndex];
-                FlipChip();
-                if (_currentChipIndex == _maxIndex)
-                {
-                    _increaseBetSizeButton.interactable = false;
-                }
-            }
+        public event Action<float> OnBetSizeChanged;
 
-            _decreaseBetSizeButton.interactable = true;
+        private void Awake()
+        {
+            Services.Register(this);
+            betSizeSprites.Sort((x, y) => x.betSize.CompareTo(y.betSize));
+            _currentChipIndex = (betSizeSprites.Count - 1) / 2;
+            var initialPair = betSizeSprites[_currentChipIndex];
+            CurrentBetSize = initialPair.betSize;
+            chipImage.sprite = initialPair.chipSprite;
+
+            increaseBetSizeButton.onClick.AddListener(IncreaseBetSize);
+            decreaseBetSizeButton.onClick.AddListener(DecreaseBetSize);
         }
 
-        public void DecreaseBetSize()
+        private void IncreaseBetSize()
         {
-            if (_currentChipIndex > 0) // disable the decrease bet size button when the bet size will be at the minimum.
-            {
-                _currentChipIndex--;
-                _currentBetSize = _betSizes[_currentChipIndex];
-                FlipChip();
-                if (_currentChipIndex == 0)
-                {
-                    _decreaseBetSizeButton.interactable = false;
-                }
-            }
+            decreaseBetSizeButton.interactable = true;
+            _currentChipIndex++;
+            CurrentBetSize = betSizeSprites[_currentChipIndex].betSize;
+            FlipChip();
 
-            _increaseBetSizeButton.interactable = true;
+            if (_currentChipIndex == betSizeSprites.Count - 1) increaseBetSizeButton.interactable = false;
+            OnBetSizeChanged?.Invoke(CurrentBetSize);
         }
 
-        void FlipChip()
+        private void DecreaseBetSize()
+        {
+            increaseBetSizeButton.interactable = true;
+            _currentChipIndex--;
+            CurrentBetSize = betSizeSprites[_currentChipIndex].betSize;
+            FlipChip();
+
+            if (_currentChipIndex == 0) decreaseBetSizeButton.interactable = false;
+            OnBetSizeChanged?.Invoke(CurrentBetSize);
+        }
+
+        private void FlipChip()
         {
             StopAllCoroutines();
-            StartCoroutine(UIAnimations.FlipObjectHorizontally(_activeChipImage.rectTransform, _chipSprites[_currentChipIndex], _flipDuration));
+            StartCoroutine(chipImage.rectTransform.SpriteFlip(new ImageSprite(chipImage), CurrentChipSprite,
+                flipDuration));
+        }
+
+        /// <summary> Returns a list of chip sprites representing the total bet amount with the least number of chips. </summary>
+        public List<Sprite> GetTotalBetAsChipSprites(float totalBet)
+        {
+            var remainingAmount = totalBet;
+            return betSizeSprites
+                .OrderByDescending(p => p.betSize)
+                .SelectMany(pair =>
+                {
+                    var count = (int)(remainingAmount / pair.betSize);
+                    remainingAmount -= count * pair.betSize;
+                    return Enumerable.Repeat(pair.chipSprite, count);
+                }).ToList();
         }
     }
 }

@@ -6,23 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Menu/MainMenu.unity
     guid: 64b18b42f4ebf1a4bbc176155cb35bf8
   - enabled: 1
     path: Assets/Scenes/World/Casino.unity
     guid: 6753b72fc16dc114bad07c048b93455d
   - enabled: 1
-    path: Assets/Scenes/Roulette.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/Scenes/CasinoGames/Roulette.unity
+    guid: 8fd47857a60a058418dcfe412476d4f8
   - enabled: 1
-    path: Assets/Scenes/BlackJack.unity
-    guid: 1e8c3b9adfce06444b5dea6597251f88
-  - enabled: 1
-    path: Assets/Scenes/Slots.unity
+    path: Assets/Scenes/CasinoGames/Slots.unity
     guid: e649794a523af12459113ce779d3671c
   - enabled: 1
-    path: Assets/Scenes/DialogueTest.unity
-    guid: 32ad1391ff36b7846ba50e03cd423c77
+    path: Assets/Scenes/CasinoGames/Blackjack.unity
+    guid: 018a53bf60f6f6b4dafe6cf071717328
   - enabled: 1
     path: Assets/Scenes/World/PlayerHome.unity
     guid: 2f3739059e6b6cf42ab8f40141a507d7
@@ -39,9 +36,11 @@ EditorBuildSettings:
     path: Assets/Scenes/World/LoanSharkOffice.unity
     guid: 7f1b9cd4119b2c24080294230b904f31
   - enabled: 1
-    path: Assets/Scenes/GameOverCutscene.unity
+    path: Assets/Scenes/Cutscenes/GameOverCutscene.unity
     guid: a84c226009c1fa144b97e13ced90e481
   - enabled: 1
-    path: Assets/Scenes/EndGameCutscene.unity
+    path: Assets/Scenes/Cutscenes/EndGameCutscene.unity
     guid: d90a12f35f702bd4284e6a7d971f481e
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 5470c77e763583e46b0af49d3334649d, type: 3}
+  m_UseUCBPForAssetBundles: 0

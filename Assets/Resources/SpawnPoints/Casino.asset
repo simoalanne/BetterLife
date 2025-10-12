@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Casino
   m_EditorClassIdentifier: 
   sceneName: Casino
-  spawnPoint: {x: 4.5, y: -9}
-  spawnPointName: CasinoEntry
+  spawnPoint: {x: -10.5, y: -10}
   facingDirection: 2

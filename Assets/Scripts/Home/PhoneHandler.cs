@@ -1,59 +1,42 @@
 using System;
+using DialogueSystem;
 using UnityEngine;
 
 namespace Home
 {
-    public class PhoneHandler : MonoBehaviour
+    public class PhoneHandler : MonoBehaviour, IInteractable
     {
-        private OpenPanelOnInteract _phonePanelOpener;
-        [SerializeField]
-        private DialogueTrigger loanActiveDialogueTrigger;
-        [SerializeField]
-        private DialogueTrigger noteNotReadDialogueTrigger;
+        [SerializeField] private OpenPanelOnInteract phonePanelOpener;
+        [SerializeField] private DialogueTrigger loanActiveDialogueTrigger;
+        [SerializeField] private DialogueTrigger noteNotReadDialogueTrigger;
 
-        private bool _noteRead;
-        
-        [SerializeField]
-        private DialogueTrigger noteReadDialogueTrigger;
+        public bool CanInteract { get; set; } = true;
 
-        private void Start()
+        private void Awake()
         {
-            _phonePanelOpener = GetComponent<OpenPanelOnInteract>();
-            
-            if (!_phonePanelOpener && !loanActiveDialogueTrigger)
-            {
-                Debug.LogError("PhoneHandler requires both OpenPanelOnInteract and DialogueTrigger components.");
-            }
-            // why is playerHUD having this info is a good question
-            bool isPhoneUsable = PlayerHUD.Instance.ActiveLoan;
-            if (isPhoneUsable)
-            {
-                _phonePanelOpener.CanInteract = false;
-                noteNotReadDialogueTrigger.CanInteract = false;
-                loanActiveDialogueTrigger.CanInteract = true;
-            }
-            else
-            {
-                noteNotReadDialogueTrigger.CanInteract = false;
-                _phonePanelOpener.CanInteract = true;
-                loanActiveDialogueTrigger.CanInteract = false;
-            }
-            _noteRead = Player.PlayerManager.Instance.HasReadGoodbyeNote;
-            if (_noteRead) return;
+            // Make sure the components can't be directly interacted with
+            phonePanelOpener.CanInteract = false;
             loanActiveDialogueTrigger.CanInteract = false;
-            _phonePanelOpener.CanInteract = false;
-            noteNotReadDialogueTrigger.CanInteract = true;
-            
-            Action onGoodbyeNoteReadAction = null;
-            onGoodbyeNoteReadAction = () =>
-                {
-                    _noteRead = true;
-                    noteReadDialogueTrigger.CanInteract = true;
-                    noteNotReadDialogueTrigger.CanInteract = false;
-                    _phonePanelOpener.CanInteract = true;
-                    loanActiveDialogueTrigger.CanInteract = false;
-                    noteNotReadDialogueTrigger.onDialogueTrigger -= onGoodbyeNoteReadAction;
-                };
+            noteNotReadDialogueTrigger.CanInteract = false;
+        }
+
+        public void Interact()
+        {
+            // Phone menu is used to end the game. If the player has an active loan, or they haven't read the note yet
+            // show corresponding dialogue instead
+            if (!Services.PlayerManager.HasReadGoodbyeNote)
+            {
+                noteNotReadDialogueTrigger.TriggerDialogue();
+                return;
+            }
+
+            if (Services.PlayerHUD.ActiveLoan is not null)
+            {
+                loanActiveDialogueTrigger.TriggerDialogue();
+                return;
+            }
+
+            phonePanelOpener.Interact();
         }
     }
 }

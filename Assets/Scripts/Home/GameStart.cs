@@ -1,3 +1,4 @@
+using DialogueSystem;
 using UnityEngine;
 
 namespace Home
@@ -7,7 +8,7 @@ namespace Home
         private void Start()
         {
             // Show some dialogue at game start
-            if (Player.PlayerManager.Instance.HasReadGoodbyeNote) return;
+            if (Services.PlayerManager.HasReadGoodbyeNote) return;
             GetComponent<DialogueTrigger>()?.TriggerDialogue();
         }
     }

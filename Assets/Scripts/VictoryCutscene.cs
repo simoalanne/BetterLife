@@ -18,9 +18,9 @@ public class VictoryCutscene : MonoBehaviour
 
     private IEnumerator PlayCutscene()
     {
-        if (PlayerHUD.Instance != null)
+        if (Services.PlayerHUD != null)
         {
-            PlayerHUD.Instance.ShowHud(false);
+            Services.PlayerHUD.ShowHud(false);
         }
 
         var timer = 0f;

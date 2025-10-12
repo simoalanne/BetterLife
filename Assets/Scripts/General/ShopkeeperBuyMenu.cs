@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+using DialogueSystem;
+using Helpers;
 using TMPro;
-using Player;
+using UnityEngine;
 using UnityEngine.EventSystems;
-using UI.Extensions;
+using UnityEngine.UI;
 
 public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
 {
@@ -64,33 +64,33 @@ public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
+        _playerMoneyText.text = $"{Services.PlayerManager.MoneyInBankAccount}€";
 
-        if (PlayerManager.Instance.HasTalkedToShopkeeper == true)
+        if (Services.PlayerManager.HasTalkedToShopkeeper == true)
         {
             OpenShopMenu();
         }
         else
         {
-            DialogueManager.Instance.OnYesClicked += OpenShopMenu;
+            Services.DialogueHandler.OnYesClicked += OpenShopMenu;
             _firstTimeDialogue.TriggerDialogue();
-            PlayerManager.Instance.HasTalkedToShopkeeper = true;
+            Services.PlayerManager.HasTalkedToShopkeeper = true;
         }
     }
 
     void OpenShopMenu()
     {
-        PlayerManager.Instance.DisableInputs();
-        GameTimer.Instance.IsPaused = true;
-        StartCoroutine(UIAnimations.MoveObject(_shopMenu.GetComponent<RectTransform>(), new Vector2(100, _menuOriginalPosition.y)));
+        Services.PlayerManager.DisableInputs();
+        Services.GameTimer.IsPaused = true;
+        StartCoroutine(AnimationLibrary.Move(_shopMenu.GetComponent<RectTransform>(), new Vector2(100, _menuOriginalPosition.y)));
         FindObjectOfType<PlayerInventoryUI>().OpenInventory(); // Open the inventory to the side so the player can see what they have
     }
 
     public void CloseShopMenu()
     {
-        PlayerManager.Instance.EnableInputs();
-        GameTimer.Instance.IsPaused = false;
-        StartCoroutine(UIAnimations.MoveObject(_shopMenu.GetComponent<RectTransform>(), _menuOriginalPosition));
+        Services.PlayerManager.EnableInputs();
+        Services.GameTimer.IsPaused = false;
+        StartCoroutine(AnimationLibrary.Move(_shopMenu.GetComponent<RectTransform>(), _menuOriginalPosition));
         FindObjectOfType<PlayerInventoryUI>().CloseInventory();
     }
 
@@ -124,24 +124,15 @@ public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
 
     void BuyItem(Item item)
     {
-        if (PlayerManager.Instance.MoneyInBankAccount >= item.itemPrice)
+        if (Services.PlayerManager.MoneyInBankAccount >= item.itemPrice)
         {
             Debug.Log("Buying + " + item.item.itemName);
             bool successfullyAdded = PlayerInventory.Instance.AddToInventory(item.item);
 
             if (!successfullyAdded) return; // if couldn't add to inventory, return and don't subtract money
             Debug.Log("Successfully bought " + item.item.itemName);
-            PlayerManager.Instance.MoneyInBankAccount -= item.itemPrice;
-            _playerMoneyText.text = $"{PlayerManager.Instance.MoneyInBankAccount}€";
-            if (item.item is PowerUp)
-            {
-                itemsForSale.Remove(item);
-                if (itemButtonMap.TryGetValue(item, out var buttonToDisable))
-                {
-                    buttonToDisable.interactable = false;
-                    buttonToDisable.transform.Find("Price").GetComponent<TMP_Text>().text = "Sold out";
-                }
-            }
+            Services.PlayerManager.MoneyInBankAccount -= item.itemPrice;
+            _playerMoneyText.text = $"{Services.PlayerManager.MoneyInBankAccount}€";
         }
         else
         {
@@ -164,6 +155,6 @@ public class ShopkeeperBuyMenu : MonoBehaviour, IInteractable
 
     void OnDestroy()
     {
-        DialogueManager.Instance.OnYesClicked -= OpenShopMenu;
+        Services.DialogueHandler.OnYesClicked -= OpenShopMenu;
     }
 }

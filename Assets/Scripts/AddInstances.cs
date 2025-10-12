@@ -1,21 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// This script should be in a prefab and the prefab should be in all the scenes of the game.
-/// </summary>
+/// <summary> Can be used to ensure all instance scripts are present in the scene. </summary>
 public class AddInstances : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _instancePrefabs;
-    
-    void Awake()
+    [SerializeField] private List<GameObject> instancePrefabs;
+
+    private void Awake()
     {
-        for (int i = 0; i < _instancePrefabs.Length; i++)
-        {
-            if (GameObject.Find(_instancePrefabs[i].name) == null) 
-            {
-                Instantiate(_instancePrefabs[i]);
-            }
-        }
+        instancePrefabs.ForEach(prefab => Instantiate(prefab));
         Destroy(gameObject);
     }
 }

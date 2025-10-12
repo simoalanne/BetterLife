@@ -1,25 +1,35 @@
-
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public static class CardGameHelper
+namespace Helpers
 {
-    private const string CardsPath = "Cards"; 
-    public static void Shuffle<T>(T[] array)
+    public static class CardGameHelper
     {
-        for (int i = array.Length - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            (array[i], array[j]) = (array[j], array[i]);
-        }
-    }
+        private const string CardsPath = "Cards";
 
-    /// <summary>
-    /// Loads all card sprites from the Resources folder
-    /// </summary>
-    public static Sprite[] LoadCardSprites(bool includeJokers = true)
-    {
-        var cardArray = Resources.LoadAll<Sprite>(CardsPath);
-        return includeJokers ? cardArray : cardArray.Take(52).ToArray();
+        /// <summary>
+        /// Loads all card sprites from the Resources folder. Expected order is that aces come first then regular cards,
+        /// then finally jokers (if included). first 4 sprites are skipped since they contain face-down and other irrelevant cards.
+        /// </summary>
+        public static List<Sprite> LoadCardSprites(bool includeJokers = true)
+        {
+            var cardArray = Resources.LoadAll<Sprite>(CardsPath);
+            const int jokers = 4;
+            return cardArray.Take(52 + (includeJokers ? jokers : 0)).ToList();
+        }
+
+        public static IEnumerator AnimateCardToPosition(GameObject spawnedCard, Vector2 start, Vector2 end,
+            float travelTime)
+        {
+            var elapsed = 0f;
+            while (elapsed < travelTime)
+            {
+                elapsed += Time.deltaTime;
+                spawnedCard.transform.position = Vector2.Lerp(start, end, elapsed / travelTime);
+                yield return null;
+            }
+        }
     }
 }

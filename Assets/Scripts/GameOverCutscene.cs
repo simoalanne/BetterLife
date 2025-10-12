@@ -1,8 +1,8 @@
 using System.Collections;
+using Helpers;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UI.Extensions;
-using TMPro;
 
 public class GameOverCutscene : MonoBehaviour
 {
@@ -28,9 +28,9 @@ public class GameOverCutscene : MonoBehaviour
 
     private IEnumerator GameOver()
     {
-        if (PlayerHUD.Instance != null)
+        if (Services.PlayerHUD != null)
         {
-            PlayerHUD.Instance.ShowHud(false);
+            Services.PlayerHUD.ShowHud(false);
         }
 
         var timer = 0f;
@@ -71,8 +71,8 @@ public class GameOverCutscene : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 0;
-        StartCoroutine(UIAnimations.MoveObject(waterImage.rectTransform, new Vector2(0, 0), _waterAnimationLength));
-        yield return StartCoroutine(UIAnimations.MoveObject(characterImage.rectTransform,
+        StartCoroutine(AnimationLibrary.Move(waterImage.rectTransform, new Vector2(0, 0), _waterAnimationLength));
+        yield return StartCoroutine(AnimationLibrary.Move(characterImage.rectTransform,
         new Vector2(0, -waterImage.rectTransform.sizeDelta.y + characterImage.rectTransform.sizeDelta.y), _waterAnimationLength));
         _particleSystem.Stop();
         yield return new WaitForSeconds(_particleSystem.main.startLifetime.constantMax); // Wait for particles to finish

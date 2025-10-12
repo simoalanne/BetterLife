@@ -1,4 +1,4 @@
-using Player;
+using DialogueSystem;
 using UnityEngine;
 
 public class GoodbyeNote : MonoBehaviour
@@ -6,7 +6,7 @@ public class GoodbyeNote : MonoBehaviour
     public void Exit()
     {
         gameObject.SetActive(false);
-        PlayerManager.Instance.HasReadGoodbyeNote = true;
+        Services.PlayerManager.HasReadGoodbyeNote = true;
         GameObject.Find("OpenLetter").GetComponent<DialogueTrigger>().TriggerDialogue();
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,24 +9,32 @@ namespace Casino.Roulette
     public class BetInfoTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         private ButtonHighlight _buttonHighlight;
-        private DisplayBetInfo _displayBetInfo;
+        private TooltipDisplayer _tooltipDisplayer;
+        private IRouletteBetKey _betKey;
 
-        private void Awake()
+        private void Start()
         {
-            _buttonHighlight = FindObjectOfType<ButtonHighlight>();
-            _displayBetInfo = FindObjectOfType<DisplayBetInfo>();
+            _betKey = GetComponent<BetKeyStorer>().BetKey;
+            _buttonHighlight = Services.ButtonHighlight;
+            _tooltipDisplayer = Services.TooltipDisplayer;
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData _)
         {
-            _buttonHighlight.HandlePointerEnter(gameObject);
-            _displayBetInfo.SetBetInfo(gameObject.name);
+            var numbersToHighlight = _betKey switch
+            {
+                InsideBetKey insideBetKey => insideBetKey.Numbers,
+                OutsideBetKey outsideBetKey => RouletteConstants.OutsideBetsDict[outsideBetKey.BetCategory].Numbers,
+                _ => new HashSet<int>()
+            };
+            _buttonHighlight.HighlightNumbers(numbersToHighlight);
+            _tooltipDisplayer.SetBetInfo(_betKey);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData _)
         {
-            _buttonHighlight.HandlePointerExit(gameObject);
-            _displayBetInfo.HideBetInfo();
+            _buttonHighlight.HighlightNumbers(new HashSet<int>());
+            _tooltipDisplayer.HideBetInfo();
         }
     }
 }

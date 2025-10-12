@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace Casino.Roulette
 {
@@ -18,8 +18,6 @@ namespace Casino.Roulette
         [SerializeField] private TMP_Text _redNumbersPercentage;
         [SerializeField] private TMP_Text _blackNumbersPercentage;
         [SerializeField] private TMP_Text _zeroNumberPercentage;
-        private int[] _redNumbers = new int[] { 1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36 };
-        private int[] _blackNumbers = new int[] { 2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35 };
 
         private List<int> _previousNumbers = new();
 
@@ -28,8 +26,6 @@ namespace Casino.Roulette
 
         void Awake()
         {
-            /* Path to the file where the numbers are saved. 
-            Save occurs when switching from roulette to another scene or when the application is closed */
             _filePath = Application.persistentDataPath + "/previousNumbers.txt";
 
             // Save the numbers when scene changes.
@@ -72,26 +68,26 @@ namespace Casino.Roulette
             return numbersArray.Skip(extraNumbers).ToArray();
         }
 
-        void AddToGrid(int num)
+        private void AddToGrid(int num)
         {
-            GameObject n = Instantiate(_prevNumberPrefab, _gridLayoutGroup.transform);
+            var n = Instantiate(_prevNumberPrefab, _gridLayoutGroup.transform);
             n.transform.SetAsFirstSibling(); // should be first child so it is shown first
             n.name = num.ToString();
-            n.GetComponentInChildren<TMP_Text>().color = _redNumbers.Contains(num) ? Color.red : _blackNumbers.Contains(num) ? Color.white : Color.green;
+            var isRed = RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(num);
+            var isBlack = RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(num);
+            n.GetComponentInChildren<TMP_Text>().color = isRed ? Color.red : isBlack ? Color.black : Color.green;
             n.GetComponentInChildren<TMP_Text>().text = num.ToString();
         }
 
         public void AddNumber(int number)
         {
-            if (_clearPreviousNumbersButton.interactable == false)
-            {
-                _clearPreviousNumbersButton.interactable = true;
-            }
+            _clearPreviousNumbersButton.interactable = true;
 
             if (_previousNumbers.Count >= _howManyToStore)
             {
                 _previousNumbers.RemoveAt(0); // Remove the oldest number from the list
-                Destroy(_gridLayoutGroup.transform.GetChild(transform.childCount - 1).gameObject); // Remove the oldest number from the grid
+                Destroy(_gridLayoutGroup.transform.GetChild(transform.childCount - 1)
+                    .gameObject); // Remove the oldest number from the grid
             }
 
             _previousNumbers.Add(number);
@@ -104,13 +100,13 @@ namespace Casino.Roulette
         /// </summary>
         private void CalculatePercentages()
         {
-            int redCount = _previousNumbers.Count(n => _redNumbers.Contains(n));
-            int blackCount = _previousNumbers.Count(n => _blackNumbers.Contains(n));
-            int zeroCount = _previousNumbers.Count(n => n == 0);
-
-            float redPercentage = _previousNumbers.Count > 0 ? (float)Mathf.Round((float)redCount / _previousNumbers.Count * 100) : 0;
-            float blackPercentage = _previousNumbers.Count > 0 ? (float)Mathf.Round((float)blackCount / _previousNumbers.Count * 100) : 0;
-            float zeroPercentage = _previousNumbers.Count > 0 ? (float)Mathf.Round((float)zeroCount / _previousNumbers.Count * 100) : 0;
+            var redCount = _previousNumbers.Count(n => RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(n));
+            var blackCount = _previousNumbers.Count(n => RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(n));
+            var zeroCount = _previousNumbers.Count(n => n == 0);
+            
+            var redPercentage = redCount / (float)_previousNumbers.Count;
+            var blackPercentage = blackCount / (float)_previousNumbers.Count;
+            var zeroPercentage = zeroCount / (float)_previousNumbers.Count;
 
             _redNumbersPercentage.text = $"<color=white>Red numbers: </color><color=red>{redPercentage}%</color>";
             _blackNumbersPercentage.text = $"<color=white>Black numbers: </color><color=red>{blackPercentage}%</color>";

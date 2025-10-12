@@ -1,18 +1,13 @@
-using System;
 using System.Collections;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Casino.Roulette
 {
     public class RouletteUIManager : MonoBehaviour
     {
-        [Header("Scripts")]
-        [SerializeField] private RouletteSpinner _rouletteSpinner;
-        [SerializeField] private RouletteBetHandler _rouletteBetHandler;
-
         [Header("GameObjects")]
         [SerializeField] private GameObject _winningNumberStrip; // Shows the winning number and the left and right numbers of it
         [SerializeField] private GameObject _winningPanel; // Shows the amount of winnings
@@ -24,93 +19,74 @@ namespace Casino.Roulette
         [Header("Buttons")]
         [SerializeField] private Button _spinButton;
         [SerializeField] private Button _undoBetButton;
-        //[SerializeField] private Button _resetBetsButton;
-        [SerializeField] private Button _exitTableButton;
-
-        [Header("Text")]
-        [SerializeField] private TMP_Text _balanceText;
-        [SerializeField] private TMP_Text _totalBetText;
-        [SerializeField] private TMP_Text _noBalanceText;
-
+        [SerializeField] private Button resetBetsButton;
+        
         [Header("Variables")]
         [SerializeField] private float _noBalanceTextScreenTime = 0.75f;
 
-        private string[] _rouletteNumbers = new[] // The numbers on the European roulette wheel in order.
-        {
-        "0", "32", "15", "19", "4", "21", "2", "25", "17", "34", "6", "27", "13", "36", "11", "30", "8", "23", "10", "5", "24", "16", "33", "1", "20", "14", "31", "9", "22", "18", "29", "7", "28", "12", "35", "3", "26"
-        };
+        [Header("Colors")]
+        [SerializeField] private Color redStripColor = new Color(128f/255f, 0, 0);
+        [SerializeField] private Color blackStripColor = new Color(50f/255f, 50f/255f, 50f/255f);
+        [SerializeField] private Color greenStripColor = new Color(0, 128f/255f, 0);
 
-        void Awake()
+        private void Start()
         {
-            _spinButton.interactable = false;
-            //_resetBetsButton.interactable = false;
-            _undoBetButton.interactable = false;
-            _exitTableButton.interactable = true;
+            var moneyHandler = Services.RouletteMoneyHandler;
+            moneyHandler.OnWinningsCredited += ShowResultsPanel;
+            moneyHandler.OnFirstBetPlaced += BetPlaced;
+            moneyHandler.OnAllBetsCleared += NoBetsPlaced;
+            resetBetsButton.interactable = false;
+            _undoBetButton.interactable = true;
         }
 
         public void Spin()
         {
             _spinButton.interactable = false;
-            //_resetBetsButton.interactable = false;
+            resetBetsButton.interactable = false;
             _undoBetButton.interactable = false;
-            _exitTableButton.interactable = false;
-            _rouletteSpinner.SpinTheWheel();
+            Services.RouletteSpinner.StartRound();
         }
 
-        public void BetPlaced()
+        private void BetPlaced()
         {
             _spinButton.interactable = true;
             //_resetBetsButton.interactable = true;
             _undoBetButton.interactable = true;
-            _exitTableButton.interactable = false;
         }
 
-        public void NoBetsPlaced()
+        private void NoBetsPlaced()
         {
             _undoBetButton.interactable = false;
             _spinButton.interactable = false;
             //_resetBetsButton.interactable = false;
-            _exitTableButton.interactable = true;
         }
 
-        public void UndoBet()
+        public void UndoBet() => Services.RouletteMoneyHandler.UndoLatestBet();
+        
+        private void ShowResultsPanel(ResolvedRouletteResult result) => StartCoroutine(EnableResultsPanel(result));
+
+        private IEnumerator EnableResultsPanel(ResolvedRouletteResult result)
         {
-            _rouletteBetHandler.UndoLatestBet();
-        }
-
-        public void SetBalanceAndTotalBetText(float balance, float totalBet)
-        {
-            _totalBetText.text = $"{totalBet} €";
-            _balanceText.text = $"{balance} €";
-        }
-
-        public IEnumerator EnableResultsPanel(int winningNumber, float winnings)
-        {
-            string winningNumberStr = winningNumber.ToString();
-
-            int winningIndex = Array.IndexOf(_rouletteNumbers, winningNumberStr);
-
-            int leftIndex = (winningIndex - 1 + _rouletteNumbers.Length) % _rouletteNumbers.Length;
-            int rightIndex = (winningIndex + 1) % _rouletteNumbers.Length;
-
-            string leftNumber = _rouletteNumbers[leftIndex];
-            string rightNumber = _rouletteNumbers[rightIndex];
-
-            _winningNumberStrip.transform.Find("LeftNumber").transform.Find("LeftNumberText").GetComponent<TMP_Text>().text = leftNumber;
-            _winningNumberStrip.transform.Find("RightNumber").transform.Find("RightNumberText").GetComponent<TMP_Text>().text = rightNumber;
-            _winningNumberStrip.transform.Find("WinningNumber").transform.Find("WinningNumberText").GetComponent<TMP_Text>().text = winningNumberStr;
-
-            SetThreeNumbersColor(leftNumber, _winningNumberStrip.transform.Find("LeftNumber").transform.Find("LeftNumberColor").GetComponent<Image>());
-            SetThreeNumbersColor(rightNumber, _winningNumberStrip.transform.Find("RightNumber").transform.Find("RightNumberColor").GetComponent<Image>());
-            SetThreeNumbersColor(winningNumberStr, _winningNumberStrip.transform.Find("WinningNumber").transform.Find("WinningNumberColor").GetComponent<Image>());
+            var stripElements = _winningNumberStrip.GetComponentsInChildren<RouletteStripElement>();
+            // Since the order will be left, right, winning the latter two need to be swapped should be fixed
+            (stripElements[0], stripElements[1], stripElements[2]) = (
+                stripElements[0], stripElements[2], stripElements[1]);
+            stripElements.Zip(result.WinningNumsStrip, (element, number) => (element, number)).ToList()
+                .ForEach(tuple =>
+                {
+                    var isRed = RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(tuple.number);
+                    var isBlack = RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(tuple.number);
+                    var color = isRed ? redStripColor : isBlack ? blackStripColor : greenStripColor;
+                    tuple.element.Init(tuple.number.ToString(), color);
+                });
 
             _winningNumberStrip.SetActive(true);
             yield return new WaitForSeconds(1.5f);
 
-            if (winnings > 0)
+            if (result.Winnings > 0)
             {
                 _winningPanel.SetActive(true);
-                _winningPanel.transform.Find("ValueText").GetComponent<TMP_Text>().text = $"{winnings} €";
+                _winningPanel.transform.Find("ValueText").GetComponent<TMP_Text>().text = $"{result.Winnings} €";
             }
             else
             {
@@ -132,36 +108,6 @@ namespace Casino.Roulette
             _winningPanel.SetActive(false);
             _losingPanel.SetActive(false);
             canvasGroup.alpha = 1;
-        }
-
-        public IEnumerator ShowNoBalanceText()
-        {
-            _noBalanceText.enabled = true;
-            yield return new WaitForSeconds(_noBalanceTextScreenTime);
-            _noBalanceText.enabled = false;
-        }
-
-        void SetThreeNumbersColor(string number, Image image)
-        {
-            string[] redNumbers = new string[] { "1", "3", "5", "7", "9", "12", "14", "16", "18", "19", "21", "23", "25", "27", "30", "32", "34", "36" };
-            string[] blackNumbers = new string[] { "2", "4", "6", "8", "10", "11", "13", "15", "17", "20", "22", "24", "26", "28", "29", "31", "33", "35" };
-
-            Color redColor = new(128f / 255f, 0, 0);
-            Color blackColor = new(50f / 255f, 50f / 255f, 50f / 255f);
-            Color greenColor = new(0, 128f / 255f, 0);
-
-            if (redNumbers.Contains(number))
-            {
-                image.color = redColor;
-            }
-            else if (blackNumbers.Contains(number))
-            {
-                image.color = blackColor;
-            }
-            else
-            {
-                image.color = greenColor;
-            }
         }
     }
 }

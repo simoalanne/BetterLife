@@ -1,73 +1,50 @@
 using System.Collections.Generic;
-using Audio;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Casino.Roulette
 {
+    [RequireComponent(typeof(BetKeyStorer))]
     public class RouletteBet : MonoBehaviour
     {
-        private RouletteBetHandler _rouletteBetHandler;
-        private BetSizeManager _betSizeManager;
-        [SerializeField] private GameObject _chipPrefab;
-        [SerializeField] private Vector2 _chipTransformOffsetToPrevious = new(0, 2f); // This is used to simulate the effect of stacking chips on top of each other
-        [SerializeField] private float _horizontalOffsetRandomness = 2f; // This is used to simulate the effect of stacking chips on top of each other
-        private SoundEffectPlayer _soundEffectPlayer;
+        [SerializeField] private GameObject chipPrefab;
+        [SerializeField] private float horizontalOffsetRandomness = 5f;
+        private IRouletteBetKey _betKey;
 
-        private bool _betPlaced = false;
-        public bool BetPlaced => _betPlaced; // Informs the RouletteBetHandler if the bet is placed.
-
-        private static List<GameObject> _allPlacedChips = new(); // This is used to keep track of the latest chip placed on the table
-        public static List<GameObject> AllPlacedChips => _allPlacedChips; // Informs the RouletteBetHandler of all the placed chips on the table
-
-        void Awake()
+        private void Awake()
         {
-            _soundEffectPlayer = FindObjectOfType<SoundEffectPlayer>();
-            _rouletteBetHandler = FindObjectOfType<RouletteBetHandler>();
-            _betSizeManager = FindObjectOfType<BetSizeManager>();
+            _betKey = GetComponent<BetKeyStorer>().BetKey;
         }
 
         public void OnClick()
         {
-            if (_rouletteBetHandler.PlaceBet(transform.name, _betSizeManager.CurrentBetSize)) // Place the bet and instantiate the chip if bet is accepted
-            {
-                PlaceChip();
-            }
+            var currentBet = Services.Get<BetSizeManager>().CurrentBetSize;
+            Services.Get<RouletteMoneyHandler>().PlaceBet(currentBet, _betKey);
         }
 
-        private void PlaceChip()
+        public void PlaceChips(List<Sprite> chipSprites)
         {
-            _soundEffectPlayer.PlaySoundEffect(Random.Range(0, _soundEffectPlayer.AudioClipCount)); // Play a random chip sound effect
-            int chipCount = 0;
-            foreach (Transform child in transform)
-            {
-                if (child.gameObject.name == "Chip")
+            // Destroy any existing chips first
+            transform.Cast<Transform>()
+                .Where(child => child.name is "Chip")
+                .ToList()
+                .ForEach(child => Destroy(child.gameObject));
+
+            // Place new chips
+            chipSprites
+                .Select((sprite, index) => (sprite, offset: new Vector2(
+                    Random.Range(-horizontalOffsetRandomness, horizontalOffsetRandomness),
+                    2f * index)))
+                .ToList()
+                .ForEach(pair =>
                 {
-                    chipCount++;
-                }
-            }
-
-            _chipTransformOffsetToPrevious =
-            new Vector2(Random.Range(-_horizontalOffsetRandomness, _horizontalOffsetRandomness), 2f * chipCount);
-
-            var chip = Instantiate(_chipPrefab, transform.position, Quaternion.identity, transform);
-            chip.GetComponent<Image>().sprite = _betSizeManager.ChipSprites[_betSizeManager.CurrentChipIndex]; // Instantiate the chip and set the sprite to the active chip sprite
-            chip.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0) + _chipTransformOffsetToPrevious; // Set the position of the chip to the position of the bet + the offset
-            chip.name = "Chip"; // Set the name of the chip to "Chip" for easier identification
-            _betPlaced = true; // Set the bet placed to true when the chip is placed
-            _allPlacedChips.Add(chip); // Add the chip to the list of all placed chips
-        }
-
-        public void DestroyChips()
-        {
-            foreach (Transform child in transform)
-            {
-                if (child.GetComponent<Image>() != null && child.name == "Chip")
-                {
-                    Destroy(child.gameObject);
-                }
-            }
+                    var chip = Instantiate(chipPrefab, transform.position, Quaternion.identity, transform);
+                    chip.GetComponent<RectTransform>().anchoredPosition = pair.offset;
+                    chip.name = "Chip";
+                    chip.GetComponent<Image>().sprite = pair.sprite;
+                });
         }
     }
 }

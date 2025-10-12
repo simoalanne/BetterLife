@@ -1,4 +1,5 @@
 using System.Collections;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,6 @@ namespace Casino.Roulette
 {
     public class RouletteGameSettings : MonoBehaviour
     {
-        [SerializeField] private DisplayBetInfo _displayBetInfo;
         [SerializeField] private Button _openSettingsButton;
         [SerializeField] private Image _dimBackground;
         [SerializeField] private RectTransform _settingsPanel;
@@ -25,16 +25,15 @@ namespace Casino.Roulette
         private bool _isRulesOpen;
         private bool _isPreviousNumbersOpen;
 
-        void Awake()
+        private void Awake()
         {
+            Services.Register(this);
             LoadSettings();
             _settingsCanvas = GetComponent<RectTransform>();
             _showBetTypeSetting.GetComponent<ToggleButton>().SetInitialStatus(_isBetTypeShown);
             _showBetOddsSetting.GetComponent<ToggleButton>().SetInitialStatus(_isBetOddsShown);
             _settingsPanel.anchoredPosition = new Vector2(_settingsPanel.sizeDelta.x, 0); // Settings panel is off screen on right side
             _dimBackground.gameObject.SetActive(false);
-            _displayBetInfo.ShowBetType = _isBetTypeShown;
-            _displayBetInfo.ShowBetOdds = _isBetOddsShown;
         }
 
         public void OnBackgroundClick()
@@ -124,21 +123,21 @@ namespace Casino.Roulette
         public void ToggleBetType()
         {
             _isBetTypeShown = !_isBetTypeShown;
-            _displayBetInfo.ShowBetType = _isBetTypeShown;
             PlayerPrefs.SetInt("IsBetTypeShown", _isBetTypeShown ? 1 : 0);
         }
 
         public void ToggleBetOdds()
         {
             _isBetOddsShown = !_isBetOddsShown;
-            _displayBetInfo.ShowBetOdds = _isBetOddsShown;
             PlayerPrefs.SetInt("IsBetOddsShown", _isBetOddsShown ? 1 : 0);
         }
 
-        void LoadSettings()
+        private void LoadSettings()
         {
             _isBetTypeShown = PlayerPrefs.GetInt("IsBetTypeShown", 1) == 1;
             _isBetOddsShown = PlayerPrefs.GetInt("IsBetOddsShown", 1) == 1;
         }
+        
+        public (bool showBetType, bool showBetOdds) GetDisplaySettings() => (_isBetTypeShown, _isBetOddsShown);
     }
 }

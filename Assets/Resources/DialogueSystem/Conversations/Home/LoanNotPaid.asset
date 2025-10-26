@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: LoanNotPaid
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: No rehab yet. Loan Shark wouldn't be happy if i didn't pay what i owe
+      to him first...

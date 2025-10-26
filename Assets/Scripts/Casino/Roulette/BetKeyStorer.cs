@@ -74,7 +74,7 @@ namespace Casino.Roulette
         private static IRouletteBetKey ResolveBetKey(SerializedBetKey betKey) =>
             betKey.betCategory != OutsideBet.None
                 ? new OutsideBetKey(betKey.betCategory)
-                : new InsideBetKey(betKey.numbers != null ? Enumerable.ToHashSet(betKey.numbers) : new HashSet<int>());
+                : new InsideBetKey(betKey.numbers != null ? betKey.numbers.ToHashSet() : new HashSet<int>());
 
         private static SerializedBetKey TryResolveSerializedKey(string gameObjectName) =>
             gameObjectName switch

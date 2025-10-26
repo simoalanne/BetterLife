@@ -1,37 +1,45 @@
+using System.Collections.Generic;
 using DialogueSystem;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace City
 {
     /// <summary>
-    /// Mailbox gives player money once a day when interacted with.
+    /// Mailbox gives player money or an invoice randomly upon interaction.
     /// </summary>
-    public class MailBox : MonoBehaviour, IInteractable
+    public class Mailbox : MonoBehaviour, IInteractable
     {
-        [SerializeField] private DialogueTrigger beforeMoneyCollected;
-        [SerializeField] private DialogueTrigger noMoneyAvailable;
+        [SerializeField] private Conversation somethingInsideMailbox;
+        [SerializeField] private ConversationWithTokens itWasMoney = new(nameof(moneyAmount));
+        [SerializeField] private ConversationWithTokens itWasAnInvoice = new(nameof(moneyAmount));
         [SerializeField] private float moneyAmount = 50f;
-
-        public bool CanInteract { get; set; } = true;
-        private static int _lastMoneyCollectedDay = -1; // TODO: don't use static some more scalable solution instead
-
 
         public void Interact()
         {
-            var currentDay = Services.GameTimer.Days;
-
-            if (currentDay != _lastMoneyCollectedDay)
-            {
-                beforeMoneyCollected?.TriggerDialogue(() =>
+            var sign = Random.Range(0, 2) == 0 ? 1 : -1;
+            var decidedToGamble = false;
+            somethingInsideMailbox.Start(
+                conversationChain: new List<ConversationChainItem>
                 {
-                    Services.PlayerManager.MoneyInBankAccount += moneyAmount;
-                    _lastMoneyCollectedDay = currentDay;
-                });
-            }
-            else
-            {
-                noMoneyAvailable?.TriggerDialogue();
-            }
+                    new(() => decidedToGamble,
+                        sign == 1
+                            ? itWasMoney.InjectTokenValues(moneyAmount)
+                            : itWasAnInvoice.InjectTokenValues(moneyAmount))
+                },
+                onStateChange: state =>
+                {
+                    if (state is DialogueState.YesClicked)
+                    {
+                        decidedToGamble = true;
+                        return;
+                    }
+                    
+                    Debug.Log("sate changed + " + state);
+                    if (state is DialogueState.DialogueFinished && decidedToGamble)
+                        Services.PlayerManager.MoneyInBankAccount += moneyAmount * sign;
+                }
+            );
         }
     }
 }

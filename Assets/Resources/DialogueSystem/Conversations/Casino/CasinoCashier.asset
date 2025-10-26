@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: CasinoCashier
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Hello there sir! First time here, eh?
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: No, I guess you could even call me a regular.
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: I see! I just got hired recently so I don't recognize people that well...
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 1
+    finishesDialogueEarly: 0
+    sentence: Would you like a refresher lesson on how our casino works?
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Then allow me to explain! As you can probably see, our casino has a
+      roulette table, blackjack, and a slot machine. You can use any of these when
+      we're open.
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: If you need an explanation on a specific game,  it may or may not be
+      available in the game.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: What do you mean, may not be available?
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Well you see it's a lot of work someone has to do, to provide full
+      on explanations how a game may work.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Interesting... What about where do i buy chips?
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Oh you don't need to do that here. Your money turns to chips automatically.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: I'm not even gonna pretend I understand how is that possible...
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Well that was everything you need to know. Go out there and be a profitab...
+      i mean good customer
+  - talker: {fileID: 11400000, guid: 01fef058a4615dc4998bc9a327d53944, type: 2}
+    partType: 3
+    finishesDialogueEarly: 0
+    sentence: I see, I guess you must know how everything works already, since you're
+      a regular and all, but if you ever do need an explanation just ask! Have fun!

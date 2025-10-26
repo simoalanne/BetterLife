@@ -1,5 +1,4 @@
 using AYellowpaper.SerializedCollections;
-using Helpers;
 using TMPro;
 using UnityEngine;
 
@@ -65,7 +64,8 @@ namespace Casino.Roulette
 
         public void SetBetInfo(IRouletteBetKey betKey)
         {
-            var (showBetType, showBetOdds) = GetDisplaySettings();
+            var showBetType = Preferences.RouletteShowBetType;
+            var showBetOdds = Preferences.RouletteShowBetOdds;
             if (!showBetType && !showBetOdds) return;
             _canvasGroup.alpha = 1;
             var description = showBetType ? GetBetDescription(betKey) : "";
@@ -82,10 +82,7 @@ namespace Casino.Roulette
             var textSize = _betInfo.GetPreferredValues();
             _backgroundRect.sizeDelta = textSize + tooltipBackgroundPadding;
         }
-
-        private static (bool showBetType, bool showBetOdds) GetDisplaySettings() =>
-            Services.Get<RouletteGameSettings>().GetDisplaySettings();
-
+        
         private string GetBetDescription(IRouletteBetKey betKey)
         {
             return betKey switch

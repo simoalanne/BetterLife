@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: start_menu_spritesheet_0
+      name: StartMenuButtons_0
       rect:
         serializedVersion: 2
         x: 0
@@ -138,14 +138,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e23306577adbecb4896189e0ae9627ef
-      internalID: -986485
+      spriteID: 7a79a4216ae0fcf40982631590f04e7b
+      internalID: -163678692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_1
+      name: StartMenuButtons_1
       rect:
         serializedVersion: 2
         x: 47
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e8b1eb7898ee704ba6aed7862f3d93e
-      internalID: -93065008
+      spriteID: e6db91c107ab3864a8f8b0f45f83e8bf
+      internalID: 379272481
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_2
+      name: StartMenuButtons_2
       rect:
         serializedVersion: 2
         x: 94
@@ -182,14 +182,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c3f7a5365af1064fae8edeec4af6c28
-      internalID: 300279389
+      spriteID: 8d0342f402899a042b86c40769c7a852
+      internalID: -859125164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_3
+      name: StartMenuButtons_3
       rect:
         serializedVersion: 2
         x: 0
@@ -204,14 +204,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a64639cfce8666b448249466ca77cdf6
-      internalID: -226353754
+      spriteID: 05639df62414f2340bf4e3e5fed4b4ed
+      internalID: 723281469
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_4
+      name: StartMenuButtons_4
       rect:
         serializedVersion: 2
         x: 47
@@ -226,14 +226,36 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 755621f84e9032d49ac5e1930be066db
-      internalID: -689411758
+      spriteID: 9d98610d239d7f04abfbc461ac586d6b
+      internalID: 1682244343
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_5
+      name: StartMenuButtons_5
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 31
+        width: 46
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e01409d5b54fd948bf8103cf9450e46
+      internalID: -1629406039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StartMenuButtons_6
       rect:
         serializedVersion: 2
         x: 0
@@ -248,14 +270,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f95afd87da7793a4b99d81994b568605
-      internalID: 1863143341
+      spriteID: b24429b0ffc505f43912a4b0b4c6c56d
+      internalID: 585224812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_6
+      name: StartMenuButtons_7
       rect:
         serializedVersion: 2
         x: 47
@@ -270,14 +292,36 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 90832ecf00f3b1243a87be75fcc1ea7a
-      internalID: -677417755
+      spriteID: 2a3f25a3607f3be439f2f718d03eec1c
+      internalID: -904843106
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_7
+      name: StartMenuButtons_8
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 15
+        width: 46
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5248e25b832fb1428b4a584aecf37ec
+      internalID: -554394127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: StartMenuButtons_9
       rect:
         serializedVersion: 2
         x: 0
@@ -292,14 +336,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e47df1adc745974bbcb75981cd65ec8
-      internalID: 716321639
+      spriteID: 468539b1a2593af4bb6f408ccdc1143a
+      internalID: -561514587
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: start_menu_spritesheet_8
+      name: StartMenuButtons_10
       rect:
         serializedVersion: 2
         x: 47
@@ -314,8 +358,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 706a9bb6621e14c4a92ada09aeb9a2b2
-      internalID: 2014038669
+      spriteID: af511e81238bd2e45a4b6115db3e36fc
+      internalID: 1206457564
       vertices: []
       indices: 
       edges: []
@@ -336,15 +380,17 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      start_menu_spritesheet_0: -986485
-      start_menu_spritesheet_1: -93065008
-      start_menu_spritesheet_2: 300279389
-      start_menu_spritesheet_3: -226353754
-      start_menu_spritesheet_4: -689411758
-      start_menu_spritesheet_5: 1863143341
-      start_menu_spritesheet_6: -677417755
-      start_menu_spritesheet_7: 716321639
-      start_menu_spritesheet_8: 2014038669
+      StartMenuButtons_0: -163678692
+      StartMenuButtons_1: 379272481
+      StartMenuButtons_10: 1206457564
+      StartMenuButtons_2: -859125164
+      StartMenuButtons_3: 723281469
+      StartMenuButtons_4: 1682244343
+      StartMenuButtons_5: -1629406039
+      StartMenuButtons_6: 585224812
+      StartMenuButtons_7: -904843106
+      StartMenuButtons_8: -554394127
+      StartMenuButtons_9: -561514587
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

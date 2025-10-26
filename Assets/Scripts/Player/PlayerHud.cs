@@ -1,8 +1,11 @@
 using System.Collections;
+using DialogueSystem;
 using Helpers;
+using NaughtyAttributes;
+using ScriptableObjects;
 using TMPro;
+using UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Player
 {
@@ -11,39 +14,24 @@ namespace Player
         [SerializeField] private GameObject _activeLoanHUD;
         [SerializeField] private TMP_Text _loanPaybackAmount;
         [SerializeField] private TMP_Text _loanDaysLeft;
+        [SerializeField] private Conversation loanDeadlineMissed;
+        [SerializeField] private HideableElement screenBeforeGameOver;
+        [SerializeField] private float delayBeforeLoadingGameOverScene = 3f;
+        [SerializeField, Scene] private string sceneToLoadAfterLoanDlMissed = "GameOverCutscene";
         private int
             _firstLoanDay = 1; // The first day of the loan. This is reduced first before reducing the days to repay.
         public Loan ActiveLoan { get; private set; }
-        [SerializeField]
-        private CanvasGroup
-            _hudCanvasGroup; // Canvas group that contains elements that should be hidden when the player is not in the game scene.
-        [SerializeField]
-        private GameObject
-            _casinoClosingText; // this text is shown when player is playing a casino game so they can see when the casino is closing.
-        public Canvas Canvas { get; private set; }
+        private CanvasGroup _hudCanvasGroup;
 
         private void Awake()
         {
-            Services.Register(this, dontDestroyOnLoad: true);
-            Canvas = GetComponent<Canvas>();
-
-
+            Services.Register(this, persistent: true);
             _hudCanvasGroup = GetComponent<CanvasGroup>();
-
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
-        void OnActiveSceneChanged(Scene current, Scene next)
+        private void Start()
         {
-            if (next.name == "MainMenu" || next.name == "Roulette" || next.name == "BlackJack" || next.name == "Slots")
-            {
-                ShowHud(false);
-            }
-            else if (current.name == "MainMenu" || current.name == "Roulette" || current.name == "BlackJack" ||
-                     current.name == "Slots")
-            {
-                ShowHud(true);
-            }
+            Services.GameTimer.OnDayPassed += ReduceLoanDaysLeft;
         }
 
         public void ShowHud(bool show)
@@ -59,28 +47,24 @@ namespace Player
                 _hudCanvasGroup.blocksRaycasts = false;
             }
         }
-
-        public void AddToCanvas(GameObject obj)
+        
+        public void ResetHUD()
         {
-            Instantiate(obj, transform);
-        }
-
-        public void DestroyFromCanvas(GameObject obj)
-        {
-            Debug.Log("Destroying " + obj.name);
-            Destroy(obj);
-        }
-
-        void OnDestroy()
-        {
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            screenBeforeGameOver.Toggle(false, instant: true);
+            ActiveLoan = null;
+            _loanPaybackAmount.text = "";
+            _loanDaysLeft.text = "";
+            var rect = _activeLoanHUD.GetComponent<RectTransform>();
+            var pos = rect.anchoredPosition;
+            var endPos = new Vector2(rect.sizeDelta.x, pos.y);
+            rect.anchoredPosition = endPos;
         }
 
         public void EnableActiveLoanPanel(Loan loan) => StartCoroutine(EnableOrDisableLoanPanel(loan, true));
 
         public void DisableActiveLoanPanel() => StartCoroutine(EnableOrDisableLoanPanel(null, false));
 
-        IEnumerator EnableOrDisableLoanPanel(Loan loan, bool enable)
+        private IEnumerator EnableOrDisableLoanPanel(Loan loan, bool enable)
         {
             var rect = _activeLoanHUD.GetComponent<RectTransform>();
             var pos = rect.anchoredPosition;
@@ -105,11 +89,9 @@ namespace Player
             }
         }
 
-        public bool ReduceLoanDaysLeft()
+        private void ReduceLoanDaysLeft()
         {
-            if (ActiveLoan == null) return false;
-
-            bool isGameOver = false;
+            if (ActiveLoan == null) return;
 
             if (_firstLoanDay == 1)
             {
@@ -118,19 +100,27 @@ namespace Player
             }
             else
             {
-
                 ActiveLoan.daysToRepay--;
                 _loanDaysLeft.text = ActiveLoan.daysToRepay == 1
                     ? $"{ActiveLoan.daysToRepay} day"
                     : $"{ActiveLoan.daysToRepay} days";
-                if (ActiveLoan.daysToRepay == 0)
-                {
-                    isGameOver = true;
-                    _loanDaysLeft.text = "DL missed";
-                }
-            }
+                if (ActiveLoan.daysToRepay > 0) return;
 
-            return isGameOver;
+                _loanDaysLeft.text = "DL missed";
+                loanDeadlineMissed.Start(onStateChange: state =>
+                {
+                    if (state is not DialogueState.DialogueFinished) return;
+                    StartCoroutine(PrepareGameOver());
+                });
+            }
+        }
+        
+        private IEnumerator PrepareGameOver()
+        {
+            Services.InputManager.EnablePlayerInput(false);
+            yield return screenBeforeGameOver.ToggleElement(true, screenBeforeGameOver.Duration);
+            yield return new WaitForSeconds(delayBeforeLoadingGameOverScene);
+            sceneToLoadAfterLoanDlMissed.LoadScene();
         }
     }
 }

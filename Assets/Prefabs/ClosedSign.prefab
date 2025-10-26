@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4387270050724422420}
   - component: {fileID: 563956566024341822}
   - component: {fileID: 1030867321158571078}
+  - component: {fileID: 1064995338244465672}
+  - component: {fileID: 2539978273778828836}
   m_Layer: 5
   m_Name: ClosedSign
   m_TagString: Untagged
@@ -105,14 +107,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d98b6ef5ad4a439fa7dc32f4f966bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::City.ClosedSign
-  signScaleTime: 0.25
+  closesOnMouseClick: 1
   typeSpeed: 0.02
-  prefixSuffix:
-    prefix: 'We''re closed!
+  signText: 'Sorry, we''re closed!
 
-      Open from '
-    content: '{openFrom} to {openTo}'
-    suffix: 
+    Open from {openFrom} to {openTo}.'
+--- !u!225 &1064995338244465672
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4463871520183115512}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2539978273778828836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4463871520183115512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f463ab42f9464cc78b5260928555d7d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.HideableElement
+  effectDuration: 0.25
+  useMoveEffect: 0
+  visiblePosition: {x: 0, y: 0}
+  hiddenPosition: {x: 0, y: 0}
+  useScaleEffect: 1
+  visibleScale: {x: 1, y: 1, z: 1}
+  useFadeEffect: 1
+  visibleAlpha: 1
 --- !u!1 &7772170524208234117
 GameObject:
   m_ObjectHideFlags: 0

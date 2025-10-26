@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: LoanSharkFirstTime
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Hello! I Haven't seen you in here before? You must have heard good
+      things about my little loan business.
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: There are only two things you need to know before i can help you...
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: "Rule one - You can only get a new loan once the previous one is paid
+      out. \nRule two - I highly recommend that you pay out your loan in time..."
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Okay, I understand. But why can't I have more than one loan at a time?
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Don't interrupt me. If you really want to know why, it's because the
+      simulation would break if you could have more than one loan.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: A simulation, really?! That sounds like bullshit. There must be another
+      reason.
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 1
+    finishesDialogueEarly: 0
+    sentence: I'm getting tired of this... Do you want to borrow money or not?
+  - talker: {fileID: 11400000, guid: fa504b1e791c4994a9f77886898c9633, type: 2}
+    partType: 3
+    finishesDialogueEarly: 0
+    sentence: Okay then. If you dont want a loan you should leave.

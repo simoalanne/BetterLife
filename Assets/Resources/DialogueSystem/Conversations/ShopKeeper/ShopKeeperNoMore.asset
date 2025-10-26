@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: ShopKeeperNoMore
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: HA HA HA HA HA!!!
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: He will never come back and you will be next...
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Okay since you're so powerful could you help me win the game?
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Win? No I can't do that...
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: But I can help you lose. I see your fate.
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: If you ever feel desperate just come back here later and we will sort
+      it out.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: That will NOT happen. I still have a long life ahead of me. All i need
+      is one big hit and I'm free from my addiction.
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Well good luck achieving that. The game is rigged against you...
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Goodbye for now. I'll be waiting here when you're ready to give up.

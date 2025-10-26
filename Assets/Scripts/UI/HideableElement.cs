@@ -39,8 +39,11 @@ namespace UI
         private State _state = State.Idle;
         private float _cachedTime;
 
+        public float Duration => effectDuration;
+
         private void Awake()
         {
+            gameObject.SetActive(true);
             _rt = GetComponent<RectTransform>();
             _cg = GetComponent<CanvasGroup>();
             _state = State.Idle;
@@ -89,10 +92,11 @@ namespace UI
             if (!useFadeEffect) return;
 
             var endAlpha = show ? visibleAlpha : 0f;
+            _cg.blocksRaycasts = show;
             _cg.alpha = endAlpha;
         }
 
-        private IEnumerator ToggleElement(bool show, float duration)
+        public IEnumerator ToggleElement(bool show, float duration)
         {
             _cg.blocksRaycasts = false;
             _state = show ? State.Showing : State.Hiding;
@@ -119,5 +123,10 @@ namespace UI
             _cg.blocksRaycasts = true;
             SetFinalValues(show);
         }
+    }
+
+    public static class HideableElementExtensions
+    {
+        public static T As<T>(this HideableElement element) => element.GetComponent<T>();
     }
 }

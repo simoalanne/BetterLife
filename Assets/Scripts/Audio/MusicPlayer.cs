@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Helpers;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +16,7 @@ namespace Audio
 
         private void Awake()
         {
-            if (!Services.Register(this, dontDestroyOnLoad: true)) return;
+            if (!Services.Register(this, persistent: true)) return;
             _audioSource = GetComponent<AudioSource>();
             SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
@@ -45,33 +43,10 @@ namespace Audio
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
 
-#if UNITY_EDITOR
         private void Reset()
         {
             var sceneNames = FunctionLibrary.GetAllSceneNames();
-
-            var originalKeysCount = musicClips.Keys.Count;
-
-            sceneNames.ForEach(scene =>
-            {
-                if (!musicClips.ContainsKey(scene))
-                {
-                    musicClips.Add(scene, null);
-                }
-            });
-
-            musicClips.Keys.ToList().ForEach(key =>
-            {
-                if (!sceneNames.Contains(key))
-                {
-                    musicClips.Remove(key);
-                }
-            });
-
-            var changesHappened = originalKeysCount != sceneNames.Count;
-            if (changesHappened)
-                EditorUtility.SetDirty(this);
+            sceneNames.ForEach(scene => musicClips.Add(scene, null));
         }
-#endif
     }
 }

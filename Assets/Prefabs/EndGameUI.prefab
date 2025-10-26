@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 4902321138397249329}
   - component: {fileID: 2429075827419412616}
   - component: {fileID: 6990290255962923797}
+  - component: {fileID: 4553458143769612809}
+  - component: {fileID: -9199002963620493282}
+  - component: {fileID: 1837742355507153747}
   m_Layer: 5
   m_Name: EndGameUI
   m_TagString: Untagged
@@ -91,10 +94,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3b6aa48048dfc4f898de86f7f7a1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moneyToPay: 100
+  moneyToPay: 100
   _endGameText: {fileID: 2577653312964539360}
   _endGameButton: {fileID: 8668791190561620556}
   _cancelButton: {fileID: 7115479919642222394}
+  victoryScene: EndGameCutscene
+--- !u!225 &4553458143769612809
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82933427574369161}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &-9199002963620493282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82933427574369161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f463ab42f9464cc78b5260928555d7d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.HideableElement
+  effectDuration: 0.25
+  useMoveEffect: 0
+  visiblePosition: {x: 0, y: 0}
+  hiddenPosition: {x: 0, y: 0}
+  useScaleEffect: 1
+  visibleScale: {x: 1, y: 1, z: 1}
+  useFadeEffect: 1
+  visibleAlpha: 1
+--- !u!114 &1837742355507153747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82933427574369161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe777d90332b40cab08e585f5f191b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HUDAttachablePanel
+  closesOnMouseClick: 0
 --- !u!1 &1174795684506340042
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +700,7 @@ GameObject:
   - component: {fileID: 4852876907012956466}
   - component: {fileID: 8668791190561620556}
   - component: {fileID: 329827702812186207}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +834,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: EndGameCutscene
-  _playerVisibilityInNewScene: 1
-  _transitionType: 0
-  _loadTriggerType: 2
-  _playerSpawnPoint: {fileID: 0}
+  loadTriggerType: 0

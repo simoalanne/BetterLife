@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -6,10 +7,12 @@ namespace Player
     public class InputManager : MonoBehaviour
     {
         public PlayerControls Controls { get; private set; }
+        public Action<bool> OnInputActiveChange;
+        public bool IsInputActive => Controls.Player.enabled;
 
         private void Awake()
         {
-            if (!Services.Register(this, dontDestroyOnLoad: true)) return;
+            if (!Services.Register(this, persistent: true)) return;
             Controls = new PlayerControls();
             Controls.Enable();
         }
@@ -19,13 +22,14 @@ namespace Player
             Controls?.Disable();
         }
         
-        public void BlockInput()
+        public void EnablePlayerInput(bool enable)
         {
-            Controls.Player.Disable();
-        }
-        
-        public void UnblockInput()
-        {
+            OnInputActiveChange?.Invoke(enable);
+            if (!enable)
+            {
+                Controls.Player.Disable();
+                return;
+            }
             Controls.Player.Enable();
         }
     }

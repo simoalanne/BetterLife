@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace Casino.Roulette
 {
+    [DefaultExecutionOrder(-1)]
     public class RouletteSpinner : MonoBehaviour
     {
         [Header("References")]
@@ -47,7 +48,7 @@ namespace Casino.Roulette
         private bool _roundUnderway;
         private Dictionary<int, Transform> _pockets;
         private int BallSpinDirection => _wheelSpinDirection * -1;
-
+ 
         private void Awake()
         {
             AddPockets();

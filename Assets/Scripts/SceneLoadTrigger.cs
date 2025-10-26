@@ -1,25 +1,13 @@
-using System.Collections.Generic;
 using Helpers;
 using NaughtyAttributes;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SceneLoadTrigger : MonoBehaviour, IInteractable
 {
-    [Dropdown("AllScenes")]
-    [SerializeField] private string sceneToLoad;
-
-    // ReSharper disable once UnusedMember.Local NaughtyAttributes can't resolve methods from other classes so this is needed
-    private static List<string> AllScenes => FunctionLibrary.GetAllSceneNames();
-
-    [SerializeField] private PlayerVisibility playerVisibilityInNewScene;
+    [SerializeField, Scene] private string sceneToLoad;
     [SerializeField] private LoadTriggerType loadTriggerType;
-    [SerializeField, Tooltip("Leave empty if doesnt apply")]
-    private SpawnPoint playerSpawnPoint;
-
-    public bool CanInteract { get; set; } = true;
 
     private enum LoadTriggerType
     {
@@ -77,7 +65,7 @@ public class SceneLoadTrigger : MonoBehaviour, IInteractable
     {
         if (Services.TryGet<SceneLoader>(out var sceneLoader))
         {
-            sceneLoader.LoadScene(sceneToLoad, playerVisibilityInNewScene, playerSpawnPoint);
+            sceneLoader.LoadScene(sceneToLoad);
             return;
         }
 

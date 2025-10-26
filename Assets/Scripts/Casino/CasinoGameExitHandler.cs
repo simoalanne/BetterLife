@@ -1,4 +1,4 @@
-using Player;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,20 +11,20 @@ namespace Casino
     /// </summary>
     public class CasinoGameExitHandler : MonoBehaviour
     {
-        [SerializeField] private SceneLoadTrigger storyModeTrigger;
-        [SerializeField] private SceneLoadTrigger mainMenuTrigger;
+        [SerializeField, Scene] private string mainMenuScene = "MainMenu";
+        [SerializeField, Scene] private string storyModeScene = "Casino";
 
         private void Start()
         {
             GetComponent<Button>().onClick.AddListener(() =>
             {
-                var playerManagerExists = Services.TryGet<PlayerManager>() != null;
-                if (playerManagerExists)
+                var prevScene = Services.PlayerManager.PreviousSceneName;
+                if (prevScene == mainMenuScene || prevScene is null)
                 {
-                    storyModeTrigger.LoadScene();
+                    Services.SceneLoader.LoadScene(mainMenuScene);
                     return;
                 }
-                mainMenuTrigger.LoadScene();
+                Services.SceneLoader.LoadScene(storyModeScene);
             });
 
             var moneyHandler = Services.MoneyHandler;

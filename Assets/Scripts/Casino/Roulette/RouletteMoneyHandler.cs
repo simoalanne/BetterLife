@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Helpers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -23,7 +22,7 @@ namespace Casino.Roulette
     {
         [SerializeField] private UnityEvent onChipsChanged;
 
-        private void Start() => Services.RouletteSpinner.OnRoundComplete += (num) => CreditWinnings(num);
+        private void OnEnable() => Services.RouletteSpinner.OnRoundComplete += num => CreditWinnings(num);
 
         protected override float CalculateWinnings(int winningNumber) =>
             CurrentBets.Sum(bet => GetBetWinnings(winningNumber, bet.Amount, bet.Key));

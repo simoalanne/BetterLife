@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: AfterGoodbyeNoteRead
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: A gambling addiction really! Does she not understand who brings the
+      food to the table?
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Well there's only one way to sort this out. I just need to hit big
+      once and I can afford the rehab.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: How hard can it be anyway?
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: I've gotten close so many times before too...
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: I've also heard of a new loan shark office being opened nearby. That
+      will certainly help if i run out of money.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Time to get going!

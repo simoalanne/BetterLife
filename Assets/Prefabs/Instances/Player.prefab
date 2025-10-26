@@ -159,7 +159,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29eeb1d62b0e84242a27e273f14ca2ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadToPlayerBed: {fileID: 0}
+  resetGameScene: MainMenu
+  scenesToDisablePlayerOrHud:
+  - sceneName: MainMenu
+    visibilityOption: 1
+  - sceneName: Roulette
+    visibilityOption: 0
+  - sceneName: Slots
+    visibilityOption: 0
+  - sceneName: Blackjack
+    visibilityOption: 0
+  - sceneName: GameOverCutscene
+    visibilityOption: 1
+  - sceneName: EndGameCutscene
+    visibilityOption: 1
+  freePlaySceneRules:
+  - fromScene: MainMenu
+    toScene: Roulette
+  - fromScene: MainMenu
+    toScene: Blackjack
+  - fromScene: MainMenu
+    toScene: Slots
+  spawnPointRules:
+  - fromScene: MainMenu
+    toScene: PlayerHome
+    spawnPoint: {fileID: 11400000, guid: da05016cccb30bc4dbb7a37fd67044d0, type: 2}
   _moneyInBankAccount: 100
 --- !u!114 &1824148447043211714
 MonoBehaviour:
@@ -222,9 +246,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  onSpeedMultiplierChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8586593237676161172
 MonoBehaviour:
   m_ObjectHideFlags: 0

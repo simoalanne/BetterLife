@@ -55,14 +55,15 @@ namespace Helpers
         {
             // Ensure that possible click that triggered this coroutine is ignored
             yield return new WaitForEndOfFrame();
-            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+            yield return new WaitUntil(() =>
+                Services.InputManager.Controls.General.Click.WasPressedThisFrame() && !Services.PauseMenu.IsPaused);
         }
 
-        private static readonly Regex Placeholder = new(@"\{([^\}]*)\}");
+        private static readonly Regex Placeholder =
+            new(@"\{([^\}]*)\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// Replaces placeholders in the format {0}, {1}, ... with provided values. While Unity's localization package
-        /// has similar functionality, its overkill since there won't be localization only templating.
+        /// Replaces placeholders in the format {0}, {1}, ... with provided values.
         /// </summary>
         /// <param name="template">String containing placeholders in format {placeholder} or {}.</param>
         /// <param name="replacements">Values to replace placeholders with.</param>
@@ -73,6 +74,27 @@ namespace Helpers
             return Placeholder.Replace(template,
                 match => index < replacements.Length ? replacements[index++].ToString() : match.Value
             );
+        }
+
+        private static readonly Regex StrictPlaceholder =
+            new(@"\{([^\}]*)\}", RegexOptions.Compiled);
+
+        public static string InterpolateStrict(this string template, IDictionary<string, object> replacements) =>
+            StrictPlaceholder.Replace(template, match =>
+                replacements.TryGetValue(match.Groups[1].Value.ToLower(), out var value)
+                    ? value.ToString()
+                    : match.Value
+            );
+
+        public static void LoadScene(this string sceneName) => Services.SceneLoader.LoadScene(sceneName);
+        
+        public static void DoAfterDelay(this MonoBehaviour monoBehaviour, Action action, float delay) =>
+            monoBehaviour.StartCoroutine(DoAfterDelayCoroutine(action, delay));
+
+        private static IEnumerator DoAfterDelayCoroutine(Action action, float delay)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            action?.Invoke();
         }
     }
 }

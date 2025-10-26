@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: ForfeitGame
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 1
+    finishesDialogueEarly: 0
+    sentence: I knew you would come back. Ready to give up already?
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 3
+    finishesDialogueEarly: 0
+    sentence: Continue to suffer then.
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Very well. This is a story of how Doyle died.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Died?? Maybe something less radical would work too?
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 2
+    finishesDialogueEarly: 0
+    sentence: Too late. Enjoy the last ride kid! HA HA HA HA HA!!!

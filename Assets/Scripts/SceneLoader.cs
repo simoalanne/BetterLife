@@ -1,88 +1,87 @@
+using System;
 using System.Collections;
 using Helpers;
-using Player;
-using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public enum PlayerVisibility
-{
-    Visible,
-    Invisible
-}
+public record SceneChanged(string OldScene, string NewScene);
 
-/// <summary> Centralized scene loading and transition manager. </summary>
+[RequireComponent(typeof(CanvasGroup))]
 public class SceneLoader : MonoBehaviour
 {
-    [Header("Circle Transition")]
-    [SerializeField] private Material circleRevealMaterial;
-    [SerializeField] private float maxCutOff = 0.6f;
-
-
     [Header("Customization")]
     [SerializeField] private float transitionInDuration = 0.5f;
     [SerializeField] private float transitionOutDuration = 0.25f;
 
     private CanvasGroup _canvasGroup;
-    private Image _transitionImage;
-
     public bool IsLoading { get; private set; }
+
+    public Action<SceneChanged> OnSceneChanged;
+
+    // Used to prevent stopping the transition coroutine before the old scene is unloaded
+    // this is needed because some scripts call TemporaryFade on Awake which, if cancelled too early
+    // would result in the old scene never being unloaded which is obviously not desired.
+    private bool _safeToStopTransitionCoroutine = true;
+    private Coroutine _sceneLoadCoroutine;
 
     private void Awake()
     {
-        Services.Register(this, dontDestroyOnLoad: true);
+        Services.Register(this, persistent: true);
         _canvasGroup = GetComponent<CanvasGroup>();
-        _transitionImage = GetComponentInChildren<Image>();
-        circleRevealMaterial = Instantiate(circleRevealMaterial);
+        _canvasGroup.blocksRaycasts = false;
+        _canvasGroup.alpha = 0;
     }
 
-    public void LoadMainMenu()
+    /// <summary> Can be used for fading the screen to black or back for other purposes than scene loading. </summary>
+    public IEnumerator TemporaryFade(bool fadeIn, bool instant = false, float? overrideDuration = null)
     {
-        LoadScene("MainMenu", PlayerVisibility.Invisible);
+        yield return new WaitUntil(() => _safeToStopTransitionCoroutine);
+        IsLoading = false;
+        if (_sceneLoadCoroutine != null) StopCoroutine(_sceneLoadCoroutine);
+        _sceneLoadCoroutine = null;
+        _canvasGroup.blocksRaycasts = true;
+        var targetAlpha = fadeIn ? 1 : 0;
+        if (instant)
+        {
+            _canvasGroup.alpha = targetAlpha;
+            _canvasGroup.blocksRaycasts = false;
+            yield break;
+        }
+
+        var duration = overrideDuration ?? (fadeIn ? transitionInDuration : transitionOutDuration);
+        yield return _canvasGroup.Fade(targetAlpha, duration);
+        _canvasGroup.blocksRaycasts = false;
     }
 
-    public void LoadScene(string sceneName, PlayerVisibility visibility, SpawnPoint spawnPoint = null)
+    public void LoadScene(string sceneName)
     {
         if (IsLoading) return;
 
         IsLoading = true;
 
-        StartCoroutine(SceneTransition(sceneName, visibility, spawnPoint));
+        _sceneLoadCoroutine = StartCoroutine(SceneTransition(sceneName));
     }
 
-    private IEnumerator SceneTransition(string sceneName, PlayerVisibility visibility, SpawnPoint spawnPoint)
+    private IEnumerator SceneTransition(string sceneName)
     {
+        _safeToStopTransitionCoroutine = false;
         _canvasGroup.blocksRaycasts = true;
         _canvasGroup.alpha = 0;
         var oldScene = SceneManager.GetActiveScene().name;
-        
-        // Step 1: Fade to black and load the new scene in the background
+
         var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-        if (op is null) throw new System.Exception("Scene " + sceneName + " not found");
+        if (op is null) throw new Exception("Scene " + sceneName + " not found");
         op.allowSceneActivation = false;
         yield return _canvasGroup.Fade(1, transitionInDuration);
         op.allowSceneActivation = true;
         yield return op;
-        
-        // Step 2: Fade from black to the new scene and handle player visibility and positioning
-        var playerManager = Services.PlayerManager;
-        if (visibility is PlayerVisibility.Visible)
-        {
-            playerManager.Teleport(spawnPoint);
-            playerManager.EnablePlayer();
-        }
-        else
-        {
-            playerManager.DisablePlayer();
-        }
-
         var unloadOp = SceneManager.UnloadSceneAsync(oldScene);
-        yield return _canvasGroup.Fade(0, transitionOutDuration);
         yield return unloadOp;
-        
+        _safeToStopTransitionCoroutine = true;
+        OnSceneChanged?.Invoke(new SceneChanged(oldScene, sceneName));
+        yield return _canvasGroup.Fade(0, transitionOutDuration);
         _canvasGroup.blocksRaycasts = false;
         IsLoading = false;
-        // Handle player visibility and positioning
+        _sceneLoadCoroutine = null;
     }
 }

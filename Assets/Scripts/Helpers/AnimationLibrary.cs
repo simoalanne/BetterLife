@@ -85,7 +85,7 @@ namespace Helpers
             while (text.maxVisibleCharacters < text.text.Length)
             {
                 text.maxVisibleCharacters++;
-                yield return new WaitForSeconds(typeSpeed);
+                yield return new WaitForSecondsRealtime(typeSpeed);
             }
         }
 
@@ -98,10 +98,6 @@ namespace Helpers
             else t.position = newPos;
         }
 
-        private static Vector3 GetSize(this Transform t) =>
-            t is RectTransform rect ? rect.sizeDelta : t.localScale;
-
         private static void Activate(this Transform t) => t.gameObject.SetActive(true);
-        private static void Deactivate(this Transform t) => t.gameObject.SetActive(false);
     }
 }

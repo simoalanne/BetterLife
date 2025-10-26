@@ -42,29 +42,44 @@ public class PlayerInteract : MonoBehaviour
     public SerializedDictionary<string, CursorType> customCursors = new();
     [SerializeField] private CursorType generalInteractCursor;
     private int _interactableLayer;
-    public bool CanInteract { get; set; } = true;
     private Camera _mainCamera;
     private InputAction _clickAction;
+
+    private bool _inputActive = true;
 
     private void Awake()
     {
         _interactableLayer = LayerMask.GetMask("Interactable");
-        _clickAction = Services.InputManager.Controls.Player.Click;
+        var inputManager = Services.InputManager;
+        _clickAction = inputManager.Controls.Player.Click;
+        inputManager.OnInputActiveChange += SetInputActive;
     }
+
+    private void SetInputActive(bool active) => _inputActive = active;
+    private void OnDestroy() => Services.InputManager.OnInputActiveChange -= SetInputActive;
 
     private void Update()
     {
-        if (_mainCamera == null || _clickAction is null || !CanInteract)
+        if (_mainCamera == null)
         {
             _mainCamera = Camera.main;
+            return;
+        }
+
+        if (!_inputActive)
+        {
             SetCursor();
             return;
         }
 
         var mousePos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        var col = Physics2D.OverlapPoint(mousePos, _interactableLayer);
-        var cols = col?.GetComponents<Collider2D>() ?? Array.Empty<Collider2D>();
-        var target = cols.Length is 1 ? cols.First() : cols.FirstOrDefault(c => c.isTrigger && c == col);
+
+        // Target is valid if the gameobject has only one collider or if the mouse is hovering a trigger collider
+        var hoveredColliders = Physics2D.OverlapPointAll(mousePos, _interactableLayer);
+        var allGameObjectColliders = hoveredColliders.FirstOrDefault()?.GetComponents<Collider2D>();
+        var target = allGameObjectColliders?.Length is 1
+            ? hoveredColliders.First()
+            : allGameObjectColliders?.FirstOrDefault(c => c.isTrigger && hoveredColliders.Contains(c));
 
         if (target is null)
         {
@@ -79,25 +94,14 @@ public class PlayerInteract : MonoBehaviour
 
         if (!_clickAction.WasPressedThisFrame() || !inRange) return;
 
-        var interactables = target.GetComponents<IInteractable>().ToList();
-        interactables.ForEach(i =>
-        {
-            if (i.CanInteract)
-            {
-                i.Interact();
-            }
-        });
+        var interactables = target.GetComponents<IInteractable>();
+        interactables.ToList().ForEach(interactable => interactable.Interact());
     }
 
 
-    private static void SetCursor(Texture2D cursorTexture = null)
-    {
+    private static void SetCursor(Texture2D cursorTexture = null) =>
         Cursor.SetCursor(cursorTexture, Vector2.zero, CursorMode.Auto);
-    }
 
-    private bool IsPlayerWithinInteractionRange(Collider2D target)
-    {
-        var range = target.GetComponent<OverrideInteractionRange>()?.InteractionRange ?? interactionRange;
-        return Physics2D.OverlapCircleAll(transform.position, range, _interactableLayer).Contains(target);
-    }
+    private bool IsPlayerWithinInteractionRange(Collider2D target) =>
+        Physics2D.OverlapCircleAll(transform.position, interactionRange, _interactableLayer).Contains(target);
 }

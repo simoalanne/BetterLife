@@ -1,10 +1,6 @@
-#nullable enable
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Helpers;
-using Player;
 using UnityEngine;
 
 namespace Casino
@@ -20,26 +16,24 @@ namespace Casino
     public interface ICasinoMoneyHandler
     {
         event Action<MoneyChangedEvent> OnMoneyChanged;
-        event Action OnBetRejected;
         event Action OnFirstBetPlaced;
         event Action OnAllBetsCleared;
         float MaxBetLimit { get; }
-        float CurrentTotalBet { get; }
     }
 
     public abstract class CasinoMoneyHandler<TBet, TResult, TResolvedResult> : MonoBehaviour, ICasinoMoneyHandler
     {
-        [SerializeField] private float standaloneStartingBalance = 100000f;
-        [SerializeField] private bool infiniteMoneyInStandalone = true;
+        [SerializeField] private float freePlayStartingBalance = 10000f;
+        [SerializeField] private bool infiniteMoneyInFreePlay = true;
         [field: SerializeField] public float MaxBetLimit { get; private set; } = 10000f;
-        private bool _isInStoryMode;
+        private bool _isInFreePlayMode;
         private float _currentBalance;
         public float CurrentTotalBet => CurrentBets.Sum(b => b.Amount);
-        public event Action<MoneyChangedEvent> OnMoneyChanged = delegate { };
-        public event Action<TResolvedResult> OnWinningsCredited = delegate { };
-        public event Action OnBetRejected = delegate { };
-        public event Action OnFirstBetPlaced = delegate { };
-        public event Action OnAllBetsCleared = delegate { };
+        public event Action<MoneyChangedEvent> OnMoneyChanged;
+        public event Action<TResolvedResult> OnWinningsCredited;
+        public event Action OnBetRejected;
+        public event Action OnFirstBetPlaced;
+        public event Action OnAllBetsCleared;
 
         protected List<Bet<TBet>> CurrentBets { get; } = new();
         // Keep track of previous round bets so features like repeat or double down can be implemented easily
@@ -53,9 +47,10 @@ namespace Casino
 
         private void Start()
         {
-            var playerManager = Services.TryGet<PlayerManager>();
-            _isInStoryMode = playerManager != null;
-            _currentBalance = _isInStoryMode ? playerManager!.MoneyInBankAccount : standaloneStartingBalance;
+            var playerManager = Services.PlayerManager;
+            _isInFreePlayMode = playerManager.PreviousSceneName is "MainMenu" or null;
+            Debug.Log(playerManager.PreviousSceneName);
+            _currentBalance = _isInFreePlayMode ? freePlayStartingBalance : playerManager!.MoneyInBankAccount;
             OnMoneyChanged?.Invoke(new MoneyChangedEvent
             {
                 newBalance = _currentBalance,
@@ -63,12 +58,11 @@ namespace Casino
             });
         }
 
-        public bool PlaceBet(float amount, TBet? key = default)
+        public bool PlaceBet(float amount, TBet key = default)
         {
-            // Refill balance when playing in standalone mode with infinite money enabled
-            if (!_isInStoryMode && infiniteMoneyInStandalone && amount >= _currentBalance)
+            if (_isInFreePlayMode && infiniteMoneyInFreePlay && amount >= _currentBalance)
             {
-                AdjustBalance(standaloneStartingBalance);
+                AdjustBalance(freePlayStartingBalance);
             }
 
             if (amount > _currentBalance || amount <= 0 || CurrentTotalBet + amount > MaxBetLimit)
@@ -77,9 +71,9 @@ namespace Casino
                 return false;
             }
 
-            if (CurrentBets.Count == 0) OnFirstBetPlaced.Invoke();
+            if (CurrentBets.Count == 0) OnFirstBetPlaced?.Invoke();
 
-            CurrentBets.Add(new Bet<TBet>(key!, amount));
+            CurrentBets.Add(new Bet<TBet>(key, amount));
             AdjustBalance(-amount);
             PlaceBetSideEffect();
             return true;
@@ -95,7 +89,7 @@ namespace Casino
             AdjustBalance(targetBet.Amount);
             UndoBetSideEffect(targetBet);
 
-            if (CurrentBets.Count == 0) OnAllBetsCleared.Invoke();
+            if (CurrentBets.Count == 0) OnAllBetsCleared?.Invoke();
         }
 
         public TResolvedResult CreditWinnings(TResult gameResult)
@@ -103,11 +97,11 @@ namespace Casino
             var amount = CalculateWinnings(gameResult);
             PreviousRoundBets = new List<Bet<TBet>>(CurrentBets);
             CurrentBets.Clear();
-            OnAllBetsCleared.Invoke();
+            OnAllBetsCleared?.Invoke();
             AdjustBalance(amount);
             var resolvedResult = ResolveGameResult(gameResult, amount);
             CreditWinningsSideEffect(amount);
-            OnWinningsCredited.Invoke(resolvedResult);
+            OnWinningsCredited?.Invoke(resolvedResult);
             return resolvedResult;
         }
 
@@ -116,8 +110,8 @@ namespace Casino
         private void AdjustBalance(float balanceChange)
         {
             _currentBalance += balanceChange;
-            if (_isInStoryMode) Services.Get<PlayerManager>().MoneyInBankAccount = _currentBalance;
-            OnMoneyChanged.Invoke(new MoneyChangedEvent
+            if (!_isInFreePlayMode) Services.PlayerManager.MoneyInBankAccount = _currentBalance;
+            OnMoneyChanged?.Invoke(new MoneyChangedEvent
             {
                 newBalance = _currentBalance,
                 currentTotalBet = CurrentTotalBet
@@ -128,7 +122,7 @@ namespace Casino
         {
             var exceedsMaxBetLimit = amount > MaxBetLimit;
             if (exceedsMaxBetLimit) return false;
-            if (!_isInStoryMode && infiniteMoneyInStandalone) return true;
+            if (_isInFreePlayMode && infiniteMoneyInFreePlay) return true;
             return amount <= _currentBalance;
         }
 

@@ -107,7 +107,7 @@ namespace Casino.BlackJack
         protected override void PlaceBetSideEffect() => PlaceChips(CurrentTotalBet);
         protected override void UndoBetSideEffect(Bet<IBlackjackBet> _) => PlaceChips(CurrentTotalBet);
 
-        protected override void CreditWinningsSideEffect(float amount) => PlaceChips(amount);
+        protected override void CreditWinningsSideEffect(float amount) => PlaceChips(0);
 
         private static void PlaceChips(float amount)
         {

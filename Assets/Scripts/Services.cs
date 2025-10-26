@@ -6,6 +6,7 @@ using Casino.Roulette;
 using Casino.Slots;
 using DialogueSystem;
 using Player;
+using UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -14,13 +15,13 @@ public static class Services
     private static readonly Dictionary<Type, (object Service, bool DontDestroy)> ServiceLookup = new();
 
     /// <summary>
-    /// Tries to register a service. Destroys existing service if it's not marked as DontDestroyOnLoad.
+    /// Tries to register a service. Destroys existing service if it's not marked as persistent.
     /// </summary>
     /// <param name="service"> The service instance to register</param>
-    /// <param name="dontDestroyOnLoad"> If true, the service GameObject will be marked as DontDestroyOnLoad</param>
+    /// <param name="persistent"> If true, the service GameObject will not be replaced when another instance tries to register</param>
     /// <typeparam name="T"> The type of the service, must be a MonoBehaviour</typeparam>
-    /// <returns> True if the service was registered, false if an existing DontDestroyOnLoad service prevented registration</returns>
-    public static bool Register<T>(T service, bool dontDestroyOnLoad = false) where T : MonoBehaviour
+    /// <returns> True if the service was registered, false if there is already a persistent instance</returns>
+    public static bool Register<T>(T service, bool persistent = false) where T : MonoBehaviour
     {
         var type = service.GetType();
         if (ServiceLookup.TryGetValue(type, out var existing) && existing.DontDestroy)
@@ -29,13 +30,16 @@ public static class Services
             return false;
         }
 
-        ServiceLookup[type] = (service, dontDestroyOnLoad);
+        ServiceLookup[type] = (service, persistent);
 
         foreach (var iFace in type.GetInterfaces())
-            ServiceLookup[iFace] = (service, dontDestroyOnLoad);
-
-        if (dontDestroyOnLoad)
+            ServiceLookup[iFace] = (service, persistent);
+        
+        if (persistent && service.transform.parent == null)
+        {
             Object.DontDestroyOnLoad(service.gameObject);
+        }
+
         return true;
     }
 
@@ -64,7 +68,7 @@ public static class Services
             : null;
     }
 
-    // Convenience properties. All of these will throw if the service is not found.
+    // Convenience properties. Some will return null some will throw
     public static BetSizeManager BetSizeManager => Get<BetSizeManager>();
     public static ICasinoMoneyHandler MoneyHandler => Get<ICasinoMoneyHandler>();
 
@@ -82,9 +86,10 @@ public static class Services
 
     public static DialogueHandler DialogueHandler => Get<DialogueHandler>();
 
-    public static InputManager InputManager => TryGet<InputManager>();
-    public static PlayerManager PlayerManager => TryGet<PlayerManager>();
-    public static PlayerHUD PlayerHUD => TryGet<PlayerHUD>();
-    public static SceneLoader SceneLoader => TryGet<SceneLoader>();
-    public static GameTimer GameTimer => TryGet<GameTimer>();
+    public static InputManager InputManager => Get<InputManager>();
+    public static PlayerManager PlayerManager => Get<PlayerManager>();
+    public static PlayerHUD PlayerHUD => Get<PlayerHUD>();
+    public static SceneLoader SceneLoader => Get<SceneLoader>();
+    public static GameTimer GameTimer => Get<GameTimer>();
+    public static PauseMenu PauseMenu => Get<PauseMenu>();
 }

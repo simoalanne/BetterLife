@@ -120,15 +120,6 @@ namespace Player
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""OpenPauseMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""df6fbf78-ec5c-406c-b8d9-1ef53f733d45"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -329,10 +320,47 @@ namespace Player
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""General"",
+            ""id"": ""b212ff83-e993-4d66-805a-c0a2ac6638e2"",
+            ""actions"": [
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""d857ded1-7aae-462f-a446-632f49c622d5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenPauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""c7f9293c-7ca5-4ca9-b8bc-ef80e23a5bba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""50106579-cd9a-4af8-a634-c85b2a7fdd6d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""36f4aa10-fc67-40df-9bbf-496e7a448504"",
+                    ""id"": ""5cf24c7a-e727-4c75-86e2-d627d4b94358"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -343,7 +371,7 @@ namespace Player
                 },
                 {
                     ""name"": """",
-                    ""id"": ""78adc5a3-0443-4654-8682-205c246fc19b"",
+                    ""id"": ""e1df43cd-46e9-4f1c-ba42-8c504eec2676"",
                     ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -362,12 +390,16 @@ namespace Player
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_OpenInventory = m_Player.FindAction("OpenInventory", throwIfNotFound: true);
             m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
-            m_Player_OpenPauseMenu = m_Player.FindAction("OpenPauseMenu", throwIfNotFound: true);
+            // General
+            m_General = asset.FindActionMap("General", throwIfNotFound: true);
+            m_General_Click = m_General.FindAction("Click", throwIfNotFound: true);
+            m_General_OpenPauseMenu = m_General.FindAction("OpenPauseMenu", throwIfNotFound: true);
         }
 
         ~@PlayerControls()
         {
             UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, PlayerControls.Player.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_General.enabled, "This will cause a leak and performance issues, PlayerControls.General.Disable() has not been called.");
         }
 
         /// <summary>
@@ -446,7 +478,6 @@ namespace Player
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_OpenInventory;
         private readonly InputAction m_Player_Click;
-        private readonly InputAction m_Player_OpenPauseMenu;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -470,10 +501,6 @@ namespace Player
             /// Provides access to the underlying input action "Player/Click".
             /// </summary>
             public InputAction @Click => m_Wrapper.m_Player_Click;
-            /// <summary>
-            /// Provides access to the underlying input action "Player/OpenPauseMenu".
-            /// </summary>
-            public InputAction @OpenPauseMenu => m_Wrapper.m_Player_OpenPauseMenu;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -509,9 +536,6 @@ namespace Player
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
-                @OpenPauseMenu.started += instance.OnOpenPauseMenu;
-                @OpenPauseMenu.performed += instance.OnOpenPauseMenu;
-                @OpenPauseMenu.canceled += instance.OnOpenPauseMenu;
             }
 
             /// <summary>
@@ -532,9 +556,6 @@ namespace Player
                 @Click.started -= instance.OnClick;
                 @Click.performed -= instance.OnClick;
                 @Click.canceled -= instance.OnClick;
-                @OpenPauseMenu.started -= instance.OnOpenPauseMenu;
-                @OpenPauseMenu.performed -= instance.OnOpenPauseMenu;
-                @OpenPauseMenu.canceled -= instance.OnOpenPauseMenu;
             }
 
             /// <summary>
@@ -568,6 +589,113 @@ namespace Player
         /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
         /// </summary>
         public PlayerActions @Player => new PlayerActions(this);
+
+        // General
+        private readonly InputActionMap m_General;
+        private List<IGeneralActions> m_GeneralActionsCallbackInterfaces = new List<IGeneralActions>();
+        private readonly InputAction m_General_Click;
+        private readonly InputAction m_General_OpenPauseMenu;
+        /// <summary>
+        /// Provides access to input actions defined in input action map "General".
+        /// </summary>
+        public struct GeneralActions
+        {
+            private @PlayerControls m_Wrapper;
+
+            /// <summary>
+            /// Construct a new instance of the input action map wrapper class.
+            /// </summary>
+            public GeneralActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            /// <summary>
+            /// Provides access to the underlying input action "General/Click".
+            /// </summary>
+            public InputAction @Click => m_Wrapper.m_General_Click;
+            /// <summary>
+            /// Provides access to the underlying input action "General/OpenPauseMenu".
+            /// </summary>
+            public InputAction @OpenPauseMenu => m_Wrapper.m_General_OpenPauseMenu;
+            /// <summary>
+            /// Provides access to the underlying input action map instance.
+            /// </summary>
+            public InputActionMap Get() { return m_Wrapper.m_General; }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+            public void Enable() { Get().Enable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+            public void Disable() { Get().Disable(); }
+            /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+            public bool enabled => Get().enabled;
+            /// <summary>
+            /// Implicitly converts an <see ref="GeneralActions" /> to an <see ref="InputActionMap" /> instance.
+            /// </summary>
+            public static implicit operator InputActionMap(GeneralActions set) { return set.Get(); }
+            /// <summary>
+            /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <param name="instance">Callback instance.</param>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+            /// </remarks>
+            /// <seealso cref="GeneralActions" />
+            public void AddCallbacks(IGeneralActions instance)
+            {
+                if (instance == null || m_Wrapper.m_GeneralActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_GeneralActionsCallbackInterfaces.Add(instance);
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
+                @OpenPauseMenu.started += instance.OnOpenPauseMenu;
+                @OpenPauseMenu.performed += instance.OnOpenPauseMenu;
+                @OpenPauseMenu.canceled += instance.OnOpenPauseMenu;
+            }
+
+            /// <summary>
+            /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+            /// </summary>
+            /// <remarks>
+            /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+            /// </remarks>
+            /// <seealso cref="GeneralActions" />
+            private void UnregisterCallbacks(IGeneralActions instance)
+            {
+                @Click.started -= instance.OnClick;
+                @Click.performed -= instance.OnClick;
+                @Click.canceled -= instance.OnClick;
+                @OpenPauseMenu.started -= instance.OnOpenPauseMenu;
+                @OpenPauseMenu.performed -= instance.OnOpenPauseMenu;
+                @OpenPauseMenu.canceled -= instance.OnOpenPauseMenu;
+            }
+
+            /// <summary>
+            /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="GeneralActions.UnregisterCallbacks(IGeneralActions)" />.
+            /// </summary>
+            /// <seealso cref="GeneralActions.UnregisterCallbacks(IGeneralActions)" />
+            public void RemoveCallbacks(IGeneralActions instance)
+            {
+                if (m_Wrapper.m_GeneralActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            /// <summary>
+            /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+            /// </summary>
+            /// <remarks>
+            /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+            /// </remarks>
+            /// <seealso cref="GeneralActions.AddCallbacks(IGeneralActions)" />
+            /// <seealso cref="GeneralActions.RemoveCallbacks(IGeneralActions)" />
+            /// <seealso cref="GeneralActions.UnregisterCallbacks(IGeneralActions)" />
+            public void SetCallbacks(IGeneralActions instance)
+            {
+                foreach (var item in m_Wrapper.m_GeneralActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_GeneralActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        /// <summary>
+        /// Provides a new <see cref="GeneralActions" /> instance referencing this action map.
+        /// </summary>
+        public GeneralActions @General => new GeneralActions(this);
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
         /// </summary>
@@ -589,6 +717,21 @@ namespace Player
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnOpenInventory(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnClick(InputAction.CallbackContext context);
+        }
+        /// <summary>
+        /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "General" which allows adding and removing callbacks.
+        /// </summary>
+        /// <seealso cref="GeneralActions.AddCallbacks(IGeneralActions)" />
+        /// <seealso cref="GeneralActions.RemoveCallbacks(IGeneralActions)" />
+        public interface IGeneralActions
+        {
             /// <summary>
             /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>

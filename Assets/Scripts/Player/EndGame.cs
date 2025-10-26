@@ -1,43 +1,40 @@
 using System;
-using Player;
+using Helpers;
+using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EndGame : MonoBehaviour
+namespace Player
 {
-    [Header("End Game Settings")]
-    [SerializeField] private float _moneyToPay = 100000;
-    [Header("Texts")]
-    [SerializeField] private TMP_Text _endGameText;
-    [Header("Buttons")]
-    [SerializeField] private Button _endGameButton;
-    [SerializeField] private Button _cancelButton;
-    public Action OnEndGame;
-
-    void Awake()
+    [RequireComponent(typeof(HUDAttachablePanel))]
+    public class EndGame : MonoBehaviour
     {
-        _endGameButton.onClick.AddListener(PayMoneyAndEndGame);
-        _cancelButton.onClick.AddListener(CancelEndGame);
-        _endGameText.text = $"Pay {_moneyToPay} to end the game?";
-    }
+        [Header("End Game Settings")]
+        [SerializeField] private float moneyToPay = 10000;
+        [Header("Texts")]
+        [SerializeField] private TMP_Text _endGameText;
+        [Header("Buttons")]
+        [SerializeField] private Button _endGameButton;
+        [SerializeField] private Button _cancelButton;
+        [SerializeField, Scene] private string victoryScene = "EndGameCutscene";
 
-    void OnEnable()
-    {
-        _endGameButton.interactable = Services.PlayerManager.MoneyInBankAccount >= _moneyToPay && Services.PlayerHUD.ActiveLoan == null; 
-    }
+        private void OnEnable()
+        {
+            _endGameButton.onClick.AddListener(PayMoneyAndEndGame);
+            _cancelButton.onClick.AddListener(CancelEndGame);
+            _endGameText.text = $"Pay {moneyToPay} to end the game?";
+            _endGameButton.interactable = Services.PlayerManager.MoneyInBankAccount >= moneyToPay &&
+                                          Services.PlayerHUD.ActiveLoan == null;
+        }
 
-    public void PayMoneyAndEndGame()
-    {
-        Services.PlayerManager.ResetMoney(); // Reset the money to the original amount.
-        Destroy(gameObject);
-        Debug.Log("End game.");
-    }
+        private void PayMoneyAndEndGame()
+        {
+            Services.PlayerManager.ResetMoney(); 
+            victoryScene.LoadScene();
+        }
 
-    public void CancelEndGame()
-    {
-        Services.PlayerManager.EnablePlayerMovement();
-        Time.timeScale = 1;
-        Destroy(gameObject);
+        private void CancelEndGame() => GetComponent<HUDAttachablePanel>().Close();
+        
     }
 }

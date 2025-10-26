@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Helpers;
+using NaughtyAttributes;
 using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,181 +13,219 @@ namespace Player
     [RequireComponent(typeof(PlayerInteract))]
     public class PlayerManager : MonoBehaviour
     {
-        [SerializeField] private SceneLoadTrigger _loadToPlayerBed;
+        [Serializable]
+        private class FreePlaySceneRule
+        {
+            [Scene] public string fromScene;
+            [Scene] public string toScene;
+        }
+
+        [Serializable]
+        private enum VisibilityOption
+        {
+            HidePlayer,
+            HidePlayerAndHUD,
+        }
+
+        [Serializable]
+        private class PlayerAndHUDVisibilityRule
+        {
+            [Scene] public string sceneName;
+            public VisibilityOption visibilityOption;
+        }
+
+        [Header("Settings")]
+        [SerializeField, Scene, Tooltip("Loading this scene will reset the game back to initial state")]
+        private string resetGameScene = "MainMenu";
+
+        [SerializeField, Tooltip("All scenes where player and/or HUD should be disabled")]
+        private List<PlayerAndHUDVisibilityRule> scenesToDisablePlayerOrHud = new()
+        {
+            new PlayerAndHUDVisibilityRule
+            {
+                sceneName = "MainMenu",
+                visibilityOption = VisibilityOption.HidePlayerAndHUD
+            }
+        };
+
+        [SerializeField, Tooltip("All from-to scene combinations that should put the game in free play mode")]
+        private List<FreePlaySceneRule> freePlaySceneRules = new()
+        {
+            new FreePlaySceneRule
+            {
+                fromScene = "MainMenu",
+                toScene = "Roulette"
+            },
+
+            new FreePlaySceneRule
+            {
+                fromScene = "MainMenu",
+                toScene = "Blackjack"
+            },
+
+            new FreePlaySceneRule
+            {
+                fromScene = "MainMenu",
+                toScene = "Slots"
+            }
+        };
+
+        public bool IsInFreePlayMode { get; private set; }
+        public string PreviousSceneName { get; private set; }
+
+        private StoryProperties _storyProperties;
+        public StoryProperties StoryProperties
+        {
+            get
+            {
+                _storyProperties ??= new StoryProperties();
+                return _storyProperties;
+            }
+        }
         private PlayerMovement _playerMovement;
-        private PlayerInteract _playerInteract;
-        private OpenPlayerInventory _openPlayerInventory;
         private SpriteRenderer _spriteRenderer;
         private DisplayMoney _displayMoney;
-        private float _moneyBeforeGambling;
-        private string[] _scenesToDisableHUD = { "MainMenu", "Roulette", "BlackJack", "Slots" };
-        [SerializeField] private float _moneyInBankAccount = 100f;
+
+        [SerializeField] private float moneyInBankAccount = 100f;
         private float _originalMoney;
-        private bool _hasTalkedToLoanShark; // Shouln't be in this script but it's what it is.
-        private bool _hasTalkedToShopkeeper;
-        private bool _hasPlayerPassedOut;
-        private bool _hasReadGoodbyeNote;
-        public bool HasTalkedToLoanShark
-        {
-            get => _hasTalkedToLoanShark;
-            set => _hasTalkedToLoanShark = value;
-        }
-        public bool HasPlayerPassedOut
-        {
-            get => _hasPlayerPassedOut;
-            set => _hasPlayerPassedOut = value;
-        }
-        public bool HasTalkedToShopkeeper
-        {
-            get => _hasTalkedToShopkeeper;
-            set => _hasTalkedToShopkeeper = value;
-        }
-        public bool HasReadGoodbyeNote
-        {
-            get => _hasReadGoodbyeNote;
-            set => _hasReadGoodbyeNote = value;
-        }
         public float MoneyInBankAccount
         {
-            get => _moneyInBankAccount;
+            get => moneyInBankAccount;
             set
             {
-                if (!_scenesToDisableHUD.Contains(SceneManager.GetActiveScene()
-                        .name)) // If the scene has hud active, update the money text.
-                {
-                    _displayMoney.UpdateMoneyText(_moneyInBankAccount, value);
-                }
-
-                _moneyInBankAccount = value;
+                _displayMoney.UpdateMoneyText(moneyInBankAccount, value);
+                moneyInBankAccount = value;
             }
         }
 
-        void Awake()
+        private void Awake()
         {
-            Services.Register(this, dontDestroyOnLoad: true);
+            Services.Register(this, persistent: true);
             _playerMovement = GetComponent<PlayerMovement>();
-            _playerInteract = GetComponent<PlayerInteract>();
-            _openPlayerInventory = FindObjectOfType<OpenPlayerInventory>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _displayMoney = FindObjectOfType<DisplayMoney>();
-            _moneyBeforeGambling = _moneyInBankAccount;
-            _originalMoney = _moneyInBankAccount;
+            _displayMoney = FindFirstObjectByType<DisplayMoney>();
+            _originalMoney = moneyInBankAccount;
+            SceneManager.activeSceneChanged += (old, _) => PreviousSceneName = old.name;
+            
+            var currentScene = SceneManager.GetActiveScene();
+
+            var freePlayRule = freePlaySceneRules
+                .FirstOrDefault(rule => rule.toScene == currentScene.name);
+
+            if (freePlayRule is not null)
+            {
+                IsInFreePlayMode = true;
+                EnablePlayer(enable: false, showHUD: false);
+                return;
+            }
+
+            IsInFreePlayMode = false;
+
+            var visibilityRule = scenesToDisablePlayerOrHud
+                .FirstOrDefault(rule => rule.sceneName == currentScene.name);
+
+            if (visibilityRule is not null)
+            {
+                (visibilityRule.visibilityOption switch
+                {
+                    VisibilityOption.HidePlayer => () => EnablePlayer(enable: false, showHUD: true),
+                    VisibilityOption.HidePlayerAndHUD => () => EnablePlayer(enable: false, showHUD: false),
+                    _ => new Action(() => { })
+                }).Invoke();
+            }
+
+            var allSpawnPoints = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+            if (allSpawnPoints.Length is 0) return;
+            var targetSpawnPoint = allSpawnPoints
+                                       .FirstOrDefault(spawnPoint =>
+                                           spawnPoint.UseWhenPreviousSceneIs == currentScene.name) ??
+                                   allSpawnPoints.First();
+            Teleport(targetSpawnPoint);
         }
 
         private void Start()
         {
-            _displayMoney.UpdateMoneyText(0, _moneyInBankAccount);
-
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            _displayMoney.UpdateMoneyText(0, moneyInBankAccount);
+            Services.SceneLoader.OnSceneChanged += HandleSceneChanged;
+            
         }
 
-        public void ResetMoney() => _moneyInBankAccount = _originalMoney;
+        public void ResetMoney() => MoneyInBankAccount = _originalMoney;
 
-        public void DisablePlayerMovement() => _playerMovement.enabled = false;
-
-        public void EnablePlayerMovement() => _playerMovement.enabled = true;
-
-        public void DisableSpriteRenderer()
+        private void EnablePlayer(bool enable, bool showHUD)
         {
-            _spriteRenderer.enabled = false;
-        }
-
-        public void EnableSpriteRenderer()
-        {
-            _spriteRenderer.enabled = true;
-        }
-
-        public void DisableInventoryOpen()
-        {
-            _openPlayerInventory.CanOpenInventory = false;
-        }
-
-        public void EnableInventoryOpen()
-        {
-            _openPlayerInventory.CanOpenInventory = true;
-        }
-
-        public void DisablePlayer()
-        {
-            DisableInputs();
-            DisableSpriteRenderer();
-        }
-        
-        public void EnablePlayer()
-        {
-            EnableInputs();
-            EnableSpriteRenderer();
-        }
-
-        public void DisableInputs()
-        {
-            DisablePlayerMovement();
-            DisableInventoryOpen();
-        }
-
-        public void EnableInputs()
-        {
-            EnablePlayerMovement();
-            EnableInventoryOpen();
-        }
-
-        public void Teleport(SpawnPoint spawnPoint)
-        {
-            transform.position = spawnPoint?.spawnPoint ?? transform.position;
-            _playerMovement.SetFacingDirection(spawnPoint?.facingDirection.ToVector2() ?? Vector2.zero);
-        }
-
-        void OnActiveSceneChanged(Scene current, Scene next)
-        {
-            if (current.name == "MainMenu")
+            _spriteRenderer.enabled = enable;
+            Services.PlayerHUD.ShowHud(showHUD);
+            if (enable)
             {
-                _displayMoney.UpdateMoneyText(0, _moneyInBankAccount);
+                Services.InputManager.EnablePlayerInput(true);
                 return;
             }
 
-            if (_scenesToDisableHUD.Contains(next.name))
+            Services.InputManager.EnablePlayerInput(false);
+        }
+
+
+        private void Teleport(SpawnPoint spawnPoint)
+        {
+            transform.position = spawnPoint.transform.position;
+            _playerMovement.SetFacingDirection(spawnPoint.FacingDirection);
+        }
+
+        private void HandleSceneChanged(SceneChanged sceneChanged)
+        {
+            var oldSceneName = sceneChanged.OldScene;
+            var newSceneName = sceneChanged.NewScene;
+            if (newSceneName == resetGameScene)
             {
-                _moneyBeforeGambling =
-                    _moneyInBankAccount; // Save the money before the hud is disabled so the animation can be played when hud is re-enabled.
+                // Reset game state and disable player
+                _spriteRenderer.color = Color.white; // see NPC/ShopKeeper.cs for why this is needed
+                StoryProperties.ResetProperties();
+                var gameTimer = Services.GameTimer;
+                gameTimer.Reset();
+                gameTimer.IsPaused = true;
+                ResetMoney();
+                EnablePlayer(false, false);
+                Services.PlayerHUD.ResetHUD();
+                return;
             }
 
-            if (!_scenesToDisableHUD.Contains(next.name))
+            var freePlayRule = freePlaySceneRules
+                .FirstOrDefault(rule => rule.fromScene == oldSceneName && rule.toScene == newSceneName);
+
+            if (freePlayRule is not null)
             {
-                if (_scenesToDisableHUD.Contains(current.name))
+                IsInFreePlayMode = true;
+                EnablePlayer(enable: false, showHUD: false);
+                return;
+            }
+
+            Services.GameTimer.IsPaused = false;
+            IsInFreePlayMode = false;
+
+            var visibilityRule = scenesToDisablePlayerOrHud
+                .FirstOrDefault(rule => rule.sceneName == newSceneName);
+
+            if (visibilityRule is not null)
+            {
+                (visibilityRule.visibilityOption switch
                 {
-                    _displayMoney.UpdateMoneyText(_moneyBeforeGambling, _moneyInBankAccount);
-                }
+                    VisibilityOption.HidePlayer => () => EnablePlayer(enable: false, showHUD: true),
+                    VisibilityOption.HidePlayerAndHUD => () => EnablePlayer(enable: false, showHUD: false),
+                    _ => new Action(() => { })
+                }).Invoke();
             }
-        }
-
-        public void LoadToPlayerBed()
-        {
-            if (SceneManager.GetActiveScene().name == "PlayerHome")
+            else
             {
-                Debug.Log("Player is already in the player house.");
-                FindObjectOfType<Sleep>().SleepInBed();
-                return;
+                EnablePlayer(enable: true, showHUD: true);
             }
 
-            _loadToPlayerBed.Interact();
-        }
-
-        void OnEnable()
-        {
-            var spawnPoints = Resources.LoadAll<SpawnPoint>("SpawnPoints");
-            var matchingSpawnPoint =
-                spawnPoints.FirstOrDefault(sp => sp.sceneName == SceneManager.GetActiveScene().name);
-            if (matchingSpawnPoint != null)
-            {
-                Debug.Log($"Found spawn point for scene {SceneManager.GetActiveScene().name}");
-                transform.position = matchingSpawnPoint.spawnPoint;
-            }
-        }
-
-        void OnDestroy()
-        {
-            Debug.Log("PlayerManager destroyed, unregistering from Services");
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+            var allSpawnPoints = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+            if (allSpawnPoints.Length is 0) return;
+            var targetSpawnPoint = allSpawnPoints.Length is 1
+                ? allSpawnPoints.First()
+                : allSpawnPoints.FirstOrDefault(spawnPoint => spawnPoint.UseWhenPreviousSceneIs == oldSceneName);
+            Teleport(targetSpawnPoint);
         }
     }
 }

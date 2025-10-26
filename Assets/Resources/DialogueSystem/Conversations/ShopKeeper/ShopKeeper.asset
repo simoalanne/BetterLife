@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b022c41addf4b10b4fa437d4bad5bbd, type: 3}
+  m_Name: ShopKeeper
+  m_EditorClassIdentifier: Assembly-CSharp::ScriptableObjects.Conversation
+  dialogueParts:
+  - talker: {fileID: 11400000, guid: f3079999896c36b41b5a5508a1cc99fd, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: You came!
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Came to do what?
+  - talker: {fileID: 11400000, guid: f3079999896c36b41b5a5508a1cc99fd, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: To buy food obviously!
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: I'm not sure what youre talking about. I don't have an inventory I
+      could use to store it, let alone a hunger bar to eat...
+  - talker: {fileID: 11400000, guid: f3079999896c36b41b5a5508a1cc99fd, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: What?!
+  - talker: {fileID: 11400000, guid: f3079999896c36b41b5a5508a1cc99fd, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: So what's my purpose then?
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: And that was the moment the poor Shop Keeper realized his life was
+      finished...
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: And who is this? There won't be a narrator either.
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Watch your tone boy... I could vanish you from the game just like how
+      I will vanish him.
+  - talker: {fileID: 11400000, guid: 683e85b6ede5c7e41a99d1958c46fafb, type: 2}
+    partType: 0
+    finishesDialogueEarly: 0
+    sentence: Bullshit. You have no such powers.
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 1
+    finishesDialogueEarly: 0
+    sentence: Wanna see?
+  - talker: {fileID: 11400000, guid: 5027e60726b726542bef1cd0a8be79b1, type: 2}
+    partType: 3
+    finishesDialogueEarly: 0
+    sentence: Well I will show regardless. Watch!

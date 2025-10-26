@@ -11,83 +11,69 @@ namespace Casino.Roulette
     public class PreviousNumbers : MonoBehaviour
     {
         private string _filePath;
-
-        [SerializeField] private int _howManyToStore = 32; // How many numbers visible in the grid.
-        [SerializeField] private GameObject _prevNumberPrefab;
-        [SerializeField] private Button _clearPreviousNumbersButton;
-        [SerializeField] private TMP_Text _redNumbersPercentage;
-        [SerializeField] private TMP_Text _blackNumbersPercentage;
-        [SerializeField] private TMP_Text _zeroNumberPercentage;
+        [Header("Customization")]
+        [SerializeField] private Color redColor = new(0.5f, 0, 0);
+        [SerializeField] private Color blackColor = new(50f / 255f, 50f / 255f, 50f / 255f);
+        [SerializeField] private Color greenColor = new(0, 0.5f, 0);
+        
+        [SerializeField] private string sceneNameToSaveOn = "Roulette";
+        [SerializeField] private int howManyToStore = 32;
+        [SerializeField] private GameObject prevNumberPrefab;
+        [SerializeField] private Button clearPreviousNumbersButton;
+        [SerializeField] private TMP_Text redNumbersPercentage;
+        [SerializeField] private TMP_Text blackNumbersPercentage;
+        [SerializeField] private TMP_Text zeroNumberPercentage;
 
         private List<int> _previousNumbers = new();
+        private GridLayoutGroup _grid;
 
-        private GridLayoutGroup _gridLayoutGroup;
 
-
-        void Awake()
+        private void Start()
         {
-            _filePath = Application.persistentDataPath + "/previousNumbers.txt";
-
-            // Save the numbers when scene changes.
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
-
-            _gridLayoutGroup = GetComponentInChildren<GridLayoutGroup>();
+            _filePath = $"{Application.persistentDataPath}/previousNumbers.txt";
+            _grid = GetComponentInChildren<GridLayoutGroup>();
             LoadNumbers();
-
-            _clearPreviousNumbersButton.interactable = _previousNumbers.Count > 0;
-
             CalculatePercentages();
+
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+            Services.RouletteSpinner.OnRoundComplete += AddNumber;
+            clearPreviousNumbersButton.onClick.AddListener(ClearNumbers);
         }
 
-        void LoadNumbers()
+        private void LoadNumbers()
         {
-            if (!File.Exists(_filePath))
-            {
-                return;
-            }
+            if (!File.Exists(_filePath)) return;
 
-            string numbers = File.ReadAllText(_filePath);
-            string[] numbersArray = numbers.Split(',');
-
-            if (numbersArray.Length > _howManyToStore)
-            {
-                numbersArray = RemoveExtraNumbers(numbersArray);
-            }
-
-            foreach (string number in numbersArray)
-            {
-                _previousNumbers.Add(int.Parse(number));
-            }
-
-            _previousNumbers.ForEach(AddToGrid); // Add the numbers to the grid
-        }
-
-        string[] RemoveExtraNumbers(string[] numbersArray)
-        {
-            int extraNumbers = numbersArray.Length - _howManyToStore;
-            return numbersArray.Skip(extraNumbers).ToArray();
+            _previousNumbers = File.ReadAllText(_filePath)
+                .Split(',')
+                .TakeLast(howManyToStore)
+                .Select(n =>
+                {
+                    var parsed = int.Parse(n);
+                    AddToGrid(parsed);
+                    return parsed;
+                })
+                .ToList();
         }
 
         private void AddToGrid(int num)
         {
-            var n = Instantiate(_prevNumberPrefab, _gridLayoutGroup.transform);
-            n.transform.SetAsFirstSibling(); // should be first child so it is shown first
+            var n = Instantiate(prevNumberPrefab, _grid.transform);
             n.name = num.ToString();
             var isRed = RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(num);
             var isBlack = RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(num);
-            n.GetComponentInChildren<TMP_Text>().color = isRed ? Color.red : isBlack ? Color.black : Color.green;
+            n.GetComponent<Image>().color = isRed ? redColor : isBlack ? blackColor : greenColor;
             n.GetComponentInChildren<TMP_Text>().text = num.ToString();
         }
 
-        public void AddNumber(int number)
+        private void AddNumber(int number)
         {
-            _clearPreviousNumbersButton.interactable = true;
+            clearPreviousNumbersButton.interactable = true;
 
-            if (_previousNumbers.Count >= _howManyToStore)
+            if (_previousNumbers.Count >= howManyToStore)
             {
-                _previousNumbers.RemoveAt(0); // Remove the oldest number from the list
-                Destroy(_gridLayoutGroup.transform.GetChild(transform.childCount - 1)
-                    .gameObject); // Remove the oldest number from the grid
+                _previousNumbers.RemoveAt(0);
+                Destroy(_grid.transform.GetChild(0).gameObject);
             }
 
             _previousNumbers.Add(number);
@@ -95,60 +81,46 @@ namespace Casino.Roulette
             CalculatePercentages();
         }
 
-        /// <summary>
-        /// Calculates the percentages of red and black numbers from the previous numbers.
-        /// </summary>
         private void CalculatePercentages()
         {
-            var redCount = _previousNumbers.Count(n => RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(n));
-            var blackCount = _previousNumbers.Count(n => RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(n));
+            var redCount =
+                _previousNumbers.Count(n => RouletteConstants.OutsideBetsDict[OutsideBet.Red].Numbers.Contains(n));
+            var blackCount = _previousNumbers.Count(n =>
+                RouletteConstants.OutsideBetsDict[OutsideBet.Black].Numbers.Contains(n));
             var zeroCount = _previousNumbers.Count(n => n == 0);
-            
-            var redPercentage = redCount / (float)_previousNumbers.Count;
-            var blackPercentage = blackCount / (float)_previousNumbers.Count;
-            var zeroPercentage = zeroCount / (float)_previousNumbers.Count;
 
-            _redNumbersPercentage.text = $"<color=white>Red numbers: </color><color=red>{redPercentage}%</color>";
-            _blackNumbersPercentage.text = $"<color=white>Black numbers: </color><color=red>{blackPercentage}%</color>";
-            _zeroNumberPercentage.text = $"<color=white>Zero: </color><color=red>{zeroPercentage}%</color>";
+            var totalCount = Mathf.Clamp(_previousNumbers.Count, 1, howManyToStore) / 100f;
+
+            var redPercentage = Mathf.RoundToInt(redCount / totalCount);
+            var blackPercentage = Mathf.RoundToInt(blackCount / totalCount);
+            var zeroPercentage = Mathf.RoundToInt(zeroCount / totalCount);
+
+            redNumbersPercentage.text = $"Red numbers: {redPercentage}%";
+            blackNumbersPercentage.text = $"Black numbers: {blackPercentage}%";
+            zeroNumberPercentage.text = $"Zero: {zeroPercentage}%";
         }
 
-        void OnApplicationQuit()
-        {
-            SaveNumbers();
-        }
+        private void OnApplicationQuit() => SaveNumbers();
 
-        void SaveNumbers()
+        private void SaveNumbers()
         {
-            if (_previousNumbers.Count == 0)
-            {
-                return;
-            }
+            if (_previousNumbers.Count is 0) return;
 
-            string directoryPath = Path.GetDirectoryName(_filePath);
+            var directoryPath = Path.GetDirectoryName(_filePath)!;
+
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
             }
 
-            string numbersToSave = string.Join(",", _previousNumbers);
-            using StreamWriter writer = new(_filePath);
-            writer.Write(numbersToSave);
+            File.WriteAllText(_filePath, string.Join(",", _previousNumbers));
         }
-
-        /// <summary>
-        /// Removes all previous numbers from the grid and the list,
-        /// and deletes the file where the numbers are saved.
-        /// </summary>
+        
         public void ClearNumbers()
         {
-            _clearPreviousNumbersButton.interactable = false;
             _previousNumbers.Clear();
 
-            foreach (Transform child in _gridLayoutGroup.transform)
-            {
-                Destroy(child.gameObject);
-            }
+            _grid.transform.Cast<Transform>().ToList().ForEach(child => Destroy(child.gameObject));
 
             if (File.Exists(_filePath))
             {
@@ -158,17 +130,14 @@ namespace Casino.Roulette
             CalculatePercentages();
         }
 
-        void OnActiveSceneChanged(Scene current, Scene next)
+        private void OnActiveSceneChanged(Scene current, Scene _)
         {
-            if (current.name == "Roulette")
+            if (current.name == sceneNameToSaveOn)
             {
                 SaveNumbers();
             }
         }
 
-        void OnDestroy()
-        {
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
-        }
+        private void OnDestroy() => SceneManager.activeSceneChanged -= OnActiveSceneChanged;
     }
 }

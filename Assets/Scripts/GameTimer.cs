@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameTimer : MonoBehaviour
@@ -20,6 +21,8 @@ public class GameTimer : MonoBehaviour
 
     private int _totalElapsedMinutes;
     private float _minuteAccumulator;
+    
+    public Action OnDayPassed;
 
     public int Days => _totalElapsedMinutes / 1440;
     public int Hours => _totalElapsedMinutes % 1440 / 60;
@@ -27,7 +30,7 @@ public class GameTimer : MonoBehaviour
 
     private void Awake()
     {
-        Services.Register(this, dontDestroyOnLoad: true);
+        Services.Register(this, persistent: true);
         LightIntensity = maxGlobalLightIntensity;
         Reset();
     }
@@ -46,13 +49,10 @@ public class GameTimer : MonoBehaviour
         _totalElapsedMinutes++;
         _minuteAccumulator = 0;
         UpdateLightIntensity();
+        
+        if (_totalElapsedMinutes % 1440 != 0) return;
+        OnDayPassed?.Invoke();
     }
-
-    public void AddToGameTime(int days, int hours, int minutes) =>
-        _totalElapsedMinutes += days * 1440 + hours * 60 + minutes;
-
-    public void SkipToNextDayAtHour(int hour) => _totalElapsedMinutes = 1440 * (Days + 1) + hour * 60;
-
 
     private void UpdateLightIntensity()
     {

@@ -159,7 +159,7 @@ MonoBehaviour:
     - Key: City
       Value: {fileID: 0}
     - Key: Shop
-      Value: {fileID: 0}
+      Value: {fileID: 8300000, guid: 5f9ea69fa8bad734d9cdf6a54258192c, type: 3}
     - Key: WeirdToilet
       Value: {fileID: 0}
     - Key: LoanSharkOffice

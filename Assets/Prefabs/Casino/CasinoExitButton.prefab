@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 6131495499862424045}
   - component: {fileID: 919760304699341208}
   - component: {fileID: 3384254024237872888}
-  - component: {fileID: 5843658794031135796}
-  - component: {fileID: 6519826246727990124}
   m_Layer: 0
   m_Name: CasinoExitButton
   m_TagString: Untagged
@@ -135,39 +133,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94e888d433c484e9a2e4288bd8ec7e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Casino.CasinoGameExitHandler
-  storyModeTrigger: {fileID: 5843658794031135796}
-  mainMenuTrigger: {fileID: 6519826246727990124}
---- !u!114 &5843658794031135796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2228422205122350971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoadTrigger
-  sceneToLoad: Casino
-  _playerVisibilityInNewScene: 0
-  _transitionType: 0
-  _loadTriggerType: 3
-  _playerSpawnPoint: {fileID: 0}
---- !u!114 &6519826246727990124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2228422205122350971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94487338baf054144965c0b16112768b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoadTrigger
-  sceneToLoad: MainMenu
-  _playerVisibilityInNewScene: 1
-  _transitionType: 0
-  _loadTriggerType: 3
-  _playerSpawnPoint: {fileID: 0}
+  mainMenuScene: MainMenu
+  storyModeScene: Casino

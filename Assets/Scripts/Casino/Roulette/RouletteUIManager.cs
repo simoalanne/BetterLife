@@ -37,6 +37,7 @@ namespace Casino.Roulette
             moneyHandler.OnAllBetsCleared += NoBetsPlaced;
             resetBetsButton.interactable = false;
             _undoBetButton.interactable = true;
+            _spinButton.interactable = false;
         }
 
         public void Spin()

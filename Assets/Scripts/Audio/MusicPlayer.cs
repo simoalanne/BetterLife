@@ -27,6 +27,7 @@ namespace Audio
                 var clip = musicClips.GetValueOrDefault(newScene.name);
                 if (clip is null)
                 {
+                    _audioSource.clip = null;
                     _audioSource.Stop();
                     return;
                 }
@@ -42,11 +43,13 @@ namespace Audio
         {
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
-
+        
+        #if UNITY_EDITOR
         private void Reset()
         {
             var sceneNames = FunctionLibrary.GetAllSceneNames();
             sceneNames.ForEach(scene => musicClips.Add(scene, null));
         }
+        #endif
     }
 }

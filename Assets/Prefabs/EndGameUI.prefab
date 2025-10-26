@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3b6aa48048dfc4f898de86f7f7a1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyToPay: 100
+  moneyToPay: 10000
   _endGameText: {fileID: 2577653312964539360}
   _endGameButton: {fileID: 8668791190561620556}
   _cancelButton: {fileID: 7115479919642222394}

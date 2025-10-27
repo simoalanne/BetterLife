@@ -1,20 +1,23 @@
 # **BetterLife**
 
-**BetterLife** is a story game about a man struggling with gambling addiction.  
-In order to cure himself, he must earn enough money to afford rehab — but the only way to do so is to hit big by gambling one final time.
-
-The gameplay loop focuses on balancing risk and reward with loans and gambling. Save enough money to afford rehab before debt catches up.
-
-**Lose control of your loans — and it’s game over.**
-
 ## 📑 Table of Contents
 
+- [Overview](#overview)
 - [Screenshots](#-screenshots)
 - [Features](#-features)
 - [Technical Highlights](#-technical-highlights)
 - [Development Story \& Lessons Learned](#️-development-story--lessons-learned)
 - [How to Play / Run](#️-how-to-play--run)
 - [Tech Stack](#️-tech-stack)
+
+### Overview
+
+**BetterLife** is a story game about a man struggling with gambling addiction.  
+In order to cure himself, he must earn enough money to afford rehab — but the only way to do so is to hit big by gambling one final time.
+
+The gameplay loop focuses on balancing risk and reward with loans and gambling. Save enough money to afford rehab before debt catches up.
+
+**Lose control of your loans — and it’s game over.**
 
 ## 📸 Screenshots
 
